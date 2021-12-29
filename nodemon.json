@@ -1,0 +1,6 @@
+{
+  "watch": ["server"],
+  "ext": "ts,json",
+  "ignore": ["server/**/*.spec.ts"],
+  "exec": "nodemon -e ts -w ./src -x ts-node ./server/index.ts"
+}
