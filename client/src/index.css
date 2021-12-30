@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-gray-100: #f2f3f4;
+  --color-gray-400: #e1e2e3;
+  --color-gray-600: #b3b4ba;
+  --color-gray-800: #636773;
+  --color-blue-300: #85cae4;
+  --color-blue-500: #009eba;
+  --color-blue-800: #003046;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-yellow: #ffb945;
+  --color-orange: #ff8527;
+
+  --phone-width: 320px;
+  --phone-height: 660px;
+  --phone-rounded: 2.25rem;
+  --phone-shadow: 0 0 0 7px var(--color-black), 0 0 4px 8px var(--color-white),
+    0 0 0 12px var(--color-black);
+
+  --shadow-rounded-tl: -6px -5px 0 2px var(--color-black);
+  --shadow-rounded-tr: 6px -5px 0 2px var(--color-black);
+}
