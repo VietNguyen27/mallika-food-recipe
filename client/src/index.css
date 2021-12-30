@@ -24,3 +24,7 @@
   --shadow-rounded-tl: -6px -5px 0 2px var(--color-black);
   --shadow-rounded-tr: 6px -5px 0 2px var(--color-black);
 }
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
