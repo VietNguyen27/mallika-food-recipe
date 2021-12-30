@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "removeComments": true
   },
-  "include": ["src", "src/configs", "react-app-env.d.ts"]
+  "include": ["src", "src/configs", "src/custom.d.ts", "react-app-env.d.ts"]
 }
