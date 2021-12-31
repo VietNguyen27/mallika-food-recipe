@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import authRoutes from './routes/authRoute';
 import userRoutes from './routes/userRoute';
 import connectDB from './config/database';
 
@@ -14,6 +15,7 @@ app.use(cors());
 
 connectDB();
 
-app.use('/api/user', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 app.listen(PORT, () => console.log(`Server is running at PORT: ${PORT}`));

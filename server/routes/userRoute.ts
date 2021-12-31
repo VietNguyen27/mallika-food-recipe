@@ -1,22 +1,19 @@
 import { Router } from 'express';
-import {
-  register,
-  login,
-  getDataFromToken,
-} from '../controllers/userController';
+import { getUser, getUserById, getUsers } from '../controllers/userController';
+import { auth } from '../middlewares/authMiddleware';
 
 const router = Router();
 
-// @routes POST api/user
-// @desc Register new account
-router.route('/register').post(register);
-
-// @routes POST api/user
-// @desc Login with created account
-router.route('/login').post(login);
-
-// @routes GET api/user
+// @routes GET api/users
 // @desc Get user information with access token
-router.route('/fetch').get(getDataFromToken);
+router.route('/me').get(getUser);
+
+// @routes GET api/users
+// @desc Get all users
+router.route('/all').get(auth, getUsers);
+
+// @routes GET api/users
+// @desc Get user by unique ID
+router.route('/:id').get(auth, getUserById);
 
 export default router;
