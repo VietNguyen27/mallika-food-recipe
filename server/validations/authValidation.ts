@@ -48,7 +48,7 @@ export const registerValidation = (body: Register) => {
       .equal(Joi.ref('password'))
       .required()
       .messages({
-        'string.only': 'Confirmation password does not match!',
+        'any.only': 'Confirmation password does not match!',
         'any.required': 'Confirmation password is required!',
       }),
   });
