@@ -36,8 +36,6 @@
     ]
   },
   "devDependencies": {
-    "@coreui/icons": "^2.1.0",
-    "@coreui/icons-react": "^2.0.1",
     "@craco/craco": "^6.4.3",
     "@reduxjs/toolkit": "^1.7.1",
     "autoprefixer": "^10.4.1",

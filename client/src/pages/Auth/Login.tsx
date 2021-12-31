@@ -3,12 +3,8 @@ import GoogleLogo from '@img/google-logo.svg';
 import FacebookLogo from '@img/facebook-logo.svg';
 import { Link } from 'react-router-dom';
 import PasswordInput from '@components/Input/PasswordInput';
-import Button from '@components/Button/Button';
 import TextInput, { InputTypes } from '../../components/Input/TextInput';
-import CustomButton, {
-  ButtonTypes,
-  ButtonVariants,
-} from '@components/Button/Button';
+import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
 
 const Login = () => {
   return (
@@ -37,9 +33,13 @@ const Login = () => {
                 <PasswordInput placeholder='Password' name='password' />
               </div>
               <div className='col-span-12'>
-                <CustomButton type={ButtonTypes.Submit} fluid={true}>
+                <Button
+                  variant={ButtonVariants.Primary}
+                  type={ButtonTypes.Submit}
+                  fluid={true}
+                >
                   Sign in
-                </CustomButton>
+                </Button>
               </div>
             </div>
           </form>
@@ -85,26 +85,10 @@ const Login = () => {
             </div>
             <div className='col-span-12 color-orange text-center text-sm'>
               Don't have an account?
-              <Link to='/sign-up' className='underline mx-1'>
+              <Link to='/register' className='underline mx-1'>
                 Sign up
               </Link>
               now
-            </div>
-          </div>
-          <div className='py-5 text-xs text-center'>
-            <span>By continuing, you agree to our</span>
-            <div className='flex justify-center items-center pt-2'>
-              <a href='#' className='underline'>
-                Terms of Service
-              </a>
-              <span className='mx-2'>.</span>
-              <a href='#' className='underline'>
-                Privacy Policy
-              </a>
-              <span className='mx-2'>.</span>
-              <a href='#' className='underline'>
-                Content Policy
-              </a>
             </div>
           </div>
         </div>
