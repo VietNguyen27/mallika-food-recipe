@@ -45,11 +45,9 @@ const Login = () => {
           </form>
           <div className='flex justify-center py-5'>
             <div className='w-4/5 grid grid-cols-12 gap-4 justify-center items-center'>
-              <span className='col-span-5 h-px bg-neutral-400'></span>
-              <span className='col-span-2 text-center text-neutral-400'>
-                OR
-              </span>
-              <span className='col-span-5 h-px bg-neutral-400'></span>
+              <span className='col-span-5 h-px bg-gray-600'></span>
+              <span className='col-span-2 text-center text-gray-600'>OR</span>
+              <span className='col-span-5 h-px bg-gray-600'></span>
             </div>
           </div>
           <div className='grid grid-cols-12 gap-4'>
