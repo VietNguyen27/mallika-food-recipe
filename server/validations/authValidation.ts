@@ -71,6 +71,7 @@ export const loginValidation = (body: Login) => {
         'string.email': 'Not a valid email address. Please check again!',
         'string.min': `Email must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
         'string.max': `Email must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
+        'string.empty': 'Email is not allowed to be empty',
         'any.required': 'Email is required. Please enter a valid value!',
       }),
     password: Joi.string()
@@ -80,6 +81,7 @@ export const loginValidation = (body: Login) => {
       .messages({
         'string.min': `Password must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
         'string.max': `Password must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
+        'string.empty': 'Password is not allowed to be empty',
         'any.required': 'Password is required. Please enter a valid value!',
       }),
   });

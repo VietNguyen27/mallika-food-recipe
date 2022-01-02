@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import LandingImage from '@img/landing-page.jfif';
 import GoogleLogo from '@img/google-logo.svg';
@@ -8,7 +8,10 @@ import PasswordInput from '@components/Input/PasswordInput';
 import TextInput, { InputTypes } from '@components/Input/TextInput';
 import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
 import { getErrorFromJoiMessage } from '@helpers/helpers';
-import { loginUser, selectorAuthError } from '@features/AuthSlice';
+import { loginUser } from '@features/AuthSlice';
+import { Spinner } from '@components/Loading/Loading';
+import { RootState } from '@redux/reducers';
+import { useEffect } from 'react';
 
 export interface LoginData {
   email: string;
@@ -18,8 +21,17 @@ export interface LoginData {
 const Login = () => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
-  const error = useSelector(selectorAuthError);
+  const navigate = useNavigate();
+  const { loading, isLoggedIn, error } = useSelector(
+    ({ auth }: RootState) => auth
+  );
   const authError = getErrorFromJoiMessage(error);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/home');
+    }
+  }, [isLoggedIn]);
 
   const onSubmit = handleSubmit((data: LoginData) => {
     dispatch(loginUser(data));
@@ -42,7 +54,7 @@ const Login = () => {
             <div className='grid grid-cols-12 gap-4'>
               <div className='col-span-12'>
                 <TextInput
-                  type={InputTypes.Email}
+                  type={InputTypes.Text}
                   name='email'
                   placeholder='Email Address'
                   register={{ ...register('email') }}
@@ -57,14 +69,25 @@ const Login = () => {
                   error={authError['password']}
                 />
               </div>
-              <div className='col-span-12'>
-                <Button
-                  variant={ButtonVariants.Primary}
-                  type={ButtonTypes.Submit}
-                  fluid={true}
-                >
-                  Sign in
-                </Button>
+              <div className='col-span-12 leading-none'>
+                {loading ? (
+                  <Button
+                    variant={ButtonVariants.Primary}
+                    type={ButtonTypes.Button}
+                    fluid={true}
+                    disabled
+                  >
+                    <Spinner />
+                  </Button>
+                ) : (
+                  <Button
+                    variant={ButtonVariants.Primary}
+                    type={ButtonTypes.Submit}
+                    fluid={true}
+                  >
+                    Sign in
+                  </Button>
+                )}
               </div>
             </div>
           </form>

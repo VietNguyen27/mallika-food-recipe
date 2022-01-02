@@ -1,5 +1,5 @@
+import { MINIMUM_LOADER_DELAY } from '@config/constants';
 import { lazy } from 'react';
-import { MINIMUM_LOADER_DELAY } from '@config/contants';
 
 export const getTime = (hour: Number, minute: Number) => {
   const hourFormatted = hour >= 10 ? hour : '0' + hour;

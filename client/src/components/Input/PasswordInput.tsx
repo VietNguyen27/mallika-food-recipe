@@ -18,10 +18,10 @@ const PasswordInput = ({
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
-    <div className='relative w-full'>
+    <div className='relative'>
       <input
         type={showPassword ? 'text' : 'password'}
-        className='p-2 mt-1 block w-full border outline-0 border-gray-300 rounded-md text-sm placeholder-gray-500'
+        className='p-2 mb-1 block w-full border outline-0 border-gray-300 rounded-md text-sm placeholder-gray-500'
         name={name}
         placeholder={placeholder}
         autoComplete='off'
@@ -32,6 +32,7 @@ const PasswordInput = ({
         type='button'
         className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5'
         onClick={() => setShowPassword((prevState) => !prevState)}
+        tabIndex={-1}
       >
         <Icon
           type={IconTypes.Outlined}
@@ -39,7 +40,11 @@ const PasswordInput = ({
           icon={showPassword ? 'visibility_off' : 'visibility'}
         />
       </button>
-      {error && <span className="absolute top-full left-0 text-xs text-red-500">{error}</span>}
+      {error && (
+        <span className='absolute top-full left-0 text-xs text-red-500'>
+          {error}
+        </span>
+      )}
     </div>
   );
 };

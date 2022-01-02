@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Loading = () => {
+export const Loading = () => {
   return (
     <div className='absolute top-0 bottom-0 w-full flex justify-center items-center'>
       <div className='relative w-20 h-20 -translate-y-1/2'>
@@ -11,4 +11,22 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export const Spinner = () => {
+  return (
+    <svg
+      className='animate-rotate-loading w-7 h-7 -mt-1 -mb-1'
+      viewBox='0 0 50 50'
+    >
+      <circle
+        className='animate-dash-loading'
+        cx='25'
+        cy='25'
+        r='20'
+        fill='none'
+        stroke='white'
+        strokeWidth='5'
+        strokeLinecap='round'
+      ></circle>
+    </svg>
+  );
+};
