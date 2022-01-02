@@ -47,7 +47,7 @@ const Phone = ({ children }: PhoneProps) => {
           <span className='absolute right-full top-40 inline-block w-0.5 h-12 bg-black mr-3 rounded-tl-md rounded-bl-md'></span>
           <span className='absolute right-full top-56 inline-block w-0.5 h-12 bg-black mr-3 rounded-tl-md rounded-bl-md'></span>
         </div>
-        <div className='bg-white w-full h-full rounded-phone pt-9 overflow-hidden'>
+        <div className='bg-white w-full h-full rounded-phone pt-9 pb-6 overflow-hidden'>
           {children}
         </div>
       </div>

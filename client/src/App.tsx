@@ -4,6 +4,7 @@ import Phone from '@layout/Phone/Phone';
 import Loading from '@components/Loading/Loading';
 import { lazyImportWithDelay } from '@helpers/helpers';
 
+const LandingPage = lazyImportWithDelay(import('@pages/Landing/Landing'));
 const LoginPage = lazyImportWithDelay(import('@pages/Auth/Login'));
 const RegisterPage = lazyImportWithDelay(import('@pages/Auth/Register'));
 const SplashPage = lazyImportWithDelay(import('@pages/Splash/Splash'));
@@ -14,6 +15,7 @@ const App = () => {
       <BrowserRouter>
         <Suspense fallback={<Loading />}>
           <Routes>
+            <Route path='/' element={<LandingPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/splash' element={<SplashPage />} />

@@ -86,7 +86,7 @@ const Button: React.FC<ButtonProps> = ({
   suffix,
   ...otherProps
 }) => {
-  const allClassNames = `inline-flex justify-center items-center px-3 py-2 rounded-md text-sm border shadow-sm font-medium transition-all ${sizeButton(
+  const allClassNames = `inline-flex justify-center items-center px-3 py-2 rounded-md text-sm border outline-none shadow-sm font-medium transition-all ${sizeButton(
     size
   )} ${variantButton(variant)} ${fluid ? 'w-full' : 'w-auto'}`;
 
