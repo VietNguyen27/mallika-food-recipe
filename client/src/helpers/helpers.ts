@@ -1,3 +1,6 @@
+import { lazy } from 'react';
+import { MINIMUM_LOADER_DELAY } from '@config/contants';
+
 export const getTime = (hour: Number, minute: Number) => {
   const hourFormatted = hour >= 10 ? hour : '0' + hour;
   const minuteFormatted = minute >= 10 ? minute : '0' + minute;
@@ -19,4 +22,14 @@ export const getErrorFromJoiMessage = (error: object[]): object => {
       [context.label]: message,
     };
   }, {});
+};
+
+export const lazyImportWithDelay = (importPromise: any) => {
+  return lazy(async () => {
+    const [moduleExports] = await Promise.all([
+      importPromise,
+      new Promise((resolve) => setTimeout(resolve, MINIMUM_LOADER_DELAY)),
+    ]);
+    return moduleExports;
+  });
 };
