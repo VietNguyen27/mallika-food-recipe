@@ -24,6 +24,7 @@ export const registerValidation = (body: Register) => {
         'string.email': 'Not a valid email address. Please check again!',
         'string.min': `Email must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
         'string.max': `Email must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
+        'string.empty': 'Email is not allowed to be empty',
         'any.required': 'Email is required. Please enter a valid value!',
       }),
     name: Joi.string()
@@ -33,6 +34,7 @@ export const registerValidation = (body: Register) => {
       .messages({
         'string.min': `Username must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
         'string.max': `Username must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
+        'string.empty': 'Username is not allowed to be empty',
         'any.required': 'Username is required. Please enter a valid value!',
       }),
     password: Joi.string()
@@ -42,6 +44,7 @@ export const registerValidation = (body: Register) => {
       .messages({
         'string.min': `Password must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
         'string.max': `Password must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
+        'string.empty': 'Password is not allowed to be empty',
         'any.required': 'Password is required. Please enter a valid value!',
       }),
     password_confirmation: Joi.string()
@@ -49,6 +52,7 @@ export const registerValidation = (body: Register) => {
       .required()
       .messages({
         'any.only': 'Confirmation password does not match!',
+        'string.empty': 'Confirmation password is not allowed to be empty',
         'any.required': 'Confirmation password is required!',
       }),
   });

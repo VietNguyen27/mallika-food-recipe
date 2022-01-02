@@ -1,12 +1,30 @@
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import LandingImage from '@img/landing-page.jfif';
 import GoogleLogo from '@img/google-logo.svg';
 import FacebookLogo from '@img/facebook-logo.svg';
-import { Link } from 'react-router-dom';
 import PasswordInput from '@components/Input/PasswordInput';
-import TextInput, { InputTypes } from '../../components/Input/TextInput';
+import TextInput, { InputTypes } from '@components/Input/TextInput';
 import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
+import { getErrorFromJoiMessage } from '@helpers/helpers';
+import { loginUser, selectorAuthError } from '@features/AuthSlice';
+
+export interface LoginData {
+  email: string;
+  password: string;
+}
 
 const Login = () => {
+  const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+  const error = useSelector(selectorAuthError);
+  const authError = getErrorFromJoiMessage(error);
+
+  const onSubmit = handleSubmit((data: LoginData) => {
+    dispatch(loginUser(data));
+  });
+
   return (
     <>
       <img src={LandingImage} className='rounded-t-3xl' alt='recipe landing' />
@@ -20,17 +38,24 @@ const Login = () => {
           </div>
         </div>
         <div className='mt-5 px-5'>
-          <form>
+          <form onSubmit={onSubmit}>
             <div className='grid grid-cols-12 gap-4'>
               <div className='col-span-12'>
                 <TextInput
                   type={InputTypes.Email}
                   name='email'
                   placeholder='Email Address'
+                  register={{ ...register('email') }}
+                  error={authError['email']}
                 />
               </div>
               <div className='col-span-12'>
-                <PasswordInput placeholder='Password' name='password' />
+                <PasswordInput
+                  name='password'
+                  placeholder='Password'
+                  register={{ ...register('password') }}
+                  error={authError['password']}
+                />
               </div>
               <div className='col-span-12'>
                 <Button

@@ -4,11 +4,15 @@ import Icon, { IconTypes } from '@components/Icon/Icon';
 type PasswordInputProps = {
   name: string;
   placeholder?: string;
+  register: any;
+  error?: string;
 };
 
 const PasswordInput = ({
   name,
   placeholder,
+  register,
+  error,
   ...otherProps
 }: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -18,10 +22,11 @@ const PasswordInput = ({
       <input
         type={showPassword ? 'text' : 'password'}
         className='p-2 mt-1 block w-full border outline-0 border-gray-300 rounded-md text-sm placeholder-gray-500'
-        {...otherProps}
         name={name}
         placeholder={placeholder}
         autoComplete='off'
+        {...otherProps}
+        {...register}
       />
       <button
         type='button'
@@ -34,6 +39,7 @@ const PasswordInput = ({
           icon={showPassword ? 'visibility_off' : 'visibility'}
         />
       </button>
+      {error && <span className="absolute top-full left-0 text-xs text-red-500">{error}</span>}
     </div>
   );
 };
