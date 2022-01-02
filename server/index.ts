@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import authRoutes from './routes/authRoute';
 import userRoutes from './routes/userRoute';
+import recipeRoutes from './routes/recipeRoute';
 import connectDB from './config/database';
 
 dotenv.config();
@@ -17,5 +18,6 @@ connectDB();
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/recipe', recipeRoutes);
 
 app.listen(PORT, () => console.log(`Server is running at PORT: ${PORT}`));

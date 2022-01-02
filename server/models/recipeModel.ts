@@ -1,7 +1,7 @@
 import mongoose, { Schema, model, Types } from 'mongoose';
 import ReviewSchema from './reviewModel';
 
-interface Recipe {
+export interface Recipe {
   user: Types.ObjectId;
   title: string;
   time: object;
@@ -52,7 +52,9 @@ const RecipeSchema = new Schema<Recipe>(
         },
         isItem: {
           type: Boolean,
+          default: false,
         },
+        _id: false,
       },
     ],
     steps: [
@@ -62,7 +64,9 @@ const RecipeSchema = new Schema<Recipe>(
         },
         isItem: {
           type: Boolean,
+          default: false,
         },
+        _id: false,
       },
     ],
     reviews: [ReviewSchema],

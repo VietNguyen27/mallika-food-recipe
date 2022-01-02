@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import fs from 'fs';
-import UserModel from '../models/userModel';
+import UserModel, { User } from '../models/userModel';
 import {
   loginValidation,
   registerValidation,
@@ -11,11 +11,6 @@ import {
   generateAccessToken,
   getRandomNumber,
 } from '../utils/utils';
-
-interface User {
-  email: string;
-  password: string;
-}
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   const { email, password }: User = req.body;
