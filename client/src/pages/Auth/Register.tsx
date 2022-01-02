@@ -1,10 +1,30 @@
 import LandingImage from '@img/splash-1.jfif';
 import { Link } from 'react-router-dom';
 import PasswordInput from '@components/Input/PasswordInput';
-import TextInput, { InputTypes } from '../../components/Input/TextInput';
+import TextInput, { InputTypes } from '@components/Input/TextInput';
 import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser, selectorAuthError } from '@features/AuthSlice';
+import { getErrorFromJoiMessage } from '@helpers/helpers';
 
-const Register = () => {
+export interface RegisterData {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+}
+
+function Register() {
+  const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+  const error = useSelector(selectorAuthError);
+  const authError = getErrorFromJoiMessage(error);
+
+  const onSubmit = handleSubmit((data: RegisterData) => {
+    dispatch(registerUser(data));
+  });
+
   return (
     <>
       <img src={LandingImage} className='rounded-t-3xl' alt='recipe landing' />
@@ -18,13 +38,15 @@ const Register = () => {
           </div>
         </div>
         <div className='mt-5 px-5 scrollbar-none overflow-auto h-96'>
-          <form>
+          <form onSubmit={onSubmit}>
             <div className='grid grid-cols-12 gap-4'>
               <div className='col-span-12'>
                 <TextInput
                   type={InputTypes.Text}
                   name='name'
                   placeholder='Name'
+                  register={{ ...register('name') }}
+                  error={authError['name']}
                 />
               </div>
               <div className='col-span-12'>
@@ -32,15 +54,24 @@ const Register = () => {
                   type={InputTypes.Email}
                   name='email'
                   placeholder='Email Address'
+                  register={{ ...register('email') }}
+                  error={authError['email']}
                 />
               </div>
               <div className='col-span-12'>
-                <PasswordInput placeholder='Password' name='password' />
+                <PasswordInput
+                  name='password'
+                  placeholder='Password'
+                  register={{ ...register('password') }}
+                  error={authError['password']}
+                />
               </div>
               <div className='col-span-12'>
                 <PasswordInput
+                  name='password_confirmation'
                   placeholder='Comfirm Password'
-                  name='confirm-password'
+                  register={{ ...register('password_confirmation') }}
+                  error={authError['password_confirmation']}
                 />
               </div>
               <div className='col-span-12'>
@@ -81,5 +112,5 @@ const Register = () => {
       </div>
     </>
   );
-};
+}
 export default Register;
