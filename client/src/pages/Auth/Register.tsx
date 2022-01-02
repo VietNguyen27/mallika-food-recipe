@@ -1,6 +1,4 @@
 import LandingImage from '@img/splash-1.jfif';
-import GoogleLogo from '@img/google-logo.svg';
-import FacebookLogo from '@img/facebook-logo.svg';
 import { Link } from 'react-router-dom';
 import PasswordInput from '@components/Input/PasswordInput';
 import TextInput, { InputTypes } from '../../components/Input/TextInput';

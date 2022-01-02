@@ -11,7 +11,7 @@ const PasswordInput = ({
   placeholder,
   ...otherProps
 }: PasswordInputProps) => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
     <div className='relative w-full'>
