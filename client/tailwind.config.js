@@ -33,7 +33,31 @@ module.exports = {
         tl: 'var(--shadow-rounded-tl)',
         tr: 'var(--shadow-rounded-tr)',
       },
+      animation: {
+        'ripple-loading': 'ripple 2s cubic-bezier(0, 0.2, 0.8, 1) infinite',
+      },
+      keyframes: {
+        ripple: {
+          '0%': {
+            top: '36px',
+            left: '36px',
+            width: '0',
+            height: '0',
+            opacity: '1',
+          },
+          '100%': {
+            top: '0px',
+            left: '0px',
+            width: '72px',
+            height: '72px',
+            opacity: '0',
+          },
+        },
+      },
+    },
+    animationDelay: {
+      'negative-1000': '-1000ms',
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animation-delay')],
 };

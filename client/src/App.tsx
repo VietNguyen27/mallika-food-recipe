@@ -1,18 +1,24 @@
+import { Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Phone from '@layout/Phone/Phone';
-import Login from '@pages/Auth/Login';
-import Register from '@pages/Auth/Register';
-import Splash from '@pages/Splash/Splash';
+import Loading from '@components/Loading/Loading';
+import { lazyImportWithDelay } from '@helpers/helpers';
+
+const LoginPage = lazyImportWithDelay(import('@pages/Auth/Login'));
+const RegisterPage = lazyImportWithDelay(import('@pages/Auth/Register'));
+const SplashPage = lazyImportWithDelay(import('@pages/Splash/Splash'));
 
 const App = () => {
   return (
     <Phone>
       <BrowserRouter>
-        <Routes>
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/splash' element={<Splash />} />
-        </Routes>
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/register' element={<RegisterPage />} />
+            <Route path='/splash' element={<SplashPage />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </Phone>
   );
