@@ -1,6 +1,6 @@
 import axios from 'axios';
 import queryString from 'query-string';
-import { SERVER_BASE_URL } from '@config/constant';
+import { SERVER_BASE_URL } from '@config/constants';
 
 const request = axios.create({
   baseURL: SERVER_BASE_URL,

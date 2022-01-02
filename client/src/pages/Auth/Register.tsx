@@ -1,12 +1,15 @@
 import LandingImage from '@img/splash-1.jfif';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PasswordInput from '@components/Input/PasswordInput';
 import TextInput, { InputTypes } from '@components/Input/TextInput';
 import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser, selectorAuthError } from '@features/AuthSlice';
+import { registerUser } from '@features/AuthSlice';
 import { getErrorFromJoiMessage } from '@helpers/helpers';
+import { RootState } from '@redux/reducers';
+import { Spinner } from '@components/Loading/Loading';
+import { useEffect } from 'react';
 
 export interface RegisterData {
   name: string;
@@ -18,8 +21,17 @@ export interface RegisterData {
 function Register() {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
-  const error = useSelector(selectorAuthError);
+  const navigate = useNavigate();
+  const { loading, isLoggedIn, error } = useSelector(
+    ({ auth }: RootState) => auth
+  );
   const authError = getErrorFromJoiMessage(error);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/home');
+    }
+  }, [isLoggedIn]);
 
   const onSubmit = handleSubmit((data: RegisterData) => {
     dispatch(registerUser(data));
@@ -51,7 +63,7 @@ function Register() {
               </div>
               <div className='col-span-12'>
                 <TextInput
-                  type={InputTypes.Email}
+                  type={InputTypes.Text}
                   name='email'
                   placeholder='Email Address'
                   register={{ ...register('email') }}
@@ -69,19 +81,30 @@ function Register() {
               <div className='col-span-12'>
                 <PasswordInput
                   name='password_confirmation'
-                  placeholder='Comfirm Password'
+                  placeholder='Confirm Password'
                   register={{ ...register('password_confirmation') }}
                   error={authError['password_confirmation']}
                 />
               </div>
-              <div className='col-span-12'>
-                <Button
-                  type={ButtonTypes.Submit}
-                  fluid={true}
-                  variant={ButtonVariants.Primary}
-                >
-                  Sign up
-                </Button>
+              <div className='col-span-12 leading-none'>
+                {loading ? (
+                  <Button
+                    variant={ButtonVariants.Primary}
+                    type={ButtonTypes.Button}
+                    fluid={true}
+                    disabled
+                  >
+                    <Spinner />
+                  </Button>
+                ) : (
+                  <Button
+                    type={ButtonTypes.Submit}
+                    fluid={true}
+                    variant={ButtonVariants.Primary}
+                  >
+                    Sign up
+                  </Button>
+                )}
               </div>
             </div>
           </form>

@@ -20,7 +20,11 @@ const Icon: React.FC<IconProps> = ({
   size = 24,
 }) => {
   return (
-    <span className={`material-icons${type}`} style={{ fontSize: `${size}px` }}>
+    <span
+      className={`material-icons${type}`}
+      style={{ fontSize: `${size}px` }}
+      tabIndex={-1}
+    >
       {icon}
     </span>
   );

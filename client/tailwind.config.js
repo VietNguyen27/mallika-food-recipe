@@ -35,6 +35,8 @@ module.exports = {
       },
       animation: {
         'ripple-loading': 'ripple 2s cubic-bezier(0, 0.2, 0.8, 1) infinite',
+        'dash-loading': 'dash 1.5s ease-in-out infinite',
+        'rotate-loading': 'rotate 2s linear infinite',
       },
       keyframes: {
         ripple: {
@@ -51,6 +53,25 @@ module.exports = {
             width: '72px',
             height: '72px',
             opacity: '0',
+          },
+        },
+        rotate: {
+          '100%': {
+            transform: 'rotate(360deg)',
+          },
+        },
+        dash: {
+          '0%': {
+            strokeDasharray: '1, 150',
+            strokeDashoffset: '0',
+          },
+          '50%': {
+            strokeDasharray: '90, 150',
+            strokeDashoffset: '-35',
+          },
+          '100%': {
+            strokeDasharray: '90, 150',
+            strokeDashoffset: '-124',
           },
         },
       },
