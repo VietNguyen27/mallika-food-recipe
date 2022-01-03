@@ -2,6 +2,7 @@ import React from 'react';
 import { logout, selectorUser } from '@features/AuthSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Main from '@layout/Main/Main';
 
 const Home = () => {
   const user: any = useSelector(selectorUser);
@@ -26,6 +27,7 @@ const Home = () => {
         />
       </p>
       <button onClick={() => handleLogout()}>Logout</button>
+      <Main />
     </div>
   );
 };
