@@ -11,6 +11,56 @@ import { List20Regular } from '@fluentui/react-icons';
 import { Tab, Tabs } from '@components/Tabs/Tabs';
 import { Loading } from '@components/Loading/Loading';
 
+import RecipeImage1 from '@img/recipe-1.png';
+import RecipeImage2 from '@img/recipe-2.png';
+import RecipeImage3 from '@img/recipe-3.png';
+import RecipeImage4 from '@img/recipe-4.png';
+import RecipeImage5 from '@img/recipe-5.png';
+import Reviews from '@components/Review/Reviews';
+
+const dumbReviews = [
+  {
+    id: '1',
+    recipe: {
+      title: 'Resep Masakan Lemang Ikan Mas',
+      image: RecipeImage1,
+    },
+    comment: 'Resepnya menarik mesti dicoba nih, terima kasih bunda',
+  },
+  {
+    id: '2',
+    recipe: {
+      title: 'Resep Mie Goreng Aceh Enak Sederhana',
+      image: RecipeImage2,
+    },
+    comment: 'Wah ternyata sederhana ya cara masaknya 😃',
+  },
+  {
+    id: '3',
+    recipe: {
+      title: 'Bebek Goreng Lezat',
+      image: RecipeImage3,
+    },
+    comment: 'Step-stepnya mudah diikuti dan jelas, terima kasih',
+  },
+  {
+    id: '4',
+    recipe: {
+      title: 'Resep Masakan Lemang Ikan Mas',
+      image: RecipeImage4,
+    },
+    comment: 'Resepnya menarik mesti dicoba nih, terima kasih bunda',
+  },
+  {
+    id: '5',
+    recipe: {
+      title: 'Resep Mie Goreng Aceh Enak Sederhana',
+      image: RecipeImage5,
+    },
+    comment: 'Step-stepnya mudah diikuti dan jelas, terima kasih',
+  },
+];
+
 const Profile = () => {
   const user: any = useSelector(selectorUser);
 
@@ -18,7 +68,7 @@ const Profile = () => {
 
   return (
     <>
-      <div className='relative h-1/3'>
+      <div className='relative h-1/4'>
         <img
           src={Thumbnail}
           className='absolute inset-0 w-full h-full object-cover'
@@ -45,12 +95,13 @@ const Profile = () => {
           <p className='text-gray-800 text-sm'>0 Followers · 0 Following</p>
         </div>
       </div>
+
       <Tabs>
         <Tab label='Posts'>
           <div>posts</div>
         </Tab>
-        <Tab label='Reviews'>
-          <div>reviews</div>
+        <Tab label='Reviews' className='h-72 pb-8 overflow-auto scrollbar-none'>
+          <Reviews reviews={dumbReviews} />
         </Tab>
       </Tabs>
     </>
