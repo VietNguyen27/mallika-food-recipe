@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Icon, { IconTypes } from '@components/Icon/Icon';
+import { EyeHide20Regular, EyeShow20Regular } from '@fluentui/react-icons';
 
 type PasswordInputProps = {
   name: string;
@@ -34,11 +34,7 @@ const PasswordInput = ({
         onClick={() => setShowPassword((prevState) => !prevState)}
         tabIndex={-1}
       >
-        <Icon
-          type={IconTypes.Outlined}
-          size={20}
-          icon={showPassword ? 'visibility_off' : 'visibility'}
-        />
+        {showPassword ? <EyeHide20Regular /> : <EyeShow20Regular />}
       </button>
       {error && (
         <span className='absolute top-full left-0 text-xs text-red-500'>

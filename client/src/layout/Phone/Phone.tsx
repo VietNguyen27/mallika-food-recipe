@@ -37,9 +37,9 @@ const Phone = ({ children }: PhoneProps) => {
           <div className='w-full flex justify-between px-5 py-0.5'>
             <span className='font-medium'>{getTime(hour, minute)}</span>
             <div className='flex gap-1'>
-              <img src={Signal} width={16} />
-              <img src={Wifi} width={16} />
-              <img src={Battery} width={16} />
+              <img src={Signal} width={16} alt='signal icon' />
+              <img src={Wifi} width={16} alt='wifi icon' />
+              <img src={Battery} width={16} alt='battery icon' />
             </div>
           </div>
           <span className='absolute left-full top-36 inline-block w-0.5 h-24 bg-black ml-3 rounded-tr-md rounded-br-md'></span>
