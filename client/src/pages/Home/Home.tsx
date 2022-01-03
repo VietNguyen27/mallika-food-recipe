@@ -1,31 +1,35 @@
-import React from 'react';
-import { logout, selectorUser } from '@features/AuthSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { selectorUser } from '@features/AuthSlice';
+import { useSelector } from 'react-redux';
+import { Loading } from './../../components/Loading/Loading';
+import Icon, { IconTypes } from '@components/Icon/Icon';
+import Cookbooks from './components/Cookbooks';
 
 const Home = () => {
   const user: any = useSelector(selectorUser);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    navigate('/login');
-    dispatch(logout());
-  };
-
-  if (!user) return <p>loading...</p>;
+  if (!user) return <Loading />;
 
   return (
-    <div>
-      <p>Email: {user.email}</p>
-      <p>Username: {user.name}</p>
-      <p>
+    <div className='px-5 h-full select-none'>
+      <div className='flex justify-between items-center'>
         <img
           src={`data:image/${user.avatar.imageFormat};base64, ${user.avatar.base64}`}
-          alt=''
+          className='w-[44px] h-[44px] rounded-full object-cover cursor-pointer'
+          alt='default avatar'
         />
-      </p>
-      <button onClick={() => handleLogout()}>Logout</button>
+
+        <div>
+          <h1 className='text-lg font-medium leading-8'>Hi, {user.name}</h1>
+          <p className='text-sm text-gray-800'>What are you cooking today?</p>
+        </div>
+
+        <div className='flex items-center justify-center'>
+          <button type='button' className='hover:text-orange delay-100'>
+            <Icon type={IconTypes.Outlined} size={24} icon='notifications' />
+          </button>
+        </div>
+      </div>
+      <Cookbooks />
     </div>
   );
 };
