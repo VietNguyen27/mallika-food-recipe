@@ -21,6 +21,8 @@
   --phone-shadow: 0 0 0 7px var(--color-black), 0 0 4px 8px var(--color-white),
     0 0 0 12px var(--color-black);
 
+  --ff-cera-pro: 'Cera Pro', sans-serif;
+
   --shadow-rounded-tl: -6px -5px 0 2px var(--color-black);
   --shadow-rounded-tr: 6px -5px 0 2px var(--color-black);
 }
@@ -48,6 +50,36 @@
 @font-face {
   font-family: 'Material Icons Sharp';
   src: url('./assets/fonts/iconfont/MaterialIconsSharp-Regular.otf');
+}
+
+@font-face {
+  font-family: 'Cera Pro';
+  src: url('./assets/fonts/cera/Cera-Pro-Black.otf') format('truetype');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'Cera Pro';
+  src: url('./assets/fonts/cera/Cera-Pro-Bold.otf') format('truetype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Cera Pro';
+  src: url('./assets/fonts/cera/Cera-Pro-Medium.otf') format('truetype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Cera Pro';
+  src: url('./assets/fonts/cera/Cera-Pro-Regular.otf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Cera Pro';
+  src: url('./assets/fonts/cera/Cera-Pro-Light.otf') format('truetype');
+  font-weight: 300;
 }
 
 .material-icons,
@@ -92,4 +124,13 @@
 
 .scrollbar-none::-webkit-scrollbar {
   display: none;
+}
+
+body {
+  font-family: var(--ff-cera-pro);
+  font-weight: 400;
+}
+
+input {
+  font-family: 'Roboto', sans-serif;
 }

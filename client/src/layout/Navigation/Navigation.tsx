@@ -5,6 +5,7 @@ import {
   Person24Regular,
   Add20Filled,
 } from '@fluentui/react-icons';
+import RoundedButton, { ButtonSizes } from '@components/Button/RoundedButton';
 import { Link, useLocation } from 'react-router-dom';
 
 const Navigation = () => {
@@ -15,7 +16,7 @@ const Navigation = () => {
   };
 
   return (
-    <div className='absolute inset-x-0 bottom-0 pt-3 border-t border-gray-400 flex items-start justify-around'>
+    <div className='absolute inset-x-0 -bottom-6 bg-white pt-3 pb-6 border-t border-gray-400 flex items-start justify-around'>
       <Link to='/home' className='text-center flex items-center justify-center'>
         <Home24Regular className={changeActive('/home')} />
       </Link>
@@ -26,9 +27,12 @@ const Navigation = () => {
         <Search24Regular className={changeActive('/search')} />
       </Link>
       <div className='text-center relative flex items-center justify-center'>
-        <button className='absolute -translate-y-2 rounded-full bg-orange text-white flex items-center justify-center p-3.5 '>
+        <RoundedButton
+          className='absolute -translate-y-2'
+          size={ButtonSizes.Large}
+        >
           <Add20Filled />
-        </button>
+        </RoundedButton>
       </div>
       <Link
         to='/grocery'

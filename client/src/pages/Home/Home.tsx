@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Loading } from './../../components/Loading/Loading';
 import Icon, { IconTypes } from '@components/Icon/Icon';
 import Cookbooks from './components/Cookbooks';
+import { generateBase64Image } from '@helpers/helpers';
 
 const Home = () => {
   const user: any = useSelector(selectorUser);
@@ -13,16 +14,14 @@ const Home = () => {
     <div className='px-5 h-full select-none'>
       <div className='flex justify-between items-center'>
         <img
-          src={`data:image/${user.avatar.imageFormat};base64, ${user.avatar.base64}`}
+          src={generateBase64Image(user.avatar)}
           className='w-[44px] h-[44px] rounded-full object-cover cursor-pointer'
           alt='default avatar'
         />
-
         <div>
           <h1 className='text-lg font-medium leading-8'>Hi, {user.name}</h1>
           <p className='text-sm text-gray-800'>What are you cooking today?</p>
         </div>
-
         <div className='flex items-center justify-center'>
           <button type='button' className='hover:text-orange delay-100'>
             <Icon type={IconTypes.Outlined} size={24} icon='notifications' />

@@ -33,3 +33,9 @@ export const lazyImportWithDelay = (importPromise: any) => {
     return moduleExports;
   });
 };
+
+export const generateBase64Image = (image: any): string => {
+  const { imageFormat, base64 } = image;
+
+  return `data:image/${imageFormat};base64, ${base64}`;
+};

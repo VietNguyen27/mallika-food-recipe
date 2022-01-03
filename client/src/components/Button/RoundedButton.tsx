@@ -32,17 +32,14 @@ type BaseProps = {
   variant?: ButtonVariants;
   type?: ButtonTypes;
   size?: ButtonSizes;
-  fluid?: boolean;
-  prefix?: ReactNode;
-  suffix?: ReactNode;
 };
 
 const variantButton = (variant: string): string => {
   switch (variant) {
     case ButtonVariants.Primary:
-      return 'border-transparent text-white bg-orange hover:opacity-80';
+      return 'text-white bg-orange hover:opacity-80';
     case ButtonVariants.Secondary:
-      return 'border-gray-300 bg-white hover:bg-gray-100';
+      return 'bg-white hover:bg-gray-100';
     default:
       return '';
   }
@@ -51,15 +48,15 @@ const variantButton = (variant: string): string => {
 const sizeButton = (size: string): string => {
   switch (size) {
     case ButtonSizes.ExtraLarge:
-      return 'px-5 py-2 rounded-lg text-lg';
+      return 'p-4.5';
     case ButtonSizes.Large:
-      return 'px-4 py-2 rounded-lg text-base';
+      return 'p-3.5';
     case ButtonSizes.Medium:
-      return 'px-3 py-2 rounded-md text-sm';
+      return 'p-2.5';
     case ButtonSizes.Small:
-      return 'px-2 py-1 rounded-md text-sm';
+      return 'p-2';
     case ButtonSizes.ExtraSmall:
-      return 'px-2 py-1 rounded-sm text-xs';
+      return 'p-1.5';
     default:
       return '';
   }
@@ -83,32 +80,22 @@ const Button: React.FC<ButtonProps> = ({
   variant = ButtonVariants.Primary,
   type = ButtonTypes.Button,
   size = ButtonSizes.Medium,
-  fluid,
-  prefix,
-  suffix,
   ...otherProps
 }) => {
-  const allClassNames = `inline-flex justify-center items-center px-3 py-2 rounded-md text-sm border outline-none shadow-sm font-medium transition-all ${
+  const allClassNames = `rounded-full flex items-center justify-center transition-all ${
     className ? className : ''
-  } ${sizeButton(size)} ${variantButton(variant)} ${
-    fluid ? 'w-full' : 'w-auto'
-  }`;
+  } ${sizeButton(size)} ${variantButton(variant)}`;
 
   if (otherProps.as === ButtonAs.Link) {
     return (
       <Link className={allClassNames} {...otherProps}>
-        {prefix && prefix}
         {children}
-        {suffix && suffix}
       </Link>
     );
   }
-
   return (
     <button type={type} className={allClassNames} {...otherProps}>
-      {prefix && prefix}
       {children}
-      {suffix && suffix}
     </button>
   );
 };
