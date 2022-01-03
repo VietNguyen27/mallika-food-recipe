@@ -31,7 +31,7 @@ function Register() {
     if (isLoggedIn) {
       navigate('/home');
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, navigate]);
 
   const onSubmit = handleSubmit((data: RegisterData) => {
     dispatch(registerUser(data));
@@ -118,17 +118,17 @@ function Register() {
           <div className='py-5 text-xs text-center'>
             <span>By continuing, you agree to our</span>
             <div className='flex justify-center items-center pt-2'>
-              <a href='#' className='underline'>
+              <Link to='/#' className='underline'>
                 Terms of Service
-              </a>
+              </Link>
               <span className='mx-2'>.</span>
-              <a href='#' className='underline'>
+              <Link to='/#' className='underline'>
                 Privacy Policy
-              </a>
+              </Link>
               <span className='mx-2'>.</span>
-              <a href='#' className='underline'>
+              <Link to='/#' className='underline'>
                 Content Policy
-              </a>
+              </Link>
             </div>
           </div>
         </div>

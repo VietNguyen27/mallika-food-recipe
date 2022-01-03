@@ -48,6 +48,7 @@ const Splash = () => {
         <img
           src={image}
           className='absolute inset-0 w-full h-full object-cover'
+          alt='splash cover'
         />
         {currentStep + 1 < steps.length && (
           <button

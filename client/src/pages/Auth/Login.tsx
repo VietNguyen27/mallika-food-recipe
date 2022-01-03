@@ -31,7 +31,7 @@ const Login = () => {
     if (isLoggedIn) {
       navigate('/home');
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, navigate]);
 
   const onSubmit = handleSubmit((data: LoginData) => {
     dispatch(loginUser(data));
