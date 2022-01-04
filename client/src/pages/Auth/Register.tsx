@@ -108,7 +108,7 @@ function Register() {
               </div>
             </div>
           </form>
-          <div className='py-5 color-orange text-center text-sm'>
+          <div className='pt-5 color-orange text-center text-sm'>
             Have any account?
             <Link to='/login' className='underline mx-1'>
               Sign in
@@ -121,11 +121,11 @@ function Register() {
               <Link to='/#' className='underline'>
                 Terms of Service
               </Link>
-              <span className='mx-2'>.</span>
+              <span className='mx-1'>·</span>
               <Link to='/#' className='underline'>
                 Privacy Policy
               </Link>
-              <span className='mx-2'>.</span>
+              <span className='mx-1'>·</span>
               <Link to='/#' className='underline'>
                 Content Policy
               </Link>
