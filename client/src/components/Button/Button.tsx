@@ -1,6 +1,7 @@
 import { ReactChild, ReactChildren, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import type { LinkProps } from 'react-router-dom';
+import cx from 'clsx';
 
 export enum ButtonTypes {
   Button = 'button',
@@ -88,11 +89,15 @@ const Button: React.FC<ButtonProps> = ({
   suffix,
   ...otherProps
 }) => {
-  const allClassNames = `inline-flex justify-center items-center px-3 py-2 rounded-md text-sm border outline-none shadow-sm font-medium transition-all ${
-    className ? className : ''
-  } ${sizeButton(size)} ${variantButton(variant)} ${
-    fluid ? 'w-full' : 'w-auto'
-  }`;
+  const defaultClassName =
+    'inline-flex justify-center items-center px-3 py-2 rounded-md text-sm border outline-none shadow-sm font-medium transition-all';
+  const allClassNames = cx(
+    defaultClassName,
+    className,
+    fluid ? 'w-full' : 'w-auto',
+    sizeButton(size),
+    variantButton(variant)
+  );
 
   if (otherProps.as === ButtonAs.Link) {
     return (

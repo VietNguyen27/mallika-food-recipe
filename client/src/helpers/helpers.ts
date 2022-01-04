@@ -1,5 +1,6 @@
 import { MINIMUM_LOADER_DELAY } from '@config/constants';
 import { lazy } from 'react';
+import { forwardRef } from 'react';
 
 export const getTime = (hour: Number, minute: Number) => {
   const hourFormatted = hour >= 10 ? hour : '0' + hour;
@@ -39,3 +40,9 @@ export const generateBase64Image = (image: any): string => {
 
   return `data:image/${imageFormat};base64, ${base64}`;
 };
+
+export const withRef = (displayName, component) =>
+  Object.assign(
+    forwardRef((props, ref) => component({ ...props, ref })),
+    { displayName }
+  );

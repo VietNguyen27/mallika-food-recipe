@@ -10,6 +10,7 @@ interface Tab {
   children: ReactChild | ReactChildren;
   className?: string;
   label: string;
+  ref?: any;
 }
 
 interface TabLabel {
