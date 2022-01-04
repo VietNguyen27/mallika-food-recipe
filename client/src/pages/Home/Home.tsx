@@ -1,6 +1,6 @@
-import { selectorUser } from '@features/AuthSlice';
+import { selectorUser } from '@features/auth-slice';
 import { useSelector } from 'react-redux';
-import { Loading } from './../../components/Loading/Loading';
+import { Loading } from '@components/Loading/Loading';
 import Icon, { IconTypes } from '@components/Icon/Icon';
 import Cookbooks from './components/Cookbooks';
 import { generateBase64Image } from '@helpers/helpers';

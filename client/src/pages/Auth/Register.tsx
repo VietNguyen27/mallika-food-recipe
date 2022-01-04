@@ -5,7 +5,7 @@ import TextInput, { InputTypes } from '@components/Input/TextInput';
 import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '@features/AuthSlice';
+import { registerUser } from '@features/auth-slice';
 import { getErrorFromJoiMessage } from '@helpers/helpers';
 import { RootState } from '@redux/reducers';
 import { Spinner } from '@components/Loading/Loading';

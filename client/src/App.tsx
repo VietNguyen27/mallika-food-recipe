@@ -4,7 +4,7 @@ import Phone from '@layout/Phone/Phone';
 import Main from '@layout/Main/Main';
 import { Loading } from '@components/Loading/Loading';
 import { lazyImportWithDelay } from '@helpers/helpers';
-import { clearErrors, fetchUser } from '@features/AuthSlice';
+import { clearErrors, fetchUser } from '@features/auth-slice';
 import { useDispatch } from 'react-redux';
 import { PrivateRoute } from '@routes/PrivateRoute';
 import { PublicRoute } from '@routes/PubliceRoute';

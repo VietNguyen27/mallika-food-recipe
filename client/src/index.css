@@ -126,6 +126,10 @@
   display: none;
 }
 
+* {
+  word-break: break-word;
+}
+
 body {
   font-family: var(--ff-cera-pro);
   font-weight: 400;

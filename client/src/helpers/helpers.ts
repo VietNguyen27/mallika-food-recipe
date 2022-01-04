@@ -41,8 +41,6 @@ export const generateBase64Image = (image: any): string => {
   return `data:image/${imageFormat};base64, ${base64}`;
 };
 
-export const withRef = (displayName, component) =>
-  Object.assign(
-    forwardRef((props, ref) => component({ ...props, ref })),
-    { displayName }
-  );
+export const capitalizeFirstLetter = (text: string): string => {
+  return text[0].toUpperCase() + text.substring(1);
+};

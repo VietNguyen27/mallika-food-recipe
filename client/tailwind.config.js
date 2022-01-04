@@ -37,6 +37,8 @@ module.exports = {
         'ripple-loading': 'ripple 2s cubic-bezier(0, 0.2, 0.8, 1) infinite',
         'dash-loading': 'dash 1.5s ease-in-out infinite',
         'rotate-loading': 'rotate 2s linear infinite',
+        'slide-in': 'slide-in 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+        'slide-out': 'slide-out 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards',
       },
       keyframes: {
         ripple: {
@@ -72,6 +74,22 @@ module.exports = {
           '100%': {
             strokeDasharray: '90, 150',
             strokeDashoffset: '-124',
+          },
+        },
+        'slide-in': {
+          '0%': {
+            transform: 'translateX(100%)',
+          },
+          '100%': {
+            transform: 'translateX(0)',
+          },
+        },
+        'slide-out': {
+          '0%': {
+            transform: 'translateX(0)',
+          },
+          '100%': {
+            transform: 'translateX(100%)',
           },
         },
       },

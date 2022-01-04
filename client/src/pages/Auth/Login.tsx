@@ -8,7 +8,7 @@ import PasswordInput from '@components/Input/PasswordInput';
 import TextInput, { InputTypes } from '@components/Input/TextInput';
 import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
 import { getErrorFromJoiMessage } from '@helpers/helpers';
-import { loginUser } from '@features/AuthSlice';
+import { loginUser } from '@features/auth-slice';
 import { Spinner } from '@components/Loading/Loading';
 import { RootState } from '@redux/reducers';
 import { useEffect } from 'react';
