@@ -4,19 +4,21 @@ import RoundedButton, {
   ButtonSizes,
   ButtonVariants,
 } from '@components/Button/RoundedButton';
-import { useSelector } from 'react-redux';
-import { selectorUser } from '@features/AuthSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectorUser } from '@features/auth-slice';
 import { generateBase64Image } from '@helpers/helpers';
 import { List20Regular } from '@fluentui/react-icons';
 import { Tab, Tabs } from '@components/Tabs/Tabs';
 import { Loading } from '@components/Loading/Loading';
+import AccountDrawer from './components/AccountDrawer';
+import Reviews from '@components/Review/Reviews';
+import { uiActions } from '@features/ui-slice';
 
 import RecipeImage1 from '@img/recipe-1.png';
 import RecipeImage2 from '@img/recipe-2.png';
 import RecipeImage3 from '@img/recipe-3.png';
 import RecipeImage4 from '@img/recipe-4.png';
 import RecipeImage5 from '@img/recipe-5.png';
-import Reviews from '@components/Review/Reviews';
 
 const dumbReviews = [
   {
@@ -62,6 +64,7 @@ const dumbReviews = [
 ];
 
 const Profile = () => {
+  const dispatch = useDispatch();
   const user: any = useSelector(selectorUser);
 
   if (!user) return <Loading />;
@@ -78,6 +81,7 @@ const Profile = () => {
           className='absolute z-10 top-4 right-3'
           variant={ButtonVariants.Secondary}
           size={ButtonSizes.Small}
+          onClick={() => dispatch(uiActions.setAccountDrawerShowing(true))}
         >
           <List20Regular />
         </RoundedButton>
@@ -95,7 +99,6 @@ const Profile = () => {
           <p className='text-gray-800 text-sm'>0 Followers · 0 Following</p>
         </div>
       </div>
-
       <Tabs>
         <Tab label='Posts'>
           <div>posts</div>
@@ -104,6 +107,7 @@ const Profile = () => {
           <Reviews reviews={dumbReviews} />
         </Tab>
       </Tabs>
+      <AccountDrawer />
     </>
   );
 };

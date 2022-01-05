@@ -29,13 +29,13 @@ const Phone = ({ children }: PhoneProps) => {
     <Wrapper>
       <div className='w-phone h-phone rounded-phone relative bg-black shadow-phone flex justify-center items-stretch'>
         <div className='absolute w-full h-full pointer-events-none select-none'>
-          <div className='absolute top-0 left-2/4 w-40 h-6 bg-black rounded-bl-2xl rounded-br-2xl -translate-x-2/4'>
+          <div className='absolute z-50 top-0 left-2/4 w-40 h-6 bg-black rounded-bl-2xl rounded-br-2xl -translate-x-2/4'>
             <span className='absolute top-2/4 right-10 w-2.5 h-2.5 bg-slate-500 opacity-50 rounded-full -translate-y-3/4'></span>
             <span className='absolute top-0 right-full w-2 h-2 rounded-full shadow-tr'></span>
             <span className='absolute top-0 left-full w-2 h-2 rounded-full shadow-tl'></span>
           </div>
-          <span className='absolute z-10 bottom-1 left-1/2 w-28 h-1 rounded-lg bg-black -translate-x-1/2'></span>
-          <div className='w-full flex justify-between px-5 py-0.5'>
+          <span className='absolute z-50 bottom-1 left-1/2 w-28 h-1 rounded-lg bg-black -translate-x-1/2'></span>
+          <div className='relative z-50 w-full flex justify-between px-5 py-0.5'>
             <span className='font-medium'>{getTime(hour, minute)}</span>
             <div className='flex gap-1'>
               <img src={Signal} width={16} alt='signal icon' />
@@ -48,9 +48,9 @@ const Phone = ({ children }: PhoneProps) => {
           <span className='absolute right-full top-40 inline-block w-0.5 h-12 bg-black mr-3 rounded-tl-md rounded-bl-md'></span>
           <span className='absolute right-full top-56 inline-block w-0.5 h-12 bg-black mr-3 rounded-tl-md rounded-bl-md'></span>
         </div>
-        <div className='bg-white w-full h-full rounded-phone pt-9 pb-6 overflow-hidden'>
+        <main className='relative bg-white w-full h-full rounded-phone pt-9 pb-6 overflow-hidden'>
           {children}
-        </div>
+        </main>
       </div>
     </Wrapper>
   );
