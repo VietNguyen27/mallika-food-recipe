@@ -1,9 +1,11 @@
 import { selectorUser } from '@features/AuthSlice';
 import { useSelector } from 'react-redux';
-import { Loading } from './../../components/Loading/Loading';
+import { Loading } from '@components/Loading/Loading';
 import Icon, { IconTypes } from '@components/Icon/Icon';
 import Cookbooks from './components/Cookbooks';
 import { generateBase64Image } from '@helpers/helpers';
+import FeaturedRecipes from './components/FeaturedRecipes';
+import Categories from './components/Categories';
 
 const Home = () => {
   const user: any = useSelector(selectorUser);
@@ -11,7 +13,7 @@ const Home = () => {
   if (!user) return <Loading />;
 
   return (
-    <div className='px-5 h-full select-none'>
+    <div className='px-5 h-full select-none overflow-auto scrollbar-none'>
       <div className='flex justify-between items-center'>
         <img
           src={generateBase64Image(user.avatar)}
@@ -29,6 +31,8 @@ const Home = () => {
         </div>
       </div>
       <Cookbooks />
+      <FeaturedRecipes />
+      <Categories />
     </div>
   );
 };

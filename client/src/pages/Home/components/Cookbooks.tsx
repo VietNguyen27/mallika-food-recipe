@@ -33,8 +33,8 @@ const Cookbooks = () => {
   const { title, image, description } = steps[currentStep];
 
   return (
-    <div className='relative mt-4 w-full'>
-      <h1 className='text-2xl mb-4 font-medium'>Cookbooks</h1>
+    <div className='relative mt-8 w-full'>
+      <h1 className='text-xl mb-4 font-medium'>Cookbooks</h1>
       <span className='absolute top-0 right-0 m-1 text-gray-800'>
         {currentStep + 1}/{steps.length}
       </span>
@@ -53,7 +53,7 @@ const Cookbooks = () => {
                 alt='logo of mallika food recipe app'
               />
             </div>
-            <h1 className='text-2xl mb-3 font-medium'>{title}</h1>
+            <h1 className='text-xl mb-3 font-medium'>{title}</h1>
             <p className='text-sm text-gray-800 mb-3'>{description}</p>
             <div className='relative before:absolute before:top-0 before:bottom-0 before:bg-gray-400 before:w-px flex justify-around text-center font-medium w-full items-center'>
               <div>
