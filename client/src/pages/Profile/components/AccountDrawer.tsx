@@ -47,7 +47,12 @@ const AccountDrawer = () => {
         </div>
         <div className='py-3.5 border-b border-gray-400'>
           <div className='flex items-stretch gap-4'>
-            <button className='flex-1 inline-flex flex-col justify-center items-center'>
+            <button
+              className='flex-1 inline-flex flex-col justify-center items-center'
+              onClick={() =>
+                dispatch(uiActions.setLikedRecipeDrawerShowing(true))
+              }
+            >
               <Heart24Regular />
               <span className='text-sm text-gray-800 mt-3'>Liked Recipe</span>
             </button>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Heart24Regular, MoreVertical24Filled } from '@fluentui/react-icons';
 
-const Review = ({ recipe, comment }) => {
+const ReviewItem = ({ recipe, comment }) => {
   return (
     <li className='px-2 py-3 border-b border-gray-400'>
       <div className='flex gap-2'>
@@ -12,7 +12,7 @@ const Review = ({ recipe, comment }) => {
             alt={recipe.title}
           />
         </div>
-        <div>
+        <div className='w-full'>
           <div className='flex justify-between items-center pb-1'>
             <h3 className='text-gray-800 text-xs pr-2'>{recipe.title}</h3>
             <div className='flex gap-1 w-14 flex-shrink-0'>
@@ -31,4 +31,4 @@ const Review = ({ recipe, comment }) => {
   );
 };
 
-export default Review;
+export default ReviewItem;

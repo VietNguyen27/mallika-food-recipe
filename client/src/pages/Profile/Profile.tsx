@@ -11,7 +11,8 @@ import { List20Regular } from '@fluentui/react-icons';
 import { Tab, Tabs } from '@components/Tabs/Tabs';
 import { Loading } from '@components/Loading/Loading';
 import AccountDrawer from './components/AccountDrawer';
-import Reviews from '@components/Review/Reviews';
+import LikedRecipeDrawer from './components/LikedRecipeDrawer';
+import ReviewList from '@components/Review/ReviewList';
 import { uiActions } from '@features/ui-slice';
 
 import RecipeImage1 from '@img/recipe-1.png';
@@ -104,10 +105,11 @@ const Profile = () => {
           <div>posts</div>
         </Tab>
         <Tab label='Reviews' className='h-72 pb-8 overflow-auto scrollbar-none'>
-          <Reviews reviews={dumbReviews} />
+          <ReviewList reviews={dumbReviews} />
         </Tab>
       </Tabs>
       <AccountDrawer />
+      <LikedRecipeDrawer />
     </>
   );
 };
