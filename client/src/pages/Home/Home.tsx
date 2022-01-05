@@ -13,7 +13,7 @@ const Home = () => {
   if (!user) return <Loading />;
 
   return (
-    <div className='px-5 h-full select-none overflow-auto scrollbar-none'>
+    <div className='px-5 h-full select-none overflow-auto scrollbar-none pb-12'>
       <div className='flex justify-between items-center'>
         <img
           src={generateBase64Image(user.avatar)}
