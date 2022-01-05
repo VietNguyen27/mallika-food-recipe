@@ -3,7 +3,7 @@ import { Heart24Regular, MoreVertical24Filled } from '@fluentui/react-icons';
 
 const ReviewItem = ({ recipe, comment }) => {
   return (
-    <li className='px-2 py-3 border-b border-gray-400'>
+    <li className='p-3 border-b border-gray-400'>
       <div className='flex gap-2'>
         <div className='relative w-12 h-12 flex-shrink-0 mt-1 rounded-lg overflow-hidden'>
           <img

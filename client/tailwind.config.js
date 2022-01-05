@@ -18,6 +18,7 @@ module.exports = {
         black: 'var(--color-black)',
         yellow: 'var(--color-yellow)',
         orange: 'var(--color-orange)',
+        beige: 'var(--color-beige)',
       },
       width: {
         phone: 'var(--phone-width)',

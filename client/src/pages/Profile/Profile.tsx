@@ -12,6 +12,7 @@ import { Tab, Tabs } from '@components/Tabs/Tabs';
 import { Loading } from '@components/Loading/Loading';
 import AccountDrawer from './components/AccountDrawer';
 import LikedRecipeDrawer from './components/LikedRecipeDrawer';
+import NotificationDrawer from './components/NotificationDrawer';
 import ReviewList from '@components/Review/ReviewList';
 import { uiActions } from '@features/ui-slice';
 
@@ -110,6 +111,7 @@ const Profile = () => {
       </Tabs>
       <AccountDrawer />
       <LikedRecipeDrawer />
+      <NotificationDrawer />
     </>
   );
 };

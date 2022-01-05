@@ -1,4 +1,11 @@
-import { MINIMUM_LOADER_DELAY } from '@config/constants';
+import {
+  MINIMUM_LOADER_DELAY,
+  SECONDS_PER_DAY,
+  SECONDS_PER_HOUR,
+  SECONDS_PER_MINUTE,
+  SECONDS_PER_MONTH,
+  SECONDS_PER_YEAR,
+} from '@config/constants';
 import { lazy } from 'react';
 import { forwardRef } from 'react';
 
@@ -43,4 +50,35 @@ export const generateBase64Image = (image: any): string => {
 
 export const capitalizeFirstLetter = (text: string): string => {
   return text[0].toUpperCase() + text.substring(1);
+};
+
+export const timeSince = (date: Date): string => {
+  const seconds = Math.floor((+new Date() - +date) / 1000);
+  let interval = seconds / SECONDS_PER_YEAR;
+
+  if (interval > 1) {
+    return Math.floor(interval) + ' year ago';
+  }
+
+  interval = seconds / SECONDS_PER_MONTH;
+  if (interval > 1) {
+    return Math.floor(interval) + ' month ago';
+  }
+
+  interval = seconds / SECONDS_PER_DAY;
+  if (interval > 1) {
+    return Math.floor(interval) + ' day ago';
+  }
+
+  interval = seconds / SECONDS_PER_HOUR;
+  if (interval > 1) {
+    return Math.floor(interval) + ' hour ago';
+  }
+
+  interval = seconds / SECONDS_PER_MINUTE;
+  if (interval > 1) {
+    return Math.floor(interval) + ' minute ago';
+  }
+
+  return Math.floor(seconds) + ' second ago';
 };
