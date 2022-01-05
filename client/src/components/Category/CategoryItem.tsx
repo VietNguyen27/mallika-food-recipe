@@ -12,4 +12,5 @@ const CategoryItem = ({ image, title }) => {
     </div>
   );
 };
+
 export default CategoryItem;

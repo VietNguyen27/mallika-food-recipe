@@ -1,11 +1,13 @@
-import { RegisterData } from '@pages/Auth/Register';
 import request from './axios';
 import {
   URL_AUTH_REGISTER,
   URL_AUTH_LOGIN,
   URL_USER_ME,
+  URL_USER_UPDATE,
 } from '@config/constants';
 import { LoginData } from '@pages/Auth/Login';
+import { RegisterData } from '@pages/Auth/Register';
+import { UpdateUserData } from '@pages/Profile/components/EditProfileDrawer';
 
 export const authApi = {
   register(body: RegisterData) {
@@ -14,13 +16,10 @@ export const authApi = {
   login(body: LoginData) {
     return request.post(URL_AUTH_LOGIN, body);
   },
-  fetch(token: string) {
-    return request.get(URL_USER_ME, {
-      headers: {
-        Accept: 'application/json',
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-    });
+  fetch() {
+    return request.get(URL_USER_ME);
+  },
+  update(id: string, body: UpdateUserData) {
+    return request.patch(`${URL_USER_UPDATE}/${id}`, body);
   },
 };

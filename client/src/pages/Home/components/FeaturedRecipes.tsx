@@ -7,6 +7,7 @@ import ImageUser3 from '@img/user-3.jfif';
 import FeatureCardList from '@components/FeatureCard/FeatureCardList';
 
 interface FeaturedCommunityRecipes {
+  id: number;
   title: string;
   image: string;
   author: string;
@@ -17,6 +18,7 @@ interface FeaturedCommunityRecipes {
 
 const featuredCommunityRecipes: FeaturedCommunityRecipes[] = [
   {
+    id: 1,
     title: 'Resep Ayam Kuah Santan Pedas Lezat',
     image: ImageRecipe1,
     author: 'Gayuh Tri Pinjungwati',
@@ -25,6 +27,7 @@ const featuredCommunityRecipes: FeaturedCommunityRecipes[] = [
     reviews: 103,
   },
   {
+    id: 2,
     title: 'Resep Ayam Kuah Santan Pedas Lezat',
     image: ImageRecipe2,
     author: 'Nadia Putri',
@@ -33,6 +36,7 @@ const featuredCommunityRecipes: FeaturedCommunityRecipes[] = [
     reviews: 103,
   },
   {
+    id: 3,
     title: 'Resep Ayam Kuah Santan Pedas Lezat',
     image: ImageRecipe3,
     author: 'Bin',
@@ -50,7 +54,7 @@ const FeaturedRecipes = () => {
         Get lots of recipe inspiration from the community
       </p>
       <FeatureCardList recipes={featuredCommunityRecipes} />
-      <p className='text-orange text-center mt-4 cursor-pointer'>
+      <p className='text-orange text-center mt-8 cursor-pointer'>
         Show All Recipe by Community
       </p>
     </div>

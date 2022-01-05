@@ -1,35 +1,73 @@
+import Tooltip from '@components/Tooltip/Tooltip';
+import { EditOff16Regular } from '@fluentui/react-icons';
+import cx from 'clsx';
+
 export enum InputTypes {
   Text = 'text',
   Email = 'email',
 }
 
+export enum InputVariants {
+  Primary = 'primary',
+  Secondary = 'secondary',
+}
+
 interface TextInputProps {
   type?: InputTypes;
+  variant?: InputVariants;
+  label?: string;
   name: string;
+  defaultValue?: string;
   placeholder: string;
-  register: any;
+  register?: any;
   error?: string;
+  className?: string;
+  readOnly?: boolean;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
   type = InputTypes.Text,
+  variant = InputVariants.Primary,
+  label,
   name,
   placeholder,
   register,
   error,
+  className,
+  readOnly,
   ...otherProps
 }) => {
+  const formGroupClassNames = cx('relative', className);
+  const inputClassNames = cx(
+    variant === InputVariants.Primary &&
+      'p-2 mb-1 border block w-full outline-0 border-gray-300 rounded-md text-sm placeholder-gray-600',
+    variant === InputVariants.Secondary &&
+      'pb-1 pt-1 border-b block w-full outline-0 border-gray-300 text-sm placeholder-gray-600'
+  );
+
   return (
-    <div className='relative'>
+    <div className={formGroupClassNames}>
+      {label && (
+        <label className='text-sm text-gray-800 capitalize'>{label}</label>
+      )}
       <input
-        className='p-2 mb-1 border block w-full outline-0 border-gray-300 rounded-md text-sm placeholder-gray-500'
+        className={inputClassNames}
         type={type}
         name={name}
         placeholder={placeholder}
         autoComplete='off'
+        readOnly={readOnly}
         {...register}
         {...otherProps}
       />
+      {readOnly && (
+        <Tooltip
+          message='This field cannot be edited'
+          className='absolute top-1/2 right-2 -translate-y-1/2'
+        >
+          <EditOff16Regular />
+        </Tooltip>
+      )}
       {error && (
         <span className='absolute top-full left-0 text-xs text-red-500'>
           {error}
@@ -38,4 +76,5 @@ const TextInput: React.FC<TextInputProps> = ({
     </div>
   );
 };
+
 export default TextInput;

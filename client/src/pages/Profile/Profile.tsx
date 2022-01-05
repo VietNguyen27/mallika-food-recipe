@@ -21,6 +21,7 @@ import RecipeImage2 from '@img/recipe-2.png';
 import RecipeImage3 from '@img/recipe-3.png';
 import RecipeImage4 from '@img/recipe-4.png';
 import RecipeImage5 from '@img/recipe-5.png';
+import EditProfileDrawer from './components/EditProfileDrawer';
 
 const dumbReviews = [
   {
@@ -97,7 +98,7 @@ const Profile = () => {
             alt='user avatar'
           />
           <h3 className='text-xl font-medium pt-12'>{user.name}</h3>
-          <p className='text-gray-800 text-sm'>Description for user</p>
+          <p className='text-gray-800 text-sm'>{user.bio}</p>
           <p className='text-gray-800 text-sm'>0 Followers · 0 Following</p>
         </div>
       </div>
@@ -112,6 +113,7 @@ const Profile = () => {
       <AccountDrawer />
       <LikedRecipeDrawer />
       <NotificationDrawer />
+      <EditProfileDrawer />
     </>
   );
 };

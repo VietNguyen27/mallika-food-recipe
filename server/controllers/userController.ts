@@ -47,3 +47,17 @@ export const getUserById = async (
 
   return res.status(200).json(user);
 };
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const user = await UserModel.findByIdAndUpdate(req.params.id, req.body);
+    if (!user)
+      return res
+        .status(400)
+        .json({ error: 'Something went wrong while updating this user!' });
+
+    return res.status(200).json(req.body);
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+};

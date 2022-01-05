@@ -10,4 +10,21 @@ const request = axios.create({
   paramsSerializer: (params) => queryString.stringify(params),
 });
 
+request.interceptors.request.use(async (config) => {
+  const customHeaders: any = {};
+
+  const accessToken = localStorage.getItem('token');
+  if (accessToken) {
+    customHeaders.Authorization = 'Bearer ' + accessToken;
+  }
+
+  return {
+    ...config,
+    headers: {
+      ...customHeaders,
+      ...config.headers,
+    },
+  };
+});
+
 export default request;

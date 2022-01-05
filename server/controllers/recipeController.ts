@@ -1,8 +1,8 @@
-import { Request, Reponse } from 'express';
+import { Request, Response } from 'express';
 import RecipeModel from '../models/recipeModel';
 import { recipeValidation } from '../validations/recipeValidation';
 
-export const addRecipe = async (req: Request, res: Reponse) => {
+export const addRecipe = async (req: Request, res: Response) => {
   const { error } = recipeValidation(req.body);
 
   if (error) return res.status(400).json(error.details);
@@ -21,7 +21,7 @@ export const addRecipe = async (req: Request, res: Reponse) => {
   }
 };
 
-export const getAllRecipes = async (req: Request, res: Reponse) => {
+export const getAllRecipes = async (req: Request, res: Response) => {
   try {
     const recipes = await RecipeModel.find({ user: { $nin: req.user._id } });
 
@@ -35,7 +35,7 @@ export const getAllRecipes = async (req: Request, res: Reponse) => {
   }
 };
 
-export const getRecipeById = async (req: Request, res: Reponse) => {
+export const getRecipeById = async (req: Request, res: Response) => {
   try {
     const recipe = await RecipeModel.findById(req.params.id);
     if (!recipe)
@@ -48,7 +48,7 @@ export const getRecipeById = async (req: Request, res: Reponse) => {
   }
 };
 
-export const updateRecipe = async (req: Request, res: Reponse) => {
+export const updateRecipe = async (req: Request, res: Response) => {
   try {
     const recipe = await RecipeModel.findByIdAndUpdate(req.params.id, req.body);
     if (!recipe)
@@ -63,7 +63,7 @@ export const updateRecipe = async (req: Request, res: Reponse) => {
   }
 };
 
-export const deleteRecipe = async (req: Request, res: Reponse) => {
+export const deleteRecipe = async (req: Request, res: Response) => {
   try {
     const recipe = await RecipeModel.findByIdAndDelete(req.params.id);
     if (!recipe)
