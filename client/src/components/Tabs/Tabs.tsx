@@ -4,6 +4,7 @@ import cx from 'clsx';
 interface TabsProps {
   children: ReactChild | ReactChildren | ReactChild[] | ReactChildren[];
   className?: string;
+  onTrigger?: () => void;
 }
 
 interface TabProps {
@@ -11,6 +12,7 @@ interface TabProps {
   className?: string;
   label: string;
   ref?: any;
+  onScroll?: (e) => void;
 }
 
 interface TabLabelProps {
@@ -36,7 +38,12 @@ const TabLabel: React.FC<TabLabelProps> = ({ children, isActive, ...rest }) => {
   );
 };
 
-export const Tabs: React.FC<TabsProps> = ({ children, className, ...rest }) => {
+export const Tabs: React.FC<TabsProps> = ({
+  children,
+  className,
+  onTrigger,
+  ...rest
+}) => {
   const [activeTab, setActiveTab] = useState(children[0].props.label);
   const defaultClassName = 'flex flex-col items-stretch';
   const allClassNames = cx(defaultClassName, className);
@@ -53,7 +60,10 @@ export const Tabs: React.FC<TabsProps> = ({ children, className, ...rest }) => {
             <TabLabel
               key={index}
               isActive={child.props.label === activeTab}
-              onClick={() => changeTab(child.props.label)}
+              onClick={() => {
+                onTrigger && onTrigger();
+                changeTab(child.props.label);
+              }}
             >
               {child.props.label}
             </TabLabel>
@@ -73,10 +83,11 @@ export const Tab: React.FC<TabProps> = ({
   children,
   label,
   className,
+  onScroll,
   ...rest
 }) => {
   return (
-    <div className={className} {...rest}>
+    <div className={className} onScroll={onScroll} {...rest}>
       {children}
     </div>
   );
