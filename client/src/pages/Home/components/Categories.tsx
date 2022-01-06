@@ -34,14 +34,14 @@ const categories: Categories[] = [
 
 const Categories = () => {
   return (
-    <div className='mb-20'>
+    <>
       <h2 className='text-lg mt-8 font-medium'>Category</h2>
       <div className='overflow-x-auto flex scrollbar-none'>
         {categories.map((categoryItem) => (
           <CategoryItem {...categoryItem} />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 
