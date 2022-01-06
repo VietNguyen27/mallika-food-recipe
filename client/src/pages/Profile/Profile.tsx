@@ -82,8 +82,8 @@ const Profile = () => {
         />
         <RoundedButton
           className='absolute z-10 top-4 right-3'
-          variant={ButtonVariants.Secondary}
-          size={ButtonSizes.Small}
+          variant={ButtonVariants.SECONDARY}
+          size={ButtonSizes.SMALL}
           onClick={() => dispatch(uiActions.setAccountDrawerShowing(true))}
         >
           <List20Regular />

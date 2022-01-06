@@ -38,12 +38,14 @@ const Cookbooks = () => {
       <span className='absolute top-0 right-0 m-1 text-gray-800'>
         {currentStep + 1}/{steps.length}
       </span>
-
       <div className='border border-gray-300 rounded-2xl bg-white p-2 mt-1'>
         <div className='relative h-2/5'>
-          <img src={image} className='rounded-2xl w-full h-full object-cover' />
+          <img
+            src={image}
+            className='rounded-2xl w-full h-full object-cover'
+            alt='cookbooks cover'
+          />
         </div>
-
         <div className='relative w-full h-3/5 -mt-14 flex items-center justify-center'>
           <div className='rounded-2xl flex items-center justify-center flex-col text-center h-full mb-auto bg-white py-5 mx-4'>
             <div className='p-3 border border-gray-400 rounded-full mb-3'>

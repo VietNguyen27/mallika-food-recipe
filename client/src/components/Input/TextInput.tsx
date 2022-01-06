@@ -3,13 +3,13 @@ import { EditOff16Regular } from '@fluentui/react-icons';
 import cx from 'clsx';
 
 export enum InputTypes {
-  Text = 'text',
-  Email = 'email',
+  TEXT = 'text',
+  EMAIL = 'email',
 }
 
 export enum InputVariants {
-  Primary = 'primary',
-  Secondary = 'secondary',
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
 }
 
 interface TextInputProps {
@@ -26,8 +26,8 @@ interface TextInputProps {
 }
 
 const TextInput: React.FC<TextInputProps> = ({
-  type = InputTypes.Text,
-  variant = InputVariants.Primary,
+  type = InputTypes.TEXT,
+  variant = InputVariants.PRIMARY,
   label,
   name,
   placeholder,
@@ -39,9 +39,9 @@ const TextInput: React.FC<TextInputProps> = ({
 }) => {
   const formGroupClassNames = cx('relative', className);
   const inputClassNames = cx(
-    variant === InputVariants.Primary &&
+    variant === InputVariants.PRIMARY &&
       'p-2 mb-1 border block w-full outline-0 border-gray-300 rounded-md text-sm placeholder-gray-600',
-    variant === InputVariants.Secondary &&
+    variant === InputVariants.SECONDARY &&
       'pb-1 pt-1 border-b block w-full outline-0 border-gray-300 text-sm placeholder-gray-600'
   );
 

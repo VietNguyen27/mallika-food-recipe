@@ -68,7 +68,7 @@ const NotificationDrawer = () => {
         <NotificationList notifications={dumbNotifications} />
         <Button
           className='absolute left-1/2 bottom-1 -translate-x-1/2 px-4'
-          size={ButtonSizes.ExtraSmall}
+          size={ButtonSizes.EXTRA_SMALL}
         >
           Mark all as Read
         </Button>

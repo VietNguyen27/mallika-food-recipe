@@ -54,7 +54,7 @@ function Register() {
             <div className='grid grid-cols-12 gap-4'>
               <div className='col-span-12'>
                 <TextInput
-                  type={InputTypes.Text}
+                  type={InputTypes.TEXT}
                   name='name'
                   placeholder='Name'
                   register={{ ...register('name') }}
@@ -63,7 +63,7 @@ function Register() {
               </div>
               <div className='col-span-12'>
                 <TextInput
-                  type={InputTypes.Text}
+                  type={InputTypes.TEXT}
                   name='email'
                   placeholder='Email Address'
                   register={{ ...register('email') }}
@@ -89,8 +89,8 @@ function Register() {
               <div className='col-span-12 leading-none'>
                 {loading ? (
                   <Button
-                    variant={ButtonVariants.Primary}
-                    type={ButtonTypes.Button}
+                    variant={ButtonVariants.PRIMARY}
+                    type={ButtonTypes.BUTTON}
                     fluid={true}
                     disabled
                   >
@@ -98,9 +98,9 @@ function Register() {
                   </Button>
                 ) : (
                   <Button
-                    type={ButtonTypes.Submit}
+                    type={ButtonTypes.SUBMIT}
                     fluid={true}
-                    variant={ButtonVariants.Primary}
+                    variant={ButtonVariants.PRIMARY}
                   >
                     Sign up
                   </Button>

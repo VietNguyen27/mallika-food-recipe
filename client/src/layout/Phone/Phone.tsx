@@ -4,6 +4,7 @@ import Wifi from '@img/wifi.svg';
 import Battery from '@img/battery.svg';
 import { getTime } from '@helpers/helpers';
 import Wrapper from '@layout/Wrapper/Wrapper';
+import ToastList from '@components/Toast/ToastList';
 
 interface PhoneProps {
   children: ReactChild | ReactChildren;
@@ -35,7 +36,7 @@ const Phone = ({ children }: PhoneProps) => {
             <span className='absolute top-0 left-full w-2 h-2 rounded-full shadow-tl'></span>
           </div>
           <span className='absolute z-50 bottom-1 left-1/2 w-28 h-1 rounded-lg bg-black -translate-x-1/2'></span>
-          <div className='relative z-50 w-full flex justify-between px-5 py-0.5'>
+          <div className='relative z-50 w-full flex justify-between px-5 pt-1.5'>
             <span className='font-medium'>{getTime(hour, minute)}</span>
             <div className='flex gap-1'>
               <img src={Signal} width={16} alt='signal icon' />
@@ -50,6 +51,7 @@ const Phone = ({ children }: PhoneProps) => {
         </div>
         <main className='relative bg-white w-full h-full rounded-phone pt-9 pb-6 overflow-hidden'>
           {children}
+          <ToastList />
         </main>
       </div>
     </Wrapper>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Drawer from '@components/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/reducers';
@@ -9,9 +9,11 @@ import TextInput, {
   InputVariants,
 } from '@components/Input/TextInput';
 import { useForm } from 'react-hook-form';
-import Button, { ButtonTypes } from '@components/Button/Button';
-import { generateBase64Image } from '@helpers/helpers';
+import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
+import { convertBase64, generateBase64Image } from '@helpers/helpers';
 import { Camera28Regular } from '@fluentui/react-icons';
+import { createToast } from '@features/toast-slice';
+import { ToastTypes } from '@components/Toast/ToastItem';
 
 export interface UpdateUserData {
   name: string;
@@ -19,24 +21,60 @@ export interface UpdateUserData {
 }
 
 const EditProfileDrawer = () => {
+  const [avatar, setAvatar] = useState(null);
+  const [isEdited, setIsEdited] = useState(false);
+  const inputFileRef: any = useRef(null);
   const dispatch = useDispatch();
-  const { register, reset, handleSubmit } = useForm();
+  const { register, reset, handleSubmit, setValue } = useForm();
   const user = useSelector(selectorUser);
   const active = useSelector(
     ({ ui }: RootState) => ui.editProfileDrawerShowing
   );
 
-  const onCloseDrawer = () => {
+  const onCloseDrawer = (): void => {
     dispatch(uiActions.setEditProfileDrawerShowing(false));
+    setIsEdited(false);
     reset(user);
   };
 
-  const onSubmit = (data) => {
+  const onChangeAvatar = (): void => {
+    const input = inputFileRef.current;
+
+    if (input) {
+      input.click();
+    }
+  };
+
+  const handleFileSelected = async (): Promise<void> => {
+    const input = inputFileRef.current;
+
+    if (input) {
+      const files = input.files;
+      const imageBase64 = await convertBase64(files[0]);
+      const [imageFormat, base64] = imageBase64.split(';base64,');
+      setAvatar(imageBase64);
+      setValue('avatar', {
+        base64,
+        imageFormat: imageFormat.split('/')[1],
+      });
+      setIsEdited(true);
+    }
+  };
+
+  const onSubmit = async (data): Promise<void> => {
     const userEdited = {
       _id: user._id,
       ...data,
     };
-    dispatch(updateUser(userEdited));
+
+    await dispatch(updateUser(userEdited));
+    setIsEdited(false);
+    dispatch(
+      createToast({
+        message: 'Profile update successful!',
+        type: ToastTypes.SUCCESS,
+      })
+    );
   };
 
   return (
@@ -46,9 +84,15 @@ const EditProfileDrawer = () => {
         className='flex flex-col items-stretch h-full px-3 pb-3'
       >
         <div className='flex items-center py-3 mb-3 border-b border-gray-300'>
+          <input
+            onChange={() => handleFileSelected()}
+            ref={inputFileRef}
+            type='file'
+            className='hidden'
+          />
           <div className='relative w-14 h-14 mr-3 rounded-full overflow-hidden'>
             <img
-              src={generateBase64Image(user.avatar)}
+              src={avatar || generateBase64Image(user.avatar)}
               className='absolute inset-0'
               alt={user.name}
             />
@@ -56,14 +100,15 @@ const EditProfileDrawer = () => {
           <button
             type='button'
             className='inline-flex items-center gap-2 text-orange font-light'
+            onClick={() => onChangeAvatar()}
           >
             <Camera28Regular />
             Edit photo
           </button>
         </div>
         <TextInput
-          type={InputTypes.Text}
-          variant={InputVariants.Secondary}
+          type={InputTypes.TEXT}
+          variant={InputVariants.SECONDARY}
           name='email'
           defaultValue={user.email}
           placeholder='Enter your email address'
@@ -72,26 +117,39 @@ const EditProfileDrawer = () => {
           readOnly={true}
         />
         <TextInput
-          type={InputTypes.Text}
-          variant={InputVariants.Secondary}
+          type={InputTypes.TEXT}
+          variant={InputVariants.SECONDARY}
           name='name'
           defaultValue={user.name}
           placeholder='Enter profile name'
           label='profile name'
           className='mb-4'
-          register={{ ...register('name') }}
+          register={{
+            ...register('name', {
+              onChange: () => setIsEdited(true),
+            }),
+          }}
         />
         <TextInput
-          type={InputTypes.Text}
-          variant={InputVariants.Secondary}
+          type={InputTypes.TEXT}
+          variant={InputVariants.SECONDARY}
           name='bio'
           defaultValue={user.bio}
           placeholder='Enter your bio'
           label='bio'
           className='mb-4'
-          register={{ ...register('bio') }}
+          register={{
+            ...register('bio', {
+              onChange: () => setIsEdited(true),
+            }),
+          }}
         />
-        <Button type={ButtonTypes.Submit} className='mt-auto'>
+        <Button
+          type={ButtonTypes.SUBMIT}
+          variant={isEdited ? ButtonVariants.PRIMARY : ButtonVariants.DISABLED}
+          className='mt-auto'
+          disabled={!isEdited}
+        >
           Save Changes
         </Button>
       </form>

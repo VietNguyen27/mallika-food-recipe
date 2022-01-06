@@ -24,17 +24,17 @@ const Landing = () => {
         </p>
         <div className='flex flex-col gap-3 mt-auto'>
           <Button
-            as={ButtonAs.Link}
+            as={ButtonAs.LINK}
             to='/login'
-            variant={ButtonVariants.Primary}
+            variant={ButtonVariants.PRIMARY}
             fluid={true}
           >
             Login
           </Button>
           <Button
-            as={ButtonAs.Link}
+            as={ButtonAs.LINK}
             to='/register'
-            variant={ButtonVariants.Secondary}
+            variant={ButtonVariants.SECONDARY}
             fluid={true}
           >
             Register

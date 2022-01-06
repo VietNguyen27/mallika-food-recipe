@@ -17,7 +17,7 @@ const FeatureCardItem = ({
       <div className='flex items-center mt-1 relative'>
         <img
           src={authorImage}
-          alt='user image'
+          alt={`avatar of ${author}`}
           className='w-[40px] h-[40px] object-cover rounded-full mr-3'
         />
         <div>

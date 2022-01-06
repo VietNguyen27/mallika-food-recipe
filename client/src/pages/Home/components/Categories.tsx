@@ -4,13 +4,13 @@ import CategoryImage3 from '@img/splash-2.jfif';
 import CategoryImage4 from '@img/splash-3.jfif';
 import CategoryItem from '@components/Category/CategoryItem';
 
-interface Categories {
+interface CategoryType {
   id: number;
   image: string;
   title: string;
 }
 
-const categories: Categories[] = [
+const categories: CategoryType[] = [
   {
     id: 1,
     image: CategoryImage1,

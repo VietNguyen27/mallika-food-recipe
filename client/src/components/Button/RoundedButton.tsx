@@ -4,27 +4,28 @@ import type { LinkProps } from 'react-router-dom';
 import cx from 'clsx';
 
 export enum ButtonTypes {
-  Button = 'button',
-  Submit = 'submit',
-  Reset = 'reset',
+  BUTTON = 'button',
+  SUBMIT = 'submit',
+  RESET = 'reset',
 }
 
 export enum ButtonAs {
-  Button = 'button',
-  Link = 'link',
+  BUTTON = 'button',
+  LINK = 'link',
 }
 
 export enum ButtonVariants {
-  Primary = 'primary',
-  Secondary = 'secondary',
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  DISABLED = 'disabled',
 }
 
 export enum ButtonSizes {
-  ExtraLarge = 'xl',
-  Large = 'lg',
-  Medium = 'md',
-  Small = 'sm',
-  ExtraSmall = 'xs',
+  EXTRA_LARGE = 'xl',
+  LARGE = 'lg',
+  MEDIUM = 'md',
+  SMALL = 'sm',
+  EXTRA_SMALL = 'xs',
 }
 
 type BaseProps = {
@@ -37,10 +38,12 @@ type BaseProps = {
 
 const variantButton = (variant: string): string => {
   switch (variant) {
-    case ButtonVariants.Primary:
-      return 'text-white bg-orange hover:opacity-80';
-    case ButtonVariants.Secondary:
-      return 'bg-white hover:bg-gray-100';
+    case ButtonVariants.PRIMARY:
+      return 'text-white bg-orange cursor-pointer hover:opacity-80';
+    case ButtonVariants.SECONDARY:
+      return 'bg-white cursor-pointer hover:bg-gray-100';
+    case ButtonVariants.DISABLED:
+      return 'bg-gray-300 text-black cursor-not-allowed hover:bg-gray-200';
     default:
       return '';
   }
@@ -48,15 +51,15 @@ const variantButton = (variant: string): string => {
 
 const sizeButton = (size: string): string => {
   switch (size) {
-    case ButtonSizes.ExtraLarge:
+    case ButtonSizes.EXTRA_LARGE:
       return 'p-4.5';
-    case ButtonSizes.Large:
+    case ButtonSizes.LARGE:
       return 'p-3.5';
-    case ButtonSizes.Medium:
+    case ButtonSizes.MEDIUM:
       return 'p-2.5';
-    case ButtonSizes.Small:
+    case ButtonSizes.SMALL:
       return 'p-2';
-    case ButtonSizes.ExtraSmall:
+    case ButtonSizes.EXTRA_SMALL:
       return 'p-1.5';
     default:
       return '';
@@ -65,12 +68,12 @@ const sizeButton = (size: string): string => {
 
 type ButtonAsButton = BaseProps &
   Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseProps> & {
-    as?: ButtonAs.Button;
+    as?: ButtonAs.BUTTON;
   };
 
 type ButtonAsLink = BaseProps &
   Omit<LinkProps, keyof BaseProps> & {
-    as: ButtonAs.Link;
+    as: ButtonAs.LINK;
   };
 
 type ButtonProps = ButtonAsButton | ButtonAsLink;
@@ -78,9 +81,9 @@ type ButtonProps = ButtonAsButton | ButtonAsLink;
 const Button: React.FC<ButtonProps> = ({
   children,
   className,
-  variant = ButtonVariants.Primary,
-  type = ButtonTypes.Button,
-  size = ButtonSizes.Medium,
+  variant = ButtonVariants.PRIMARY,
+  type = ButtonTypes.BUTTON,
+  size = ButtonSizes.MEDIUM,
   ...otherProps
 }) => {
   const defaultClassName =
@@ -92,7 +95,7 @@ const Button: React.FC<ButtonProps> = ({
     variantButton(variant)
   );
 
-  if (otherProps.as === ButtonAs.Link) {
+  if (otherProps.as === ButtonAs.LINK) {
     return (
       <Link className={allClassNames} {...otherProps}>
         {children}
