@@ -10,7 +10,7 @@ const RecipeItem = ({ title, image, time, difficulty, type }) => {
   const { ME, LIKED } = RECIPES_BY_TYPE;
 
   return (
-    <li className='px-2 py-3 border-b border-gray-400'>
+    <li className='p-3 border-b border-gray-400'>
       <div className='flex gap-2'>
         <div className='relative w-14 h-14 flex-shrink-0 mt-1 rounded-lg overflow-hidden'>
           <img

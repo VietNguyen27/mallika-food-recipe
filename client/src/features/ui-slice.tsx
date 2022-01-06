@@ -8,6 +8,7 @@ interface uiState {
 const initialState: uiState = {
   accountDrawerShowing: false,
   likedRecipeDrawerShowing: false,
+  notificationDrawerShowing: false,
 };
 
 const reducersCreator = (initialState: uiState): any => {

@@ -56,7 +56,12 @@ const AccountDrawer = () => {
               <Heart24Regular />
               <span className='text-sm text-gray-800 mt-3'>Liked Recipe</span>
             </button>
-            <button className='flex-1 inline-flex flex-col justify-center items-center'>
+            <button
+              className='flex-1 inline-flex flex-col justify-center items-center'
+              onClick={() =>
+                dispatch(uiActions.setNotificationDrawerShowing(true))
+              }
+            >
               <Alert24Regular />
               <span className='text-sm text-gray-800 mt-3'>Notifications</span>
             </button>
