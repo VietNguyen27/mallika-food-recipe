@@ -13,7 +13,7 @@ const FeatureCardItem = ({
       <div className='cursor-pointer'>
         <img src={image} alt='soup' className='rounded-2xl' />
       </div>
-      <h2 className='text-lg mt-1 font-medium leading-normal'>{title}</h2>
+      <h2 className='text-lg mt-2 mb-2 font-medium leading-6'>{title}</h2>
       <div className='flex items-center mt-1 relative'>
         <img
           src={authorImage}

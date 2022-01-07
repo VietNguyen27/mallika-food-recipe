@@ -1,5 +1,6 @@
 import { LoginData } from '@pages/Auth/Login';
 import { RegisterData } from '@pages/Auth/Register';
+import { UpdateUserData } from '@pages/Profile/components/EditProfileDrawer';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authApi } from '@api/auth';
 import { MINIMUM_AUTH_DELAY } from '@config/constants';
@@ -49,7 +50,7 @@ export const loginUser = createAsyncThunk(
       const token = response.data;
 
       localStorage.setItem('token', token);
-      dispatch(fetchUser(token));
+      dispatch(fetchUser());
 
       return token;
     } catch (error: any) {
@@ -60,9 +61,23 @@ export const loginUser = createAsyncThunk(
 
 export const fetchUser = createAsyncThunk(
   'users/me',
-  async (token: string, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await authApi.fetch(token);
+      const response = await authApi.fetch();
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  'users/:id',
+  async (body: any, { rejectWithValue }) => {
+    try {
+      const { _id, ...rest } = body;
+      const response = await authApi.update(_id, rest);
 
       return response.data;
     } catch (error: any) {
@@ -111,6 +126,12 @@ const authSlice = createSlice({
     });
     builder.addCase(fetchUser.fulfilled, (state, action: any) => {
       state.user = action.payload;
+    });
+    builder.addCase(updateUser.fulfilled, (state, action: any) => {
+      state.user = {
+        ...state.user,
+        ...action.payload,
+      };
     });
   },
 });

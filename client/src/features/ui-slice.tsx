@@ -9,6 +9,7 @@ const initialState: uiState = {
   accountDrawerShowing: false,
   likedRecipeDrawerShowing: false,
   notificationDrawerShowing: false,
+  editProfileDrawerShowing: false,
 };
 
 const reducersCreator = (initialState: uiState): any => {

@@ -65,7 +65,12 @@ const AccountDrawer = () => {
               <Alert24Regular />
               <span className='text-sm text-gray-800 mt-3'>Notifications</span>
             </button>
-            <button className='flex-1 inline-flex flex-col justify-center items-center'>
+            <button
+              className='flex-1 inline-flex flex-col justify-center items-center'
+              onClick={() =>
+                dispatch(uiActions.setEditProfileDrawerShowing(true))
+              }
+            >
               <Edit24Regular />
               <span className='text-sm text-gray-800 mt-3'>Edit Profile</span>
             </button>

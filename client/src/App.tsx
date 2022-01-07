@@ -28,7 +28,7 @@ const App = () => {
   }, [dispatch, location]);
 
   if (token) {
-    dispatch(fetchUser(token));
+    dispatch(fetchUser());
   }
 
   return (

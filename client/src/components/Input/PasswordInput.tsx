@@ -21,7 +21,7 @@ const PasswordInput = ({
     <div className='relative'>
       <input
         type={showPassword ? 'text' : 'password'}
-        className='p-2 mb-1 block w-full border outline-0 border-gray-300 rounded-md text-sm placeholder-gray-500'
+        className='p-2 mb-1 block w-full border outline-0 border-gray-300 rounded-md text-sm placeholder-gray-600'
         name={name}
         placeholder={placeholder}
         autoComplete='off'
