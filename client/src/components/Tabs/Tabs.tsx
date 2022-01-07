@@ -8,7 +8,7 @@ interface TabsProps {
 }
 
 interface TabProps {
-  children: ReactChild | ReactChildren;
+  children: ReactChild | ReactChildren | ReactChild[] | ReactChildren[];
   className?: string;
   label: string;
   ref?: any;
@@ -23,7 +23,7 @@ interface TabLabelProps {
 
 const TabLabel: React.FC<TabLabelProps> = ({ children, isActive, ...rest }) => {
   const defaultClassName =
-    'flex-1 text-center cursor-pointer py-1.5 rounded-3xl transition-all duration-200';
+    'flex-auto text-center cursor-pointer py-1.5 px-2 rounded-3xl transition-all duration-200';
   const allClassNames = cx(
     defaultClassName,
     isActive

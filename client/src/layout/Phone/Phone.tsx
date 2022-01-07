@@ -4,7 +4,6 @@ import Wifi from '@img/wifi.svg';
 import Battery from '@img/battery.svg';
 import { getTime } from '@helpers/helpers';
 import Wrapper from '@layout/Wrapper/Wrapper';
-import ToastList from '@components/Toast/ToastList';
 
 interface PhoneProps {
   children: ReactChild | ReactChildren;
@@ -51,7 +50,6 @@ const Phone = ({ children }: PhoneProps) => {
         </div>
         <main className='relative bg-white w-full h-full rounded-phone pt-9 pb-6 overflow-hidden'>
           {children}
-          <ToastList />
         </main>
       </div>
     </Wrapper>

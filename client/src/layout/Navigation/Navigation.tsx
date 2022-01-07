@@ -7,9 +7,12 @@ import {
 } from '@fluentui/react-icons';
 import RoundedButton, { ButtonSizes } from '@components/Button/RoundedButton';
 import { Link, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { uiActions } from '@features/ui-slice';
 
 const Navigation = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const changeActive = (path) => {
     return path === location.pathname ? 'text-orange' : 'text-black';
@@ -28,8 +31,9 @@ const Navigation = () => {
       </Link>
       <div className='text-center relative flex items-center justify-center'>
         <RoundedButton
-          className='absolute -translate-y-2'
+          className='absolute -translate-y-2 hover:opacity-100'
           size={ButtonSizes.LARGE}
+          onClick={() => dispatch(uiActions.setAddRecipeDrawerShowing(true))}
         >
           <Add20Filled />
         </RoundedButton>
