@@ -1,25 +1,25 @@
 import { useState, ReactChild, ReactChildren } from 'react';
 import cx from 'clsx';
 
-interface Tabs {
+interface TabsProps {
   children: ReactChild | ReactChildren | ReactChild[] | ReactChildren[];
   className?: string;
 }
 
-interface Tab {
+interface TabProps {
   children: ReactChild | ReactChildren;
   className?: string;
   label: string;
   ref?: any;
 }
 
-interface TabLabel {
+interface TabLabelProps {
   children: ReactChild | ReactChildren;
   isActive: boolean;
   onClick: () => void;
 }
 
-const TabLabel: React.FC<TabLabel> = ({ children, isActive, ...rest }) => {
+const TabLabel: React.FC<TabLabelProps> = ({ children, isActive, ...rest }) => {
   const defaultClassName =
     'flex-1 text-center cursor-pointer py-1.5 rounded-3xl transition-all duration-200';
   const allClassNames = cx(
@@ -36,7 +36,7 @@ const TabLabel: React.FC<TabLabel> = ({ children, isActive, ...rest }) => {
   );
 };
 
-export const Tabs: React.FC<Tabs> = ({ children, className, ...rest }) => {
+export const Tabs: React.FC<TabsProps> = ({ children, className, ...rest }) => {
   const [activeTab, setActiveTab] = useState(children[0].props.label);
   const defaultClassName = 'flex flex-col items-stretch';
   const allClassNames = cx(defaultClassName, className);
@@ -69,7 +69,12 @@ export const Tabs: React.FC<Tabs> = ({ children, className, ...rest }) => {
   );
 };
 
-export const Tab: React.FC<Tab> = ({ children, label, className, ...rest }) => {
+export const Tab: React.FC<TabProps> = ({
+  children,
+  label,
+  className,
+  ...rest
+}) => {
   return (
     <div className={className} {...rest}>
       {children}

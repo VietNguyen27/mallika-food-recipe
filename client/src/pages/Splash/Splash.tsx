@@ -79,20 +79,20 @@ const Splash = () => {
         >
           {currentStep > 0 && (
             <Button
-              variant={ButtonVariants.Secondary}
-              size={ButtonSizes.Small}
+              variant={ButtonVariants.SECONDARY}
+              size={ButtonSizes.SMALL}
               onClick={() => setCurrentStep((prevState) => prevState - 1)}
             >
               Previous
             </Button>
           )}
           {currentStep + 1 === steps.length ? (
-            <Button as={ButtonAs.Link} to='/home' size={ButtonSizes.Small}>
+            <Button as={ButtonAs.LINK} to='/home' size={ButtonSizes.SMALL}>
               Explore now
             </Button>
           ) : (
             <Button
-              size={ButtonSizes.Small}
+              size={ButtonSizes.SMALL}
               onClick={() => setCurrentStep((prevState) => prevState + 1)}
             >
               Next

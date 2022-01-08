@@ -1,18 +1,17 @@
 import { LoginData } from '@pages/Auth/Login';
 import { RegisterData } from '@pages/Auth/Register';
-import { UpdateUserData } from '@pages/Profile/components/EditProfileDrawer';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authApi } from '@api/auth';
 import { MINIMUM_AUTH_DELAY } from '@config/constants';
 
-interface authState {
+interface AuthState {
   user: any;
   loading: boolean;
   error: object[];
   isLoggedIn: boolean;
 }
 
-const initialState: authState = {
+const initialState: AuthState = {
   user: null,
   loading: false,
   error: [],
@@ -121,7 +120,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
-    builder.addCase(fetchUser.pending, (state, action: any) => {
+    builder.addCase(fetchUser.pending, (state) => {
       state.user = null;
     });
     builder.addCase(fetchUser.fulfilled, (state, action: any) => {
@@ -137,7 +136,7 @@ const authSlice = createSlice({
 });
 
 export const { logout, clearErrors } = authSlice.actions;
-export const selectorAuthError = (state: { auth: authState }) =>
+export const selectorAuthError = (state: { auth: AuthState }) =>
   state.auth.error;
-export const selectorUser = (state: { auth: authState }) => state.auth.user;
+export const selectorUser = (state: { auth: AuthState }) => state.auth.user;
 export default authSlice.reducer;

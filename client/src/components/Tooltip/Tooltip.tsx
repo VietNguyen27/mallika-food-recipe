@@ -2,10 +2,10 @@ import React, { ReactChild, ReactChildren } from 'react';
 import cx from 'clsx';
 
 export enum TooltipDirection {
-  TopLeft = '-left-1 bottom-full mb-2 after:border-t-black after:top-full after:left-2',
-  BottomLeft = '-left-1 top-full mt-2 after:border-b-black after:bottom-full after:left-2',
-  TopRight = '-right-1 bottom-full mb-2 after:border-t-black after:top-full after:right-2',
-  BottomRight = '-right-1 top-full mt-2 after:border-b-black after:bottom-full after:right-2',
+  TOP_LEFT = '-left-1 bottom-full mb-2 after:border-t-black after:top-full after:left-2',
+  BOTTOM_LEFT = '-left-1 top-full mt-2 after:border-b-black after:bottom-full after:left-2',
+  TOP_RIGHT = '-right-1 bottom-full mb-2 after:border-t-black after:top-full after:right-2',
+  BOTTOM_RIGHT = '-right-1 top-full mt-2 after:border-b-black after:bottom-full after:right-2',
 }
 
 interface TooltipProps {
@@ -18,7 +18,7 @@ interface TooltipProps {
 const Tooltip: React.FC<TooltipProps> = ({
   className,
   message,
-  direction = TooltipDirection.TopRight,
+  direction = TooltipDirection.TOP_RIGHT,
   children,
 }) => {
   const isAbsolute = className && className.includes('absolute');

@@ -29,7 +29,7 @@ const Navigation = () => {
       <div className='text-center relative flex items-center justify-center'>
         <RoundedButton
           className='absolute -translate-y-2'
-          size={ButtonSizes.Large}
+          size={ButtonSizes.LARGE}
         >
           <Add20Filled />
         </RoundedButton>

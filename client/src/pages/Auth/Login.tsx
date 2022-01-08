@@ -54,7 +54,7 @@ const Login = () => {
             <div className='grid grid-cols-12 gap-4'>
               <div className='col-span-12'>
                 <TextInput
-                  type={InputTypes.Text}
+                  type={InputTypes.TEXT}
                   name='email'
                   placeholder='Email Address'
                   register={{ ...register('email') }}
@@ -72,8 +72,8 @@ const Login = () => {
               <div className='col-span-12 leading-none'>
                 {loading ? (
                   <Button
-                    variant={ButtonVariants.Primary}
-                    type={ButtonTypes.Button}
+                    variant={ButtonVariants.PRIMARY}
+                    type={ButtonTypes.BUTTON}
                     fluid={true}
                     disabled
                   >
@@ -81,8 +81,8 @@ const Login = () => {
                   </Button>
                 ) : (
                   <Button
-                    variant={ButtonVariants.Primary}
-                    type={ButtonTypes.Submit}
+                    variant={ButtonVariants.PRIMARY}
+                    type={ButtonTypes.SUBMIT}
                     fluid={true}
                   >
                     Sign in
@@ -101,7 +101,7 @@ const Login = () => {
           <div className='grid grid-cols-12 gap-4'>
             <div className='col-span-6'>
               <Button
-                variant={ButtonVariants.Secondary}
+                variant={ButtonVariants.SECONDARY}
                 children='Facebook'
                 fluid={true}
                 prefix={
@@ -116,7 +116,7 @@ const Login = () => {
             </div>
             <div className='col-span-6'>
               <Button
-                variant={ButtonVariants.Secondary}
+                variant={ButtonVariants.SECONDARY}
                 children='Google'
                 fluid={true}
                 prefix={

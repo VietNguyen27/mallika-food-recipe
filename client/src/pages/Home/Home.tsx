@@ -26,7 +26,7 @@ const Home = () => {
         </div>
         <div className='flex items-center justify-center'>
           <button type='button' className='hover:text-orange delay-100'>
-            <Icon type={IconTypes.Outlined} size={24} icon='notifications' />
+            <Icon type={IconTypes.OUTLINED} size={24} icon='notifications' />
           </button>
         </div>
       </div>

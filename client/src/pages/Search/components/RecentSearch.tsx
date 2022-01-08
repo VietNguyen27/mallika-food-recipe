@@ -11,7 +11,7 @@ const RecentSearch = () => {
           <li className='relative px-5 py-3 border-b border-gray-400' key={key}>
             <span>{val}</span>
             <button className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 text-gray-800'>
-              <Icon type={IconTypes.Outlined} size={24} icon='close' />
+              <Icon type={IconTypes.OUTLINED} size={24} icon='close' />
             </button>
           </li>
         ))}

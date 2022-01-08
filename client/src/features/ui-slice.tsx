@@ -1,18 +1,18 @@
 import { capitalizeFirstLetter } from '@helpers/helpers';
 import { createSlice } from '@reduxjs/toolkit';
 
-interface uiState {
+interface UiState {
   [uiName: string]: boolean;
 }
 
-const initialState: uiState = {
+const initialState: UiState = {
   accountDrawerShowing: false,
   likedRecipeDrawerShowing: false,
   notificationDrawerShowing: false,
   editProfileDrawerShowing: false,
 };
 
-const reducersCreator = (initialState: uiState): any => {
+const reducersCreator = (initialState: UiState): any => {
   const reducersObj = {};
 
   Object.keys(initialState).forEach((key) => {

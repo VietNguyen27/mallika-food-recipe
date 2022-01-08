@@ -1,11 +1,11 @@
 import React from 'react';
 
 export enum IconTypes {
-  Filled = '',
-  Outlined = '-outlined',
-  Rounded = '-round',
-  Sharp = '-sharp',
-  TwoTone = '-two-tone',
+  FILLED = '',
+  OUTLINED = '-outlined',
+  ROUNDED = '-round',
+  SHARP = '-sharp',
+  TWO_TONE = '-two-tone',
 }
 
 interface IconProps {
@@ -15,7 +15,7 @@ interface IconProps {
 }
 
 const Icon: React.FC<IconProps> = ({
-  type = IconTypes.Rounded,
+  type = IconTypes.ROUNDED,
   icon,
   size = 24,
 }) => {

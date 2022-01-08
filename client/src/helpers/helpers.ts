@@ -7,7 +7,6 @@ import {
   SECONDS_PER_YEAR,
 } from '@config/constants';
 import { lazy } from 'react';
-import { forwardRef } from 'react';
 
 export const getTime = (hour: Number, minute: Number) => {
   const hourFormatted = hour >= 10 ? hour : '0' + hour;
@@ -48,6 +47,19 @@ export const generateBase64Image = (image: any): string => {
   return `data:image/${imageFormat};base64, ${base64}`;
 };
 
+export const convertBase64 = (file): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+};
+
 export const capitalizeFirstLetter = (text: string): string => {
   return text[0].toUpperCase() + text.substring(1);
 };
@@ -81,4 +93,23 @@ export const timeSince = (date: Date): string => {
   }
 
   return Math.floor(seconds) + ' second ago';
+};
+
+export const uuid = (): number => {
+  const time = new Date().getTime();
+  const array = time.toString().split('');
+  let currentIndex = array.length;
+  let randomIndex;
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return Number(array.join(''));
 };
