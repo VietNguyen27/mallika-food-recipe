@@ -47,7 +47,7 @@ export const Tabs: React.FC<TabsProps> = ({ children, className, ...rest }) => {
 
   return (
     <div className={allClassNames} {...rest}>
-      <ul className='flex gap-3 border-b border-gray-400 px-3 pb-2'>
+      <ul className='flex gap-3 border-b border-gray-400 px-layout pb-2'>
         {children instanceof Array &&
           children.map((child, index) => (
             <TabLabel

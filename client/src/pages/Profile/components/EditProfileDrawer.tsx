@@ -81,7 +81,7 @@ const EditProfileDrawer = () => {
     <Drawer title='Edit Profile' open={active} onClose={() => onCloseDrawer()}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col items-stretch h-full px-3 pb-3'
+        className='flex flex-col items-stretch h-full px-layout pb-3'
       >
         <div className='flex items-center py-3 mb-3 border-b border-gray-300'>
           <input

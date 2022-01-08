@@ -55,7 +55,7 @@ const lastSeenItem = [
 const LastSeen = () => {
   return (
     <div className='mt-4'>
-      <h1 className='text-xl font-medium py-4 px-5'>Last Seen</h1>
+      <h1 className='text-xl font-medium py-4 px-layout'>Last Seen</h1>
       <RecipeList recipes={lastSeenItem} />
     </div>
   );

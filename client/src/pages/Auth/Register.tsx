@@ -42,14 +42,14 @@ function Register() {
       <img src={LandingImage} className='rounded-t-3xl' alt='recipe landing' />
       <div className='rounded-3xl absolute top-1/4 inset-x-0 bg-white'>
         <div className='pt-5'>
-          <div className='px-4 sm:px-0 text-center'>
+          <div className='text-center'>
             <h3 className='text-2xl font-medium leading-6 text-gray-900'>
               Mallika
             </h3>
             <p className='mt-1 text-sm text-gray-900'>Everyone can be a chef</p>
           </div>
         </div>
-        <div className='mt-5 px-5 scrollbar-none overflow-auto h-96'>
+        <div className='mt-5 px-layout scrollbar-none overflow-auto h-96'>
           <form onSubmit={onSubmit}>
             <div className='grid grid-cols-12 gap-4'>
               <div className='col-span-12'>

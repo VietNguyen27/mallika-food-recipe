@@ -31,7 +31,7 @@ const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children }) => {
     ? ReactDOM.createPortal(
         <div className='pt-6 absolute z-40 inset-0 w-full h-full'>
           <div className={allClassNames}>
-            <div className='px-4 pb-3 border-b border-gray-400'>
+            <div className='px-layout pb-3 border-b border-gray-400'>
               <div className='relative flex items-center'>
                 <button onClick={onCloseDrawer}>
                   <ChevronLeft24Regular />
