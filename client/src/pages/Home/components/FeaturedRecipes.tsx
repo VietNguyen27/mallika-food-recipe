@@ -16,7 +16,7 @@ interface FeaturedCommunityRecipes {
   reviews: number;
 }
 
-const featuredCommunityRecipes: FeaturedCommunityRecipes[] = [
+export const featuredCommunityRecipes: FeaturedCommunityRecipes[] = [
   {
     id: 1,
     title: 'Resep Ayam Kuah Santan Pedas Lezat',

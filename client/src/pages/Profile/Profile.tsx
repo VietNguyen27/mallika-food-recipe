@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import Thumbnail from '@img/thumbnail.png';
 import RoundedButton, {
   ButtonSizes,
@@ -14,7 +14,10 @@ import AccountDrawer from './components/AccountDrawer';
 import LikedRecipeDrawer from './components/LikedRecipeDrawer';
 import NotificationDrawer from './components/NotificationDrawer';
 import ReviewList from '@components/Review/ReviewList';
+import FeatureCardList from '@components/FeatureCard/FeatureCardList';
 import { uiActions } from '@features/ui-slice';
+import { featuredCommunityRecipes } from '@pages/Home/components/FeaturedRecipes';
+import cx from 'clsx';
 
 import RecipeImage1 from '@img/recipe-1.png';
 import RecipeImage2 from '@img/recipe-2.png';
@@ -67,10 +70,28 @@ const dumbReviews = [
 ];
 
 const Profile = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
   const dispatch = useDispatch();
   const user: any = useSelector(selectorUser);
+  const profileClassNames = cx(
+    'px-4 -mb-6 transition-transform',
+    isScrolled ? '-translate-y-10' : 'translate-y-0'
+  );
+  const tabsClassNames = cx(
+    'transition-transform pt-2 bg-white',
+    isScrolled ? '-translate-y-24' : 'translate-y-0'
+  );
 
   if (!user) return <Loading />;
+
+  const onScroll = (e: ChangeEvent<HTMLInputElement>) => {
+    const element = e.target;
+
+    if (element && element.scrollTop > 0) {
+      return setIsScrolled(true);
+    }
+    return setIsScrolled(false);
+  };
 
   return (
     <>
@@ -89,7 +110,7 @@ const Profile = () => {
           <List20Regular />
         </RoundedButton>
       </div>
-      <div className='px-4 -mb-6'>
+      <div className={profileClassNames}>
         <div className='relative bg-white text-center -translate-y-10 rounded-t-2xl'>
           <img
             src={generateBase64Image(user.avatar)}
@@ -102,11 +123,25 @@ const Profile = () => {
           <p className='text-gray-800 text-sm'>0 Followers · 0 Following</p>
         </div>
       </div>
-      <Tabs>
-        <Tab label='Posts'>
-          <div>posts</div>
+      <Tabs className={tabsClassNames} onTrigger={() => setIsScrolled(false)}>
+        <Tab
+          label='Posts'
+          className={cx(
+            'pt-3 px-3 overflow-auto scrollbar-none',
+            isScrolled ? 'h-96 pb-10' : 'h-72 pb-8'
+          )}
+          onScroll={onScroll}
+        >
+          <FeatureCardList recipes={featuredCommunityRecipes} />
         </Tab>
-        <Tab label='Reviews' className='h-72 pb-8 overflow-auto scrollbar-none'>
+        <Tab
+          label='Reviews'
+          className={cx(
+            'overflow-auto scrollbar-none',
+            isScrolled ? 'h-96 pb-10' : 'h-72 pb-8'
+          )}
+          onScroll={onScroll}
+        >
           <ReviewList reviews={dumbReviews} />
         </Tab>
       </Tabs>
