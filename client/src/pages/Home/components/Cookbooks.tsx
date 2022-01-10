@@ -47,7 +47,7 @@ const Cookbooks = () => {
           />
         </div>
         <div className='relative w-full h-3/5 -mt-14 flex items-center justify-center'>
-          <div className='rounded-2xl flex items-center justify-center flex-col text-center h-full mb-auto bg-white py-5 mx-4'>
+          <div className='rounded-2xl flex items-center justify-center flex-col text-center h-full mb-auto bg-white p-5 mx-4'>
             <div className='p-3 border border-gray-400 rounded-full mb-3'>
               <img
                 src={UnionImage}

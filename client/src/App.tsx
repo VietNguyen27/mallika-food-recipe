@@ -17,6 +17,7 @@ const HomePage = lazyImportWithDelay(import('@pages/Home/Home'));
 const SearchPage = lazyImportWithDelay(import('@pages/Search/Search'));
 const GroceryPage = lazyImportWithDelay(import('@pages/Grocery/Grocery'));
 const ProfilePage = lazyImportWithDelay(import('@pages/Profile/Profile'));
+const DetailCookbookPage = lazyImportWithDelay(import('@pages/DetailCookbook/DetailCookbook'));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ const App = () => {
               <Route path='/search' element={<SearchPage />} />
               <Route path='/grocery' element={<GroceryPage />} />
               <Route path='/profile' element={<ProfilePage />} />
+              <Route path='/detail-cookbook' element={<DetailCookbookPage />} />
             </Route>
           </Route>
         </Routes>

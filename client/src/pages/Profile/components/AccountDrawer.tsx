@@ -31,7 +31,7 @@ const AccountDrawer = () => {
       open={active}
       onClose={() => dispatch(uiActions.setAccountDrawerShowing(false))}
     >
-      <div className='flex flex-col items-stretch px-3.5'>
+      <div className='flex flex-col items-stretch px-layout'>
         <div className='py-3.5 border-b border-gray-400'>
           <div className='flex justify-between items-center gap-2'>
             <div>

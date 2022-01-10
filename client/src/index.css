@@ -136,7 +136,7 @@ body {
   font-weight: 400;
 }
 
-input {
+input[type=password]  {
   font-family: 'Roboto', sans-serif;
   letter-spacing: 0.5px;
 }

@@ -94,6 +94,9 @@ module.exports = {
           },
         },
       },
+      padding: {
+        layout: '16px'
+      }
     },
     animationDelay: {
       'negative-1000': '-1000ms',
