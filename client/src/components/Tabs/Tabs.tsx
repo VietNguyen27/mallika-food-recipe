@@ -45,7 +45,7 @@ export const Tabs: React.FC<TabsProps> = ({
   ...rest
 }) => {
   const [activeTab, setActiveTab] = useState(children[0].props.label);
-  const defaultClassName = 'flex flex-col items-stretch';
+  const defaultClassName = 'flex flex-col items-stretch h-full';
   const allClassNames = cx(defaultClassName, className);
 
   const changeTab = (tab) => {

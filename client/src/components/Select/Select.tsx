@@ -40,10 +40,9 @@ export const Select: React.FC<SelectProps> = ({
   const [showDropdown, setShowDropdown] = useState(false);
   const selectContainerRef = useRef(null);
   const selectClassNames = cx(
-    variant === SelectVariants.PRIMARY &&
-      'p-2 mb-1 border block w-full outline-0 border-gray-300 rounded-md text-sm placeholder-gray-600',
-    variant === SelectVariants.SECONDARY &&
-      'pb-1 pt-1 border-b block w-full outline-0 border-gray-300 text-sm placeholder-gray-600'
+    'block w-full outline-0 border-gray-300 text-sm placeholder-gray-600',
+    variant === SelectVariants.PRIMARY && 'p-2 mb-1 border rounded-md',
+    variant === SelectVariants.SECONDARY && 'pb-1 pt-1 border-b'
   );
 
   const handleClickOutside = () => setShowDropdown(false);
@@ -83,7 +82,7 @@ export const Select: React.FC<SelectProps> = ({
         )}
       >
         <div
-          className='w-7/12 bg-white -translate-y-8 rounded-md shadow-lg overflow-hidden'
+          className='w-7/12 bg-white -translate-y-8 rounded-md shadow-lg overflow-hidden animate-zoom-in'
           ref={selectContainerRef}
         >
           <p className='text-sm font-semibold px-3 pt-2 pb-1'>

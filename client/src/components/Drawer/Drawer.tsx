@@ -13,7 +13,7 @@ interface DrawerProps {
 const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children }) => {
   const [active, setActive] = useState<boolean>(true);
   const defaultClassName =
-    'w-full h-full bg-white py-5 flex flex-col items-stretch';
+    'w-full h-full bg-white pt-5 flex flex-col items-stretch';
   const allClassNames = cx(
     defaultClassName,
     active ? 'animate-slide-in' : 'animate-slide-out'
@@ -29,7 +29,7 @@ const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children }) => {
 
   return open
     ? ReactDOM.createPortal(
-        <div className='pt-6 absolute z-40 inset-0 w-full h-full'>
+        <div className='py-6 absolute z-40 inset-0 w-full h-full'>
           <div className={allClassNames}>
             <div className='px-layout pb-3 border-b border-gray-400'>
               <div className='relative flex items-center'>
