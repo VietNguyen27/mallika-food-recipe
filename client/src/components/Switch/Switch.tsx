@@ -1,16 +1,43 @@
 import React, { useState } from 'react';
 import cx from 'clsx';
 
+export enum SwitchSizes {
+  LARGE = 'large',
+  MEDIUM = 'medium',
+  SMALL = 'small',
+  EXTRA_SMALL = 'extra small',
+}
+
+const SwitchContainerSize = Object.freeze({
+  [SwitchSizes.LARGE]: 'w-[52px] h-[28px]',
+  [SwitchSizes.MEDIUM]: 'w-[44px] h-[24px]',
+  [SwitchSizes.SMALL]: 'w-[36px] h-[20px]',
+  [SwitchSizes.EXTRA_SMALL]: 'w-[28px] h-[16px]',
+});
+
+const SwitchToggleSize = Object.freeze({
+  [SwitchSizes.LARGE]: 'w-[24px]',
+  [SwitchSizes.MEDIUM]: 'w-[20px]',
+  [SwitchSizes.SMALL]: 'w-[16px]',
+  [SwitchSizes.EXTRA_SMALL]: 'w-[12px]',
+});
+
 interface SwitchProps {
+  size?: SwitchSizes;
   className?: string;
   onChange: () => void;
 }
 
-const Switch: React.FC<SwitchProps> = ({ className, onChange }) => {
+const Switch: React.FC<SwitchProps> = ({
+  size = SwitchSizes.MEDIUM,
+  className,
+  onChange,
+}) => {
   const [isActive, setIsActive] = useState(false);
-  const defaultClassNames = 'relative w-10 h-6 rounded-full cursor-pointer';
+  const defaultClassNames = 'relative rounded-full cursor-pointer';
   const allClassNames = cx(
     defaultClassNames,
+    SwitchContainerSize[size],
     isActive ? 'bg-orange' : 'bg-gray-800',
     className
   );
@@ -24,8 +51,9 @@ const Switch: React.FC<SwitchProps> = ({ className, onChange }) => {
     <div className={allClassNames} onClick={onClick}>
       <span
         className={cx(
-          'absolute inset-0.5 w-1/2 bg-white rounded-full transition-transform',
-          isActive && 'translate-x-3/4'
+          'absolute inset-0.5 bg-white rounded-full transition-transform',
+          SwitchToggleSize[size],
+          isActive && 'translate-x-full'
         )}
       ></span>
     </div>

@@ -5,7 +5,6 @@ import RoundedButton, {
   ButtonRoundShape,
   ButtonVariants,
 } from '@components/Button/RoundedButton';
-import { Tab } from '@components/Tabs/Tabs';
 import Switch from '@components/Switch/Switch';
 import { Option, Select } from '@components/Select/Select';
 import { RECIPES_BY_DIFFICULTY } from '@config/recipe';

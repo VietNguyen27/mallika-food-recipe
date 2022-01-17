@@ -23,6 +23,7 @@ interface TextInputProps {
   register?: any;
   error?: string;
   className?: string;
+  inputClassName?: string;
   readOnly?: boolean;
   suffix?: ReactNode;
 }
@@ -36,6 +37,7 @@ const TextInput: React.FC<TextInputProps> = ({
   register,
   error,
   className,
+  inputClassName,
   readOnly,
   suffix,
   ...otherProps
@@ -43,6 +45,7 @@ const TextInput: React.FC<TextInputProps> = ({
   const formGroupClassNames = cx('relative', className);
   const inputClassNames = cx(
     'block w-full outline-0 border-gray-300 text-sm placeholder-gray-600',
+    inputClassName,
     variant === InputVariants.PRIMARY && 'p-2 mb-1 border rounded-md',
     variant === InputVariants.SECONDARY && 'pb-1 pt-1 border-b'
   );
