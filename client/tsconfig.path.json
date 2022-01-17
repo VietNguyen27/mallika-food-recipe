@@ -5,6 +5,7 @@
       "@api/*": ["src/api/*"],
       "@fonts/*": ["src/assets/fonts/*"],
       "@img/*": ["src/assets/img/*"],
+      "@common/*": ["src/common/*"],
       "@components/*": ["src/components/*"],
       "@config/*": ["src/config/*"],
       "@features/*": ["src/features/*"],

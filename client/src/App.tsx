@@ -4,10 +4,11 @@ import Phone from '@layout/Phone/Phone';
 import Main from '@layout/Main/Main';
 import { Loading } from '@components/Loading/Loading';
 import { lazyImportWithDelay } from '@helpers/helpers';
-import { clearErrors, fetchUser } from '@features/auth-slice';
+import { clearErrors, fetchUser, logout } from '@features/auth-slice';
 import { useDispatch } from 'react-redux';
 import { PrivateRoute } from '@routes/PrivateRoute';
 import { PublicRoute } from '@routes/PubliceRoute';
+import AuthVerify from '@common/AuthVerify';
 
 const LandingPage = lazyImportWithDelay(import('@pages/Landing/Landing'));
 const LoginPage = lazyImportWithDelay(import('@pages/Auth/Login'));
@@ -17,7 +18,9 @@ const HomePage = lazyImportWithDelay(import('@pages/Home/Home'));
 const SearchPage = lazyImportWithDelay(import('@pages/Search/Search'));
 const GroceryPage = lazyImportWithDelay(import('@pages/Grocery/Grocery'));
 const ProfilePage = lazyImportWithDelay(import('@pages/Profile/Profile'));
-const DetailCookbookPage = lazyImportWithDelay(import('@pages/DetailCookbook/DetailCookbook'));
+const DetailCookbookPage = lazyImportWithDelay(
+  import('@pages/DetailCookbook/DetailCookbook')
+);
 
 const App = () => {
   const dispatch = useDispatch();
@@ -52,6 +55,7 @@ const App = () => {
             </Route>
           </Route>
         </Routes>
+        <AuthVerify logout={logout} />
       </Suspense>
     </Phone>
   );

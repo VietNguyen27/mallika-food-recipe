@@ -15,17 +15,25 @@ export enum ButtonAs {
 }
 
 export enum ButtonVariants {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-  DISABLED = 'disabled',
+  PRIMARY = 'text-white bg-orange cursor-pointer hover:opacity-80',
+  SECONDARY = 'bg-white cursor-pointer hover:bg-gray-100',
+  DISABLED = 'bg-gray-300 text-black cursor-not-allowed hover:bg-gray-200',
 }
 
 export enum ButtonSizes {
-  EXTRA_LARGE = 'xl',
-  LARGE = 'lg',
-  MEDIUM = 'md',
-  SMALL = 'sm',
-  EXTRA_SMALL = 'xs',
+  EXTRA_LARGE = 'p-4.5',
+  LARGE = 'p-3.5',
+  MEDIUM = 'p-2.5',
+  SMALL = 'p-2',
+  EXTRA_SMALL = 'p-1.5',
+}
+
+export enum ButtonRoundShape {
+  FULL = 'rounded-full',
+  EXTRA_LARGE = 'rounded-xl',
+  LARGE = 'rounded-lg',
+  MEDIUM = 'rounded-md',
+  SMALL = 'rounded-sm',
 }
 
 type BaseProps = {
@@ -34,36 +42,7 @@ type BaseProps = {
   variant?: ButtonVariants;
   type?: ButtonTypes;
   size?: ButtonSizes;
-};
-
-const variantButton = (variant: string): string => {
-  switch (variant) {
-    case ButtonVariants.PRIMARY:
-      return 'text-white bg-orange cursor-pointer hover:opacity-80';
-    case ButtonVariants.SECONDARY:
-      return 'bg-white cursor-pointer hover:bg-gray-100';
-    case ButtonVariants.DISABLED:
-      return 'bg-gray-300 text-black cursor-not-allowed hover:bg-gray-200';
-    default:
-      return '';
-  }
-};
-
-const sizeButton = (size: string): string => {
-  switch (size) {
-    case ButtonSizes.EXTRA_LARGE:
-      return 'p-4.5';
-    case ButtonSizes.LARGE:
-      return 'p-3.5';
-    case ButtonSizes.MEDIUM:
-      return 'p-2.5';
-    case ButtonSizes.SMALL:
-      return 'p-2';
-    case ButtonSizes.EXTRA_SMALL:
-      return 'p-1.5';
-    default:
-      return '';
-  }
+  rounded?: ButtonRoundShape;
 };
 
 type ButtonAsButton = BaseProps &
@@ -78,22 +57,17 @@ type ButtonAsLink = BaseProps &
 
 type ButtonProps = ButtonAsButton | ButtonAsLink;
 
-const Button: React.FC<ButtonProps> = ({
+const RoundedButton: React.FC<ButtonProps> = ({
   children,
   className,
   variant = ButtonVariants.PRIMARY,
   type = ButtonTypes.BUTTON,
   size = ButtonSizes.MEDIUM,
+  rounded = ButtonRoundShape.FULL,
   ...otherProps
 }) => {
-  const defaultClassName =
-    'rounded-full flex items-center justify-center transition-all';
-  const allClassNames = cx(
-    defaultClassName,
-    className,
-    sizeButton(size),
-    variantButton(variant)
-  );
+  const defaultClassName = 'flex items-center justify-center transition-all';
+  const allClassNames = cx(defaultClassName, className, rounded, size, variant);
 
   if (otherProps.as === ButtonAs.LINK) {
     return (
@@ -109,4 +83,4 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-export default Button;
+export default RoundedButton;

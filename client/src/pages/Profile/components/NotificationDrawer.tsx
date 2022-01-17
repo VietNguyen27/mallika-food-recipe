@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
 import { NOTIFICATION_TYPES } from '@config/notification';
-import Button from '@components/Button/RoundedButton';
+import Button from '@components/Button/Button';
 import { ButtonSizes } from '@components/Button/Button';
 
 const dumbNotifications = [
@@ -67,8 +67,8 @@ const NotificationDrawer = () => {
       <div className='relative h-full overflow-auto scrollbar-none'>
         <NotificationList notifications={dumbNotifications} />
         <Button
-          className='absolute left-1/2 bottom-1 -translate-x-1/2 px-4'
-          size={ButtonSizes.EXTRA_SMALL}
+          className='absolute left-1/2 bottom-1 -translate-x-1/2 rounded-full'
+          size={ButtonSizes.SMALL}
         >
           Mark all as Read
         </Button>

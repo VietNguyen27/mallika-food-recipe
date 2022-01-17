@@ -36,7 +36,7 @@ const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children }) => {
                 <button onClick={onCloseDrawer}>
                   <ChevronLeft24Regular />
                 </button>
-                <h3 className='text-xl absolute left-1/2 top-1/2 -mt-0.5 -translate-x-1/2 -translate-y-1/2'>
+                <h3 className='text-xl whitespace-nowrap absolute left-1/2 top-1/2 -mt-0.5 -translate-x-1/2 -translate-y-1/2'>
                   {title}
                 </h3>
               </div>

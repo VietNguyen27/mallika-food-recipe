@@ -10,6 +10,7 @@ const initialState: UiState = {
   likedRecipeDrawerShowing: false,
   notificationDrawerShowing: false,
   editProfileDrawerShowing: false,
+  addRecipeDrawerShowing: false,
 };
 
 const reducersCreator = (initialState: UiState): any => {

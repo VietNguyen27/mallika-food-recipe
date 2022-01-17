@@ -7,7 +7,7 @@ import {
 } from '@fluentui/react-icons';
 import { DIFFICULTY_NAME, RECIPES_BY_TYPE } from '@config/recipe';
 import Button from '@components/Button/RoundedButton';
-import { ButtonSizes } from '@components/Button/Button';
+import { ButtonSizes } from '@components/Button/RoundedButton';
 
 const RecipeItem = ({ title, image, time, difficulty, type, published }) => {
   const { ME, LIKED } = RECIPES_BY_TYPE;

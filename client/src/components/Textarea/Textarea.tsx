@@ -1,35 +1,34 @@
-import { ReactNode } from 'react';
 import Tooltip from '@components/Tooltip/Tooltip';
 import { EditOff16Regular } from '@fluentui/react-icons';
 import cx from 'clsx';
 
-export enum InputTypes {
+export enum TextareaTypes {
   TEXT = 'text',
   EMAIL = 'email',
 }
 
-export enum InputVariants {
+export enum TextareaVariants {
   PRIMARY = 'primary',
   SECONDARY = 'secondary',
 }
 
-interface TextInputProps {
-  type?: InputTypes;
-  variant?: InputVariants;
+interface TextareaProps {
+  type?: TextareaTypes;
+  variant?: TextareaVariants;
   label?: string;
   name: string;
   defaultValue?: string;
-  placeholder?: string;
+  placeholder: string;
   register?: any;
   error?: string;
   className?: string;
   readOnly?: boolean;
-  suffix?: ReactNode;
+  rows: number;
 }
 
-const TextInput: React.FC<TextInputProps> = ({
-  type = InputTypes.TEXT,
-  variant = InputVariants.PRIMARY,
+const Textarea: React.FC<TextareaProps> = ({
+  type = TextareaTypes.TEXT,
+  variant = TextareaVariants.PRIMARY,
   label,
   name,
   placeholder,
@@ -37,14 +36,14 @@ const TextInput: React.FC<TextInputProps> = ({
   error,
   className,
   readOnly,
-  suffix,
+  defaultValue,
   ...otherProps
 }) => {
   const formGroupClassNames = cx('relative', className);
-  const inputClassNames = cx(
-    'block w-full outline-0 border-gray-300 text-sm placeholder-gray-600',
-    variant === InputVariants.PRIMARY && 'p-2 mb-1 border rounded-md',
-    variant === InputVariants.SECONDARY && 'pb-1 pt-1 border-b'
+  const textareaClassNames = cx(
+    'block w-full outline-0 border-gray-300 text-sm placeholder-gray-600 resize-none',
+    variant === TextareaVariants.PRIMARY && 'p-2 mb-1 border rounded-md',
+    variant === TextareaVariants.SECONDARY && 'pb-1 pt-1 border-b'
   );
 
   return (
@@ -52,8 +51,8 @@ const TextInput: React.FC<TextInputProps> = ({
       {label && (
         <label className='text-sm text-gray-800 capitalize'>{label}</label>
       )}
-      <input
-        className={inputClassNames}
+      <textarea
+        className={textareaClassNames}
         type={type}
         name={name}
         placeholder={placeholder}
@@ -61,7 +60,9 @@ const TextInput: React.FC<TextInputProps> = ({
         readOnly={readOnly}
         {...register}
         {...otherProps}
-      />
+      >
+        {defaultValue}
+      </textarea>
       {readOnly && (
         <Tooltip
           message='This field cannot be edited'
@@ -75,9 +76,8 @@ const TextInput: React.FC<TextInputProps> = ({
           {error}
         </span>
       )}
-      {suffix && suffix}
     </div>
   );
 };
 
-export default TextInput;
+export default Textarea;
