@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import cx from 'clsx';
+import { FieldValues, UseFormSetValue } from 'react-hook-form';
 
 export enum SwitchSizes {
   LARGE = 'large',
@@ -23,12 +24,14 @@ const SwitchToggleSize = Object.freeze({
 });
 
 interface SwitchProps {
+  name: string;
   size?: SwitchSizes;
   className?: string;
-  onChange: () => void;
+  onChange: UseFormSetValue<FieldValues>;
 }
 
 const Switch: React.FC<SwitchProps> = ({
+  name,
   size = SwitchSizes.MEDIUM,
   className,
   onChange,
@@ -44,7 +47,7 @@ const Switch: React.FC<SwitchProps> = ({
 
   const onClick = () => {
     setIsActive((prevState) => !prevState);
-    onChange();
+    onChange(name, !isActive);
   };
 
   return (

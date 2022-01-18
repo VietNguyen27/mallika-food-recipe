@@ -1,4 +1,5 @@
 import {
+  MINIMUM_AUTH_DELAY,
   MINIMUM_LOADER_DELAY,
   SECONDS_PER_DAY,
   SECONDS_PER_HOUR,
@@ -112,4 +113,34 @@ export const uuid = (): number => {
   }
 
   return Number(array.join(''));
+};
+
+export const slowLoading = async (): Promise<void> => {
+  return new Promise(function (resolve, reject) {
+    setTimeout(resolve, MINIMUM_AUTH_DELAY);
+  });
+};
+
+export const getTextWidth = (text: string, font = 'Cera Pro') => {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  ctx!.font = font;
+  return ctx!.measureText(text).width;
+};
+
+export const isNumberValid = (val: string): boolean => {
+  const regexp = /^[0-9]+$/;
+
+  if (!regexp.test(val)) {
+    return false;
+  }
+
+  const number = Number(val);
+
+  if (!Number.isInteger(number) || Number.isNaN(number)) {
+    return false;
+  }
+
+  return true;
 };

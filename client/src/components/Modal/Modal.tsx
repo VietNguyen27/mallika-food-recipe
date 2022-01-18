@@ -20,7 +20,7 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   const modalRef = useRef(null);
   const defaultClassNames =
-    'w-2/3 bg-white rounded-md overflow-hidden shadow-lg animate-zoom-in';
+    'w-3/4 bg-white rounded-md overflow-hidden shadow-lg animate-zoom-in';
   const modalClassNames = cx(defaultClassNames, className);
   const handleClickOutside = () => onClose();
 

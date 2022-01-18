@@ -5,6 +5,8 @@ export const URL_AUTH_LOGIN = `${SERVER_BASE_URL}/auth/login`;
 export const URL_USER_ME = `${SERVER_BASE_URL}/users/me`;
 export const URL_USER_UPDATE = `${SERVER_BASE_URL}/users`;
 
+export const URL_RECIPE_CREATE = `${SERVER_BASE_URL}/recipe`;
+
 export const MINIMUM_LOADER_DELAY = 500;
 export const MINIMUM_AUTH_DELAY = 1000;
 
@@ -16,3 +18,6 @@ export const SECONDS_PER_HOUR = 3600;
 export const SECONDS_PER_DAY = 86400;
 export const SECONDS_PER_MONTH = 2592000;
 export const SECONDS_PER_YEAR = 31536000;
+
+export const UPWARDS = 'upwards';
+export const DOWNWARDS = 'downwards';

@@ -4,6 +4,7 @@ import React, {
   ReactChildren,
   useRef,
   Fragment,
+  cloneElement,
 } from 'react';
 import cx from 'clsx';
 import useOnClickOutside from '@hooks/useOnClickOutside';
@@ -16,10 +17,12 @@ export enum SelectVariants {
 
 interface SelectProps {
   variant?: SelectVariants;
+  name: string;
   label: string;
   defaultValue?: string | number;
   className?: string;
   children: ReactChild | ReactChildren | ReactChild[] | ReactChildren[];
+  onChange: (name: string, value: string | number) => void;
 }
 
 interface OptionProps {
@@ -31,10 +34,12 @@ interface OptionProps {
 
 export const Select: React.FC<SelectProps> = ({
   variant = SelectVariants.SECONDARY,
+  name,
   label,
   defaultValue,
   className,
   children,
+  onChange,
 }) => {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -52,6 +57,7 @@ export const Select: React.FC<SelectProps> = ({
   const onChangeOption = (value: string) => {
     setSelectedOption(value);
     setShowDropdown(false);
+    onChange(name, value);
   };
 
   return (
@@ -93,7 +99,7 @@ export const Select: React.FC<SelectProps> = ({
               children.map((child, index) => {
                 return (
                   <Fragment key={index}>
-                    {React.cloneElement(child, {
+                    {cloneElement(child, {
                       selectedOption,
                       onChangeOption,
                     })}

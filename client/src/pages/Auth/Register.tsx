@@ -55,34 +55,30 @@ function Register() {
               <div className='col-span-12'>
                 <TextInput
                   type={InputTypes.TEXT}
-                  name='name'
                   placeholder='Name'
-                  register={{ ...register('name') }}
                   error={authError['name']}
+                  {...register('name')}
                 />
               </div>
               <div className='col-span-12'>
                 <TextInput
                   type={InputTypes.TEXT}
-                  name='email'
                   placeholder='Email Address'
-                  register={{ ...register('email') }}
                   error={authError['email']}
+                  {...register('email')}
                 />
               </div>
               <div className='col-span-12'>
                 <PasswordInput
-                  name='password'
                   placeholder='Password'
-                  register={{ ...register('password') }}
+                  {...register('password')}
                   error={authError['password']}
                 />
               </div>
               <div className='col-span-12'>
                 <PasswordInput
-                  name='password_confirmation'
                   placeholder='Confirm Password'
-                  register={{ ...register('password_confirmation') }}
+                  {...register('password_confirmation')}
                   error={authError['password_confirmation']}
                 />
               </div>

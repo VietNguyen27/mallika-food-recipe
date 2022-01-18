@@ -4,70 +4,48 @@ import RoundedButton, {
 } from '@components/Button/RoundedButton';
 import { Add20Filled } from '@fluentui/react-icons';
 import useToggle from '@hooks/useToggle';
-import Modal from '@components/Modal/Modal';
-import Switch, { SwitchSizes } from '@components/Switch/Switch';
-import Button, { ButtonSizes } from '@components/Button/Button';
-import TextInput from '@components/Input/TextInput';
 import RecipeWidget from './RecipeWidget';
-
-const ingredientsDummy = [
-  {
-    id: 1,
-    title: 'Bahan',
-    isHeader: true,
-  },
-  {
-    id: 2,
-    title: '1 buah wortel, potong-potong',
-    isHeader: false,
-  },
-  {
-    id: 3,
-    title: '5 potong sayap ayam',
-    isHeader: false,
-  },
-  {
-    id: 4,
-    title: '200 gr makaroni atau fusilli',
-    isHeader: false,
-  },
-];
+import { useSelector } from 'react-redux';
+import { selectorRecipeIngredients } from '@features/recipe-slice';
+import ListEmpty from '@img/list-empty.png';
+import ModalAddWidget from './ModalAddWidget';
 
 const IngredientTab = () => {
+  const [editable, setEditable] = useState(false);
   const { isShowing, toggle } = useToggle();
+  const ingredients = useSelector(selectorRecipeIngredients);
 
   return (
     <>
       <div className='relative h-full flex flex-col items-stretch px-3 pt-3'>
-        {ingredientsDummy.map((ingredient) => (
-          <RecipeWidget key={ingredient.id} {...ingredient} />
-        ))}
+        {ingredients.length > 0 ? (
+          ingredients.map((ingredient) => (
+            <RecipeWidget
+              key={ingredient._id}
+              type='ingredients'
+              setEditable={setEditable}
+              {...ingredient}
+            />
+          ))
+        ) : (
+          <div className='flex flex-col items-center text-center pt-8 px-4'>
+            <img src={ListEmpty} alt='no ingredients yet' width='180' />
+            <h4 className='font-semibold'>No ingredients yet!</h4>
+            <p>Click the button below to create some ingredients.</p>
+          </div>
+        )}
         <div className='fixed bottom-4 right-4'>
           <RoundedButton variant={ButtonVariants.PRIMARY} onClick={toggle}>
             <Add20Filled />
           </RoundedButton>
         </div>
       </div>
-      <Modal title='Add new Ingredient' isShowing={isShowing} onClose={toggle}>
-        <form>
-          <TextInput
-            name='ingredient'
-            placeholder='Type ingredient'
-            className='pt-4 pb-1'
-            inputClassName='py-1 px-2'
-          />
-          <div className='flex justify-between items-center pb-4'>
-            <span className='text-sm text-gray-800'>Set it item?</span>
-            <Switch
-              size={SwitchSizes.EXTRA_SMALL}
-              onChange={() => console.log(123)}
-            />
-          </div>
-          <Button size={ButtonSizes.EXTRA_SMALL} fluid={true}>
-            Add
-          </Button>
-        </form>
-      </Modal>
+      <ModalAddWidget
+        type='ingredients'
+        isShowing={isShowing}
+        toggle={toggle}
+        editable={editable}
+      />
     </>
   );
 };

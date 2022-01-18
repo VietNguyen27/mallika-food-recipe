@@ -58,9 +58,8 @@ const DetailCookbook = () => {
       <form onSubmit={onSubmit} className='px-layout pt-4'>
         <SearchInput
           placeholder='Recipe Title, Ingredient'
-          name='recipe-search'
           className='px-4 py-3 bg-gray-100'
-          register={{ ...register('search') }}
+          {...register('search')}
           suffix={
             <button
               type='submit'

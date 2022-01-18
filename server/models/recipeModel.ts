@@ -47,10 +47,10 @@ const RecipeSchema = new Schema<Recipe>(
     },
     ingredients: [
       {
-        name: {
+        title: {
           type: String,
         },
-        isItem: {
+        isHeader: {
           type: Boolean,
           default: false,
         },
@@ -59,10 +59,10 @@ const RecipeSchema = new Schema<Recipe>(
     ],
     steps: [
       {
-        name: {
+        title: {
           type: String,
         },
-        isItem: {
+        isHeader: {
           type: Boolean,
           default: false,
         },
