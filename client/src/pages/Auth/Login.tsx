@@ -55,17 +55,15 @@ const Login = () => {
               <div className='col-span-12'>
                 <TextInput
                   type={InputTypes.TEXT}
-                  name='email'
                   placeholder='Email Address'
-                  register={{ ...register('email') }}
                   error={authError['email']}
+                  {...register('email')}
                 />
               </div>
               <div className='col-span-12'>
                 <PasswordInput
-                  name='password'
                   placeholder='Password'
-                  register={{ ...register('password') }}
+                  {...register('password')}
                   error={authError['password']}
                 />
               </div>

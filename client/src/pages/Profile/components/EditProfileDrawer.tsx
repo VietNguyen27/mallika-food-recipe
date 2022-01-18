@@ -119,30 +119,24 @@ const EditProfileDrawer = () => {
         <TextInput
           type={InputTypes.TEXT}
           variant={InputVariants.SECONDARY}
-          name='name'
           defaultValue={user.name}
           placeholder='Enter profile name'
           label='profile name'
           className='mb-4'
-          register={{
-            ...register('name', {
-              onChange: () => setIsEdited(true),
-            }),
-          }}
+          {...register('name', {
+            onChange: () => setIsEdited(true),
+          })}
         />
         <TextInput
           type={InputTypes.TEXT}
           variant={InputVariants.SECONDARY}
-          name='bio'
           defaultValue={user.bio}
           placeholder='Enter your bio'
           label='bio'
           className='mb-4'
-          register={{
-            ...register('bio', {
-              onChange: () => setIsEdited(true),
-            }),
-          }}
+          {...register('bio', {
+            onChange: () => setIsEdited(true),
+          })}
         />
         <Button
           type={ButtonTypes.SUBMIT}

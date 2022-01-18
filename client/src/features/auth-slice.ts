@@ -2,7 +2,7 @@ import { LoginData } from '@pages/Auth/Login';
 import { RegisterData } from '@pages/Auth/Register';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authApi } from '@api/auth';
-import { MINIMUM_AUTH_DELAY } from '@config/constants';
+import { slowLoading } from '@helpers/helpers';
 
 interface AuthState {
   user: any;
@@ -16,12 +16,6 @@ const initialState: AuthState = {
   loading: false,
   error: [],
   isLoggedIn: false,
-};
-
-const slowLoading = async (): Promise<void> => {
-  return new Promise(function (resolve, reject) {
-    setTimeout(resolve, MINIMUM_AUTH_DELAY);
-  });
 };
 
 export const registerUser = createAsyncThunk(

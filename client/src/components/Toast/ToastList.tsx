@@ -11,7 +11,7 @@ const ToastList = () => {
     ? ReactDOM.createPortal(
         <ul className='absolute z-50 top-8 right-0 px-3 flex flex-col items-stretch'>
           {toasts.map((toast) => (
-            <ToastItem key={toast.id} {...toast} />
+            <ToastItem key={toast._id} {...toast} />
           ))}
         </ul>,
         document.querySelector('main')

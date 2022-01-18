@@ -1,5 +1,6 @@
 import React, { ReactChild, ReactChildren } from 'react';
 import cx from 'clsx';
+import { getTextWidth } from '@helpers/helpers';
 
 export enum TooltipDirection {
   TOP_LEFT = '-left-1 bottom-full mb-2 after:border-t-black after:top-full after:left-2',
@@ -29,8 +30,9 @@ const Tooltip: React.FC<TooltipProps> = ({
     !isAbsolute && 'relative'
   );
   const tooltipClassName = cx(
-    'absolute max-w-[200px] bg-black text-xs text-white whitespace-nowrap p-2 rounded-sm after:w-1 after:h-1 after:border-4 after:border-transparent after:absolute transition-transform opacity-0 invisible group-hover:opacity-100 group-hover:visible',
-    direction
+    'absolute bg-black text-xs text-white text-left p-2 rounded after:w-1 after:h-1 after:border-4 after:border-transparent after:absolute transition-transform opacity-0 invisible group-hover:opacity-100 group-hover:visible',
+    direction,
+    getTextWidth(message) > 150 ? 'w-[150px]' : 'w-auto whitespace-nowrap'
   );
 
   return (

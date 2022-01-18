@@ -24,6 +24,7 @@ export const recipeValidation = ({
         'any.required': 'Title is required. Please enter a valid value!',
       }),
     description: Joi.string()
+      .allow(null, '')
       .max(MAX_LENGTH_1000)
       .messages({
         'string.max': `Description are only allowed up to ${MAX_LENGTH_1000} characters.`,

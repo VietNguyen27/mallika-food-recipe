@@ -19,18 +19,18 @@ const Search = () => {
       <form onSubmit={onSubmit} className='px-layout pt-4'>
         <SearchInput
           placeholder='Recipe Title, Ingredient'
-          name='recipe-search'
           className='px-4 py-3 bg-gray-100'
-          register={{ ...register('search') }}
-        >
-          <button
-            type='submit'
-            className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 text-gray-800'
-            tabIndex={-1}
-          >
-            <Search24Regular />
-          </button>
-        </SearchInput>
+          {...register('search')}
+          suffix={
+            <button
+              type='submit'
+              className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 text-gray-800'
+              tabIndex={-1}
+            >
+              <Search24Regular />
+            </button>
+          }
+        />
       </form>
       <RecentSearch />
       <LastSeen />

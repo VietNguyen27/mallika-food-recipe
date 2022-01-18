@@ -11,18 +11,69 @@ import {
   Flag20Regular,
   Delete20Regular,
 } from '@fluentui/react-icons';
+import { useDispatch } from 'react-redux';
+import {
+  changePositionRecipeWidget,
+  editRecipeWidget,
+  removeRecipeWidget,
+} from '@features/recipe-slice';
+import { DOWNWARDS, UPWARDS } from '@config/constants';
 
 interface RecieWidgetProps {
+  type: string;
+  _id?: string;
   title: string;
   isHeader: boolean;
+  setEditable?: (editable: boolean) => void;
 }
 
-const RecipeWidget: React.FC<RecieWidgetProps> = ({ title, isHeader }) => {
+const RecipeWidget: React.FC<RecieWidgetProps> = ({
+  type,
+  _id,
+  title,
+  isHeader,
+  setEditable,
+}) => {
   const { isShowing, toggle } = useToggle();
+  const dispatch = useDispatch();
   const titleClassNames = cx(
     'pl-2',
-    isHeader ? 'text-lg font-semibold' : 'text-sm'
+    isHeader ? 'text-xl font-semibold' : 'text-sm'
   );
+
+  const onEditWidget = () => {
+    toggle();
+
+    if (setEditable) {
+      setEditable(true);
+    }
+  };
+
+  const onChangeWidgetPosition = (direction) => {
+    dispatch(
+      changePositionRecipeWidget({
+        type,
+        _id,
+        direction,
+      })
+    );
+    toggle();
+  };
+
+  const onSetAsItem = () => {
+    dispatch(editRecipeWidget({ type, _id, isHeader: !isHeader }));
+    toggle();
+  };
+
+  const onRemoveWidget = () => {
+    dispatch(
+      removeRecipeWidget({
+        type,
+        _id,
+      })
+    );
+    toggle();
+  };
 
   return (
     <>
@@ -36,23 +87,23 @@ const RecipeWidget: React.FC<RecieWidgetProps> = ({ title, isHeader }) => {
         </button>
       </div>
       <Dropdown isShowing={isShowing} onClose={toggle}>
-        <DropdownItem onClick={() => console.log(123)}>
+        <DropdownItem onClick={() => onEditWidget()}>
           <Edit20Regular />
           Edit
         </DropdownItem>
-        <DropdownItem onClick={() => console.log(123)}>
+        <DropdownItem onClick={() => onChangeWidgetPosition(UPWARDS)}>
           <ChevronUp20Regular />
           Add Item Above
         </DropdownItem>
-        <DropdownItem onClick={() => console.log(123)}>
+        <DropdownItem onClick={() => onChangeWidgetPosition(DOWNWARDS)}>
           <ChevronDown20Regular />
           Add Item Below
         </DropdownItem>
-        <DropdownItem onClick={() => console.log(123)}>
+        <DropdownItem onClick={() => onSetAsItem()}>
           <Flag20Regular />
-          Set as Item
+          Set as {isHeader ? 'Item' : 'Header'}
         </DropdownItem>
-        <DropdownItem onClick={() => console.log(123)}>
+        <DropdownItem onClick={() => onRemoveWidget()}>
           <Delete20Regular />
           Delete
         </DropdownItem>
