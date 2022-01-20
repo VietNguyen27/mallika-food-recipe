@@ -69,6 +69,7 @@ export const updateUser = createAsyncThunk(
   'users/:id',
   async (body: any, { rejectWithValue }) => {
     try {
+      await slowLoading();
       const { _id, ...rest } = body;
       const response = await authApi.update(_id, rest);
 
@@ -120,11 +121,18 @@ const authSlice = createSlice({
     builder.addCase(fetchUser.fulfilled, (state, action: any) => {
       state.user = action.payload;
     });
+    builder.addCase(updateUser.pending, (state) => {
+      state.loading = true;
+    });
     builder.addCase(updateUser.fulfilled, (state, action: any) => {
+      state.loading = false;
       state.user = {
         ...state.user,
         ...action.payload,
       };
+    });
+    builder.addCase(updateUser.rejected, (state) => {
+      state.loading = false;
     });
   },
 });

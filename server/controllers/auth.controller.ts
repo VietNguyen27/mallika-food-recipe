@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import fs from 'fs';
-import UserModel, { User } from '../models/userModel';
+import UserModel, { User } from '../models/user.model';
 import {
   loginValidation,
   registerValidation,
-} from '../validations/authValidation';
+} from '../validations/auth.validation';
 import {
   base64Encode,
   generateAccessToken,
@@ -16,11 +16,14 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   const { email, password }: User = req.body;
   const { error } = registerValidation(req.body);
 
-  if (error) return res.status(400).json(error.details);
+  if (error) {
+    res.status(400).json(error.details);
+    return;
+  }
 
   const emailExist = await UserModel.findOne({ email });
-  if (emailExist)
-    return res.status(400).json([
+  if (emailExist) {
+    res.status(400).json([
       {
         context: {
           label: 'email',
@@ -28,6 +31,8 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         message: 'Email already registered!',
       },
     ]);
+    return;
+  }
 
   const salt: string = await bcrypt.genSalt(10);
   const hashedPassword: string = await bcrypt.hash(password, salt);
@@ -35,7 +40,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   try {
     const avatarFolder = './server/public/default-avatar';
 
-    fs.readdir(avatarFolder, async (err, files) => {
+    fs.readdir(avatarFolder, async (_, files) => {
       const randomAvatar = files[getRandomNumber(files.length)];
       const base64Image = base64Encode(`${avatarFolder}/${randomAvatar}`);
 
@@ -50,14 +55,17 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
       const user = await newUser.save();
       if (!user)
-        return res
+        res
           .status(400)
           .json({ error: 'Something went wrong while creating your account' });
+      return;
     });
 
-    return res.status(200).json({ email, password });
+    res.status(200).json({ email, password });
+    return;
   } catch (error) {
-    return res.status(400).json({ error });
+    res.status(400).json({ error });
+    return;
   }
 };
 
@@ -65,12 +73,15 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password }: User = req.body;
   const { error } = loginValidation(req.body);
 
-  if (error) return res.status(400).json(error.details);
+  if (error) {
+    res.status(400).json(error.details);
+    return;
+  }
 
   const user = await UserModel.findOne({ email });
 
-  if (!user)
-    return res.status(400).json([
+  if (!user) {
+    res.status(400).json([
       {
         context: {
           label: 'email',
@@ -78,14 +89,16 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         message: "Email doesn't exists. Please try again!",
       },
     ]);
+    return;
+  }
 
   const isValidPassword: boolean = await bcrypt.compare(
     password,
     user.password
   );
 
-  if (!isValidPassword)
-    return res.status(400).json([
+  if (!isValidPassword) {
+    res.status(400).json([
       {
         context: {
           label: 'password',
@@ -93,9 +106,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         message: 'Password is incorrect!',
       },
     ]);
+    return;
+  }
 
   const accessToken = generateAccessToken(user._id);
   req.headers.authorization = 'Bearer ' + accessToken;
 
-  return res.status(200).json(accessToken);
+  res.status(200).json(accessToken);
+  return;
 };

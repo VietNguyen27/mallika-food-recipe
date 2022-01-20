@@ -7,7 +7,7 @@ import {
 } from 'react';
 import cx from 'clsx';
 import Tooltip from '@components/Tooltip/Tooltip';
-import { Info16Filled } from '@fluentui/react-icons';
+import { Info20Filled } from '@fluentui/react-icons';
 
 interface TabsProps {
   children: ReactChild | ReactChildren | ReactChild[] | ReactChildren[];
@@ -52,9 +52,9 @@ const TabLabel: React.FC<TabLabelProps> = ({
       {error && (
         <Tooltip
           message={error}
-          className='absolute top-2 right-0 -translate-y-1/2 text-red-500'
+          className='absolute top-0.5 -right-2 -translate-y-1/2 text-red-500'
         >
-          <Info16Filled />
+          <Info20Filled className='bg-white rounded-full' />
         </Tooltip>
       )}
     </li>

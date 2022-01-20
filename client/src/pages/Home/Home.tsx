@@ -10,7 +10,7 @@ import Categories from './components/Categories';
 const Home = () => {
   const user: any = useSelector(selectorUser);
 
-  if (!user) return <Loading />;
+  if (!user) return null;
 
   return (
     <div className='px-layout h-full select-none overflow-auto scrollbar-none pb-12'>

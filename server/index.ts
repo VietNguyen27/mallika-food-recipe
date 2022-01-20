@@ -1,9 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import authRoutes from './routes/authRoute';
-import userRoutes from './routes/userRoute';
-import recipeRoutes from './routes/recipeRoute';
+import authRoutes from './routes/auth.route';
+import userRoutes from './routes/user.route';
+import recipeRoutes from './routes/recipe.route';
 import connectDB from './config/database';
 
 dotenv.config();
@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(express.json());
+app.use(express.json({ limit: '5mb' }));
 app.use(cors());
 
 connectDB();

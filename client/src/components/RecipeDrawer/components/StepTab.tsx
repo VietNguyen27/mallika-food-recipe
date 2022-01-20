@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import RoundedButton, {
-  ButtonVariants,
+  RoundedButtonVariants,
 } from '@components/Button/RoundedButton';
 import { Add20Filled } from '@fluentui/react-icons';
 import useToggle from '@hooks/useToggle';
@@ -35,7 +35,10 @@ const StepTab = () => {
           </div>
         )}
         <div className='fixed bottom-4 right-4'>
-          <RoundedButton variant={ButtonVariants.PRIMARY} onClick={toggle}>
+          <RoundedButton
+            variant={RoundedButtonVariants.PRIMARY}
+            onClick={toggle}
+          >
             <Add20Filled />
           </RoundedButton>
         </div>

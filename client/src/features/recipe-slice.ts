@@ -107,11 +107,11 @@ const recipeSlice = createSlice({
     });
     builder.addCase(createRecipe.fulfilled, (state) => {
       state.loading = false;
+      state.error = [];
     });
     builder.addCase(createRecipe.rejected, (state, action: any) => {
       state.loading = false;
       state.error = action.payload;
-      console.log(action.payload);
     });
   },
 });

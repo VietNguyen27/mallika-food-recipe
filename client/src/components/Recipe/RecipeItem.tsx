@@ -6,8 +6,9 @@ import {
   Heart12Filled,
 } from '@fluentui/react-icons';
 import { DIFFICULTY_NAME, RECIPES_BY_TYPE } from '@config/recipe';
-import Button from '@components/Button/RoundedButton';
-import { ButtonSizes } from '@components/Button/RoundedButton';
+import RoundedButton, {
+  RoundedButtonSizes,
+} from '@components/Button/RoundedButton';
 
 const RecipeItem = ({ title, image, time, difficulty, type, published }) => {
   const { ME, LIKED } = RECIPES_BY_TYPE;
@@ -67,12 +68,12 @@ const RecipeItem = ({ title, image, time, difficulty, type, published }) => {
                 <span className='pr-1'>103</span>
                 <span>Reviews</span>
               </p>
-              <Button
+              <RoundedButton
                 className='absolute right-0 bg-blue-800 mr-4 inline-flex items-center'
-                size={ButtonSizes.EXTRA_SMALL}
+                size={RoundedButtonSizes.EXTRA_SMALL}
               >
                 Published
-              </Button>
+              </RoundedButton>
             </div>
           )}
         </div>

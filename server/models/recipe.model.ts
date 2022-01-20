@@ -1,5 +1,5 @@
 import mongoose, { Schema, model, Types } from 'mongoose';
-import ReviewSchema from './reviewModel';
+import ReviewSchema from './review.model';
 
 export interface Recipe {
   user: Types.ObjectId;

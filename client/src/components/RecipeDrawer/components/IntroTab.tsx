@@ -2,9 +2,10 @@ import React, { useRef, useState } from 'react';
 import TextInput, { InputVariants } from '@components/Input/TextInput';
 import Textarea, { TextareaVariants } from '@components/Textarea/Textarea';
 import RoundedButton, {
-  ButtonRoundShape,
-  ButtonVariants,
+  RoundedButtonShape,
+  RoundedButtonVariants,
 } from '@components/Button/RoundedButton';
+import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
 import Switch from '@components/Switch/Switch';
 import { Option, Select } from '@components/Select/Select';
 import { RECIPES_BY_DIFFICULTY } from '@config/recipe';
@@ -19,14 +20,21 @@ import {
   selectorRecipeSteps,
 } from '@features/recipe-slice';
 import { selectorUser } from '@features/auth-slice';
-import { convertBase64, getErrorFromJoiMessage } from '@helpers/helpers';
+import {
+  convertBase64,
+  getErrorFromJoiMessage,
+  resizeImage,
+} from '@helpers/helpers';
+import { RootState } from '@redux/reducers';
+import { Spinner } from '@components/Loading/Loading';
 
 const IntroTab = () => {
-  const [thumbnail, setThumbnail] = useState(null);
+  const [thumbnail, setThumbnail] = useState<null | string>(null);
   const inputFileRef: any = useRef(null);
   const dispatch = useDispatch();
-  const { register, handleSubmit, setValue, getValues } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const ingredients = useSelector(selectorRecipeIngredients);
+  const { loading } = useSelector(({ recipe }: RootState) => recipe);
   const steps = useSelector(selectorRecipeSteps);
   const user = useSelector(selectorUser);
   const error = useSelector(selectorRecipeError);
@@ -46,8 +54,9 @@ const IntroTab = () => {
     if (input) {
       const files = input.files;
       const imageBase64 = await convertBase64(files[0]);
-      const [imageFormat, base64] = imageBase64.split(';base64,');
-      setThumbnail(imageBase64);
+      const imageResize = await resizeImage(imageBase64, 400, 215);
+      const [imageFormat, base64] = imageResize.split(';base64,');
+      setThumbnail(imageResize);
       setValue('image', {
         base64,
         imageFormat: imageFormat.split('/')[1],
@@ -63,6 +72,7 @@ const IntroTab = () => {
       isPublished: false,
       ingredients,
       steps,
+      image: {},
       ...data,
     };
 
@@ -91,6 +101,7 @@ const IntroTab = () => {
             placeholder='Recipe hours'
             defaultValue={0}
             onlyNumber={true}
+            error={recipeError['time.hour']}
             {...register('time.hour', {
               valueAsNumber: true,
             })}
@@ -101,13 +112,14 @@ const IntroTab = () => {
             placeholder='Recipe minutes'
             defaultValue={30}
             onlyNumber={true}
+            error={recipeError['time.minute']}
             {...register('time.minute', {
               valueAsNumber: true,
             })}
           />
         </div>
       </div>
-      <div className='relative h-40 rounded-md overflow-hidden'>
+      <div className='relative h-40 mt-1'>
         <input
           onChange={() => handleFileSelected()}
           ref={inputFileRef}
@@ -116,25 +128,30 @@ const IntroTab = () => {
         />
         <img
           src={thumbnail ? thumbnail : NoImage}
-          className='absolute inset-0 w-full h-full object-cover'
+          className='absolute inset-0 w-full h-full object-cover rounded-md overflow-hidden'
           alt='thumbnail of recipe'
         />
         <RoundedButton
           className='absolute z-10 top-2 right-2 hover:bg-white'
-          variant={ButtonVariants.SECONDARY}
-          rounded={ButtonRoundShape.MEDIUM}
+          variant={RoundedButtonVariants.SECONDARY}
+          rounded={RoundedButtonShape.MEDIUM}
           onClick={() => onChangeThumbnail()}
         >
           <Edit20Regular />
         </RoundedButton>
+        {recipeError['image'] && (
+          <span className='absolute top-full left-0 text-xs text-red-500'>
+            {recipeError['image']}
+          </span>
+        )}
       </div>
       <Textarea
         label='description'
         variant={TextareaVariants.SECONDARY}
-        name='description'
         placeholder='Recipe description'
         rows={4}
-        register={{ ...register('description') }}
+        error={recipeError['description']}
+        {...register('description')}
       />
       <div className='flex gap-4'>
         <div className='flex-1'>
@@ -155,6 +172,7 @@ const IntroTab = () => {
             variant={InputVariants.SECONDARY}
             defaultValue={1}
             onlyNumber={true}
+            error={recipeError['serve']}
             {...register('serve', {
               valueAsNumber: true,
             })}
@@ -165,6 +183,24 @@ const IntroTab = () => {
         <span className='text-sm text-gray-800'>Publish to Community?</span>
         <Switch name='isPublished' onChange={setValue} />
       </div>
+      {loading ? (
+        <Button
+          type={ButtonTypes.BUTTON}
+          variant={ButtonVariants.PRIMARY}
+          className='mt-1'
+          disabled
+        >
+          <Spinner />
+        </Button>
+      ) : (
+        <Button
+          type={ButtonTypes.SUBMIT}
+          variant={ButtonVariants.PRIMARY}
+          className='mt-1'
+        >
+          Add
+        </Button>
+      )}
     </form>
   );
 };

@@ -16,14 +16,19 @@ const AuthVerify = ({ logout }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const timer = setInterval(() => {
+      if (token) {
+        const decodedJwt = parseJwt(token);
 
-    if (token) {
-      const decodedJwt = parseJwt(token);
-
-      if (decodedJwt.exp * 1000 < Date.now()) {
-        dispatch(logout());
+        if (decodedJwt.exp * 1000 < Date.now()) {
+          dispatch(logout());
+        }
       }
-    }
+    }, 60 * 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
   }, [dispatch, location, logout]);
 
   return null;
