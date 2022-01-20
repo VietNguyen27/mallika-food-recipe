@@ -136,7 +136,24 @@ body {
   font-weight: 400;
 }
 
-input[type=password]  {
+input[type='password'] {
   font-family: 'Roboto', sans-serif;
   letter-spacing: 0.5px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-gray-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray-600);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-800);
 }

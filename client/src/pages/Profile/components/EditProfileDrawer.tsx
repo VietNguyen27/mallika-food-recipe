@@ -10,10 +10,15 @@ import TextInput, {
 } from '@components/Input/TextInput';
 import { useForm } from 'react-hook-form';
 import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
-import { convertBase64, generateBase64Image } from '@helpers/helpers';
+import {
+  convertBase64,
+  generateBase64Image,
+  resizeImage,
+} from '@helpers/helpers';
 import { Camera28Regular } from '@fluentui/react-icons';
 import { createToast } from '@features/toast-slice';
 import { ToastTypes } from '@components/Toast/ToastItem';
+import { Spinner } from '@components/Loading/Loading';
 
 export interface UpdateUserData {
   name: string;
@@ -21,12 +26,14 @@ export interface UpdateUserData {
 }
 
 const EditProfileDrawer = () => {
-  const [avatar, setAvatar] = useState(null);
+  const [avatar, setAvatar] = useState<null | string>(null);
+  const [error, setError] = useState<string>('');
   const [isEdited, setIsEdited] = useState(false);
   const inputFileRef: any = useRef(null);
   const dispatch = useDispatch();
   const { register, reset, handleSubmit, setValue } = useForm();
   const user = useSelector(selectorUser);
+  const { loading } = useSelector(({ auth }: RootState) => auth);
   const active = useSelector(
     ({ ui }: RootState) => ui.editProfileDrawerShowing
   );
@@ -51,8 +58,9 @@ const EditProfileDrawer = () => {
     if (input) {
       const files = input.files;
       const imageBase64 = await convertBase64(files[0]);
-      const [imageFormat, base64] = imageBase64.split(';base64,');
-      setAvatar(imageBase64);
+      const imageResize = await resizeImage(imageBase64, 150, 150);
+      const [imageFormat, base64] = imageResize.split(';base64,');
+      setAvatar(imageResize);
       setValue('avatar', {
         base64,
         imageFormat: imageFormat.split('/')[1],
@@ -62,6 +70,11 @@ const EditProfileDrawer = () => {
   };
 
   const onSubmit = async (data): Promise<void> => {
+    if (!data.name) {
+      setError('Username is not allowed to be empty');
+      return;
+    }
+
     const userEdited = {
       _id: user._id,
       ...data,
@@ -69,6 +82,7 @@ const EditProfileDrawer = () => {
 
     await dispatch(updateUser(userEdited));
     setIsEdited(false);
+    setError('');
     dispatch(
       createToast({
         message: 'Profile update successful!',
@@ -123,6 +137,7 @@ const EditProfileDrawer = () => {
           placeholder='Enter profile name'
           label='profile name'
           className='mb-4'
+          error={error}
           {...register('name', {
             onChange: () => setIsEdited(true),
           })}
@@ -138,14 +153,27 @@ const EditProfileDrawer = () => {
             onChange: () => setIsEdited(true),
           })}
         />
-        <Button
-          type={ButtonTypes.SUBMIT}
-          variant={isEdited ? ButtonVariants.PRIMARY : ButtonVariants.DISABLED}
-          className='mt-auto'
-          disabled={!isEdited}
-        >
-          Save Changes
-        </Button>
+        {loading ? (
+          <Button
+            type={ButtonTypes.BUTTON}
+            variant={ButtonVariants.PRIMARY}
+            className='mt-auto'
+            disabled
+          >
+            <Spinner />
+          </Button>
+        ) : (
+          <Button
+            type={ButtonTypes.SUBMIT}
+            variant={
+              isEdited ? ButtonVariants.PRIMARY : ButtonVariants.DISABLED
+            }
+            className='mt-auto'
+            disabled={!isEdited}
+          >
+            Save Changes
+          </Button>
+        )}
       </form>
     </Drawer>
   );

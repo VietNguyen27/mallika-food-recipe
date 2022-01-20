@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState } from 'react';
 import Thumbnail from '@img/thumbnail.png';
 import RoundedButton, {
-  ButtonSizes,
-  ButtonVariants,
+  RoundedButtonSizes,
+  RoundedButtonVariants,
 } from '@components/Button/RoundedButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectorUser } from '@features/auth-slice';
@@ -82,7 +82,7 @@ const Profile = () => {
     isScrolled ? '-translate-y-24' : 'translate-y-0'
   );
 
-  if (!user) return <Loading />;
+  if (!user) return null;
 
   const onScroll = (e: ChangeEvent<HTMLInputElement>) => {
     const element = e.target;
@@ -103,8 +103,8 @@ const Profile = () => {
         />
         <RoundedButton
           className='absolute z-10 top-4 right-3'
-          variant={ButtonVariants.SECONDARY}
-          size={ButtonSizes.SMALL}
+          variant={RoundedButtonVariants.SECONDARY}
+          size={RoundedButtonSizes.SMALL}
           onClick={() => dispatch(uiActions.setAccountDrawerShowing(true))}
         >
           <List20Regular />

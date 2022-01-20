@@ -32,7 +32,10 @@ const AddRecipeDrawer = () => {
   const active = useSelector(({ ui }: RootState) => ui.addRecipeDrawerShowing);
   const dispatch = useDispatch();
   const error = useSelector(selectorRecipeError);
-  const recipeError = getErrorFromJoiMessage(error);
+  const recipeError: any = getErrorFromJoiMessage(error);
+  const { ingredients, steps, ...intro } = recipeError;
+  const introError =
+    Object.keys(intro).length > 0 ? 'There is some error' : null;
 
   const onCloseDrawer = (): void => {
     dispatch(uiActions.setAddRecipeDrawerShowing(false));
@@ -54,7 +57,7 @@ const AddRecipeDrawer = () => {
               label={label}
               key={label}
               className='h-9/10 overflow-hidden pb-6'
-              error={name !== 'intro' ? recipeError[name] : null}
+              error={name !== 'intro' ? recipeError[name] : introError}
             >
               <div className='h-full overflow-auto scrollbar-none'>
                 <Component />
@@ -63,13 +66,6 @@ const AddRecipeDrawer = () => {
           );
         })}
       </Tabs>
-      <button
-        type='submit'
-        form='add-new-recipe'
-        className='absolute top-5 right-4 text-orange'
-      >
-        Save
-      </button>
     </Drawer>
   );
 };

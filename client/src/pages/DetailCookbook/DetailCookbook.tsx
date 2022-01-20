@@ -9,8 +9,8 @@ import {
   Search24Regular,
 } from '@fluentui/react-icons';
 import RoundedButton, {
-  ButtonSizes,
-  ButtonVariants,
+  RoundedButtonSizes,
+  RoundedButtonVariants,
 } from '@components/Button/RoundedButton';
 
 const DetailCookbook = () => {
@@ -24,15 +24,15 @@ const DetailCookbook = () => {
     <div className='relative h-full overflow-auto scrollbar-none pb-20'>
       <RoundedButton
         className='absolute z-10 top-4 left-3 cursor-pointer'
-        variant={ButtonVariants.SECONDARY}
-        size={ButtonSizes.MEDIUM}
+        variant={RoundedButtonVariants.SECONDARY}
+        size={RoundedButtonSizes.MEDIUM}
       >
         <ChevronLeft24Regular />
       </RoundedButton>
       <RoundedButton
         className='absolute z-10 right-3 top-4 cursor-pointer'
-        variant={ButtonVariants.SECONDARY}
-        size={ButtonSizes.MEDIUM}
+        variant={RoundedButtonVariants.SECONDARY}
+        size={RoundedButtonSizes.MEDIUM}
       >
         <Edit24Regular />
       </RoundedButton>

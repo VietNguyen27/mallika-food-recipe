@@ -5,8 +5,8 @@ import {
   getAllRecipes,
   getRecipeById,
   updateRecipe,
-} from '../controllers/recipeController';
-import { auth } from '../middlewares/authMiddleware';
+} from '../controllers/recipe.controller';
+import { auth } from '../middlewares/auth.middleware';
 
 const router = Router();
 

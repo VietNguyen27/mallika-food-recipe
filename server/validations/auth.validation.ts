@@ -1,19 +1,19 @@
 import Joi from 'joi';
 import { MAX_LENGTH_255, MIN_LENGTH_6 } from '../config/validate';
 
-interface Register {
+interface RegisterData {
   email: string;
   name: string;
   password: string;
   password_confirmation: string;
 }
 
-interface Login {
+interface LoginData {
   email: string;
   password: string;
 }
 
-export const registerValidation = (body: Register) => {
+export const registerValidation = (body: RegisterData) => {
   const schema = Joi.object({
     email: Joi.string()
       .min(MIN_LENGTH_6)
@@ -60,7 +60,7 @@ export const registerValidation = (body: Register) => {
   return schema.validate(body, { abortEarly: false });
 };
 
-export const loginValidation = (body: Login) => {
+export const loginValidation = (body: LoginData) => {
   const schema = Joi.object({
     email: Joi.string()
       .min(MIN_LENGTH_6)
