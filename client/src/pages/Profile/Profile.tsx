@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import Thumbnail from '@img/thumbnail.png';
 import RoundedButton, {
   RoundedButtonSizes,
@@ -9,14 +9,18 @@ import { selectorUser } from '@features/auth-slice';
 import { generateBase64Image } from '@helpers/helpers';
 import { List20Regular } from '@fluentui/react-icons';
 import { Tab, Tabs } from '@components/Tabs/Tabs';
-import { Loading } from '@components/Loading/Loading';
 import AccountDrawer from './components/AccountDrawer';
 import LikedRecipeDrawer from './components/LikedRecipeDrawer';
 import NotificationDrawer from './components/NotificationDrawer';
 import ReviewList from '@components/Review/ReviewList';
 import FeatureCardList from '@components/FeatureCard/FeatureCardList';
 import { uiActions } from '@features/ui-slice';
-import { featuredCommunityRecipes } from '@pages/Home/components/FeaturedRecipes';
+import EditProfileDrawer from './components/EditProfileDrawer';
+import { getMyRecipes, selectorMyRecipes } from '@features/recipe-slice';
+import { RootState } from '@redux/reducers';
+import { FeatureCardSkeleton } from '@components/Skeleton/Skeleton';
+import FeatureCardItem from '@components/FeatureCard/FeatureCardItem';
+import { Loading } from '@components/Loading/Loading';
 import cx from 'clsx';
 
 import RecipeImage1 from '@img/recipe-1.png';
@@ -24,7 +28,6 @@ import RecipeImage2 from '@img/recipe-2.png';
 import RecipeImage3 from '@img/recipe-3.png';
 import RecipeImage4 from '@img/recipe-4.png';
 import RecipeImage5 from '@img/recipe-5.png';
-import EditProfileDrawer from './components/EditProfileDrawer';
 
 const dumbReviews = [
   {
@@ -73,6 +76,10 @@ const Profile = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const dispatch = useDispatch();
   const user: any = useSelector(selectorUser);
+  const my_recipes = useSelector(selectorMyRecipes);
+  const loading = useSelector(
+    ({ loading }: RootState) => loading.myRecipesLoading
+  );
   const profileClassNames = cx(
     'px-4 -mb-6 transition-transform',
     isScrolled ? '-translate-y-10' : 'translate-y-0'
@@ -82,7 +89,13 @@ const Profile = () => {
     isScrolled ? '-translate-y-24' : 'translate-y-0'
   );
 
-  if (!user) return null;
+  useEffect(() => {
+    if (!my_recipes.length) {
+      dispatch(getMyRecipes());
+    }
+  }, [dispatch]);
+
+  if (!user) return <Loading />;
 
   const onScroll = (e: ChangeEvent<HTMLInputElement>) => {
     const element = e.target;
@@ -114,8 +127,7 @@ const Profile = () => {
         <div className='relative bg-white text-center -translate-y-10 rounded-t-2xl'>
           <img
             src={generateBase64Image(user.avatar)}
-            className='absolute left-1/2 border-4 border-white rounded-full -translate-x-1/2 -translate-y-1/2'
-            width={90}
+            className='absolute left-1/2 w-24 h-24 object-cover border-4 border-white rounded-full -translate-x-1/2 -translate-y-1/2'
             alt='user avatar'
           />
           <h3 className='text-xl font-medium pt-12'>{user.name}</h3>
@@ -132,7 +144,15 @@ const Profile = () => {
           )}
           onScroll={onScroll}
         >
-          <FeatureCardList recipes={featuredCommunityRecipes} />
+          <FeatureCardList>
+            {loading
+              ? [...Array(3).keys()].map((_, index) => (
+                  <FeatureCardSkeleton key={index} />
+                ))
+              : my_recipes.map((recipe: any) => (
+                  <FeatureCardItem key={recipe._id} {...recipe} />
+                ))}
+          </FeatureCardList>
         </Tab>
         <Tab
           label='Reviews'

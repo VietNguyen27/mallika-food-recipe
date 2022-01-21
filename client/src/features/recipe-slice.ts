@@ -26,31 +26,64 @@ export interface RecipeData {
   ingredients: IngredientState[];
   steps: StepState[];
   reviews: object[];
-  isPublished: boolean;
 }
 
 interface RecipeState {
-  loading: boolean;
+  success: boolean;
   intro: object;
   ingredients: IngredientState[];
   steps: StepState[];
   error: object[];
+  recipes: object[];
+  featured_recipes: object[];
+  my_recipes: object[];
 }
 
 const initialState: RecipeState = {
-  loading: false,
+  success: false,
   intro: {},
   ingredients: [],
   steps: [],
   error: [],
+  recipes: [],
+  featured_recipes: [],
+  my_recipes: [],
 };
 
 export const createRecipe = createAsyncThunk(
-  'recipe/create',
+  'recipes/create',
   async (body: RecipeData, { rejectWithValue }) => {
     try {
       await slowLoading();
       const response = await recipeApi.create(body);
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getFeaturedRecipes = createAsyncThunk(
+  'recipes/featured',
+  async (_, { rejectWithValue }) => {
+    try {
+      await slowLoading();
+      const response = await recipeApi.getFeatured();
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getMyRecipes = createAsyncThunk(
+  'recipes/me',
+  async (_, { rejectWithValue }) => {
+    try {
+      await slowLoading();
+      const response = await recipeApi.getMine();
 
       return response.data;
     } catch (error: any) {
@@ -100,18 +133,26 @@ const recipeSlice = createSlice({
     clearErrors: (state) => {
       state.error = [];
     },
+    changeStatusSuccess: (state) => {
+      state.success = !state.success;
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(createRecipe.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(createRecipe.fulfilled, (state) => {
-      state.loading = false;
+    builder.addCase(createRecipe.fulfilled, (state, action: any) => {
+      state.success = true;
+      state.ingredients = [];
+      state.steps = [];
       state.error = [];
+      state.my_recipes = [action.payload, ...state.my_recipes];
     });
     builder.addCase(createRecipe.rejected, (state, action: any) => {
-      state.loading = false;
       state.error = action.payload;
+    });
+    builder.addCase(getFeaturedRecipes.fulfilled, (state, action: any) => {
+      state.featured_recipes = action.payload;
+    });
+    builder.addCase(getMyRecipes.fulfilled, (state, action: any) => {
+      state.my_recipes = action.payload;
     });
   },
 });
@@ -122,6 +163,7 @@ export const {
   changePositionRecipeWidget,
   removeRecipeWidget,
   clearErrors,
+  changeStatusSuccess,
 } = recipeSlice.actions;
 export const selectorRecipeIntro = (state: { recipe: RecipeState }) =>
   state.recipe.intro;
@@ -131,4 +173,10 @@ export const selectorRecipeSteps = (state: { recipe: RecipeState }) =>
   state.recipe.steps;
 export const selectorRecipeError = (state: { recipe: RecipeState }) =>
   state.recipe.error;
+export const selectorRecipes = (state: { recipe: RecipeState }) =>
+  state.recipe.recipes;
+export const selectorFeaturedRecipes = (state: { recipe: RecipeState }) =>
+  state.recipe.featured_recipes;
+export const selectorMyRecipes = (state: { recipe: RecipeState }) =>
+  state.recipe.my_recipes;
 export default recipeSlice.reducer;

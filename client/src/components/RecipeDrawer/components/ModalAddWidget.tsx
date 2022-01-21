@@ -57,6 +57,7 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
 
   const onClose = () => {
     setValue('title', '');
+    setValue('isHeader', false);
     setError('');
     toggle();
   };

@@ -4,8 +4,13 @@ import Phone from '@layout/Phone/Phone';
 import Main from '@layout/Main/Main';
 import { Loading } from '@components/Loading/Loading';
 import { lazyImportWithDelay } from '@helpers/helpers';
-import { clearErrors, fetchUser, logout } from '@features/auth-slice';
-import { useDispatch } from 'react-redux';
+import {
+  clearErrors,
+  fetchUser,
+  logout,
+  selectorUser,
+} from '@features/auth-slice';
+import { useDispatch, useSelector } from 'react-redux';
 import { PrivateRoute } from '@routes/PrivateRoute';
 import { PublicRoute } from '@routes/PubliceRoute';
 import AuthVerify from '@common/AuthVerify';
@@ -25,15 +30,16 @@ const DetailCookbookPage = lazyImportWithDelay(
 const App = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const user: any = useSelector(selectorUser);
   const token = localStorage.getItem('token');
 
   useEffect(() => {
     dispatch(clearErrors());
-  }, [dispatch, location]);
 
-  if (token) {
-    dispatch(fetchUser());
-  }
+    if (token && !user) {
+      dispatch(fetchUser());
+    }
+  }, [dispatch, location]);
 
   return (
     <Phone>

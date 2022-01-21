@@ -41,7 +41,7 @@ const AccountDrawer = () => {
             <img
               src={generateBase64Image(user.avatar)}
               alt={`avatar of ${user.name}`}
-              className='flex-shrink-0 rounded-full w-14'
+              className='flex-shrink-0 w-14 h-14 object-cover rounded-full'
             />
           </div>
         </div>

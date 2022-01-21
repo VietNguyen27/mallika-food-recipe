@@ -19,7 +19,7 @@ interface TextInputProps {
   type?: InputTypes;
   variant?: InputVariants;
   label?: string;
-  name: string;
+  name?: string;
   defaultValue?: string | number;
   placeholder?: string;
   error?: string;

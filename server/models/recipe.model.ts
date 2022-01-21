@@ -12,7 +12,10 @@ export interface Recipe {
   ingredients: object[];
   steps: object[];
   reviews: object[];
-  isPublished: boolean;
+  rating: number;
+  num_reviews: number;
+  liked_count: number;
+  is_published: boolean;
 }
 
 const RecipeSchema = new Schema<Recipe>(
@@ -70,7 +73,21 @@ const RecipeSchema = new Schema<Recipe>(
       },
     ],
     reviews: [ReviewSchema],
-    isPublished: {
+    rating: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    num_reviews: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    liked_count: {
+      type: Number,
+      default: 0,
+    },
+    is_published: {
       type: Boolean,
       default: false,
     },

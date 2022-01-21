@@ -37,6 +37,14 @@ export const recipeValidation = (body: RecipeData) => {
           'number.max': 'Max of minute is 60',
         }),
     }),
+    image: Joi.object()
+      .keys({})
+      .required()
+      .min(1)
+      .messages({
+        'object.min': 'Please choose cover image',
+      })
+      .unknown(),
     description: Joi.string()
       .allow(null, '')
       .max(MAX_LENGTH_1000)

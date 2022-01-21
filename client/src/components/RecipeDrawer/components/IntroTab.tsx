@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import TextInput, { InputVariants } from '@components/Input/TextInput';
 import Textarea, { TextareaVariants } from '@components/Textarea/Textarea';
 import RoundedButton, {
@@ -14,6 +14,7 @@ import NoImage from '@img/no-image.jfif';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import {
+  changeStatusSuccess,
   createRecipe,
   selectorRecipeError,
   selectorRecipeIngredients,
@@ -27,18 +28,36 @@ import {
 } from '@helpers/helpers';
 import { RootState } from '@redux/reducers';
 import { Spinner } from '@components/Loading/Loading';
+import { createToast } from '@features/toast-slice';
+import { ToastTypes } from '@components/Toast/ToastItem';
 
 const IntroTab = () => {
   const [thumbnail, setThumbnail] = useState<null | string>(null);
   const inputFileRef: any = useRef(null);
   const dispatch = useDispatch();
-  const { register, handleSubmit, setValue } = useForm();
-  const ingredients = useSelector(selectorRecipeIngredients);
-  const { loading } = useSelector(({ recipe }: RootState) => recipe);
-  const steps = useSelector(selectorRecipeSteps);
+  const { register, handleSubmit, setValue, reset } = useForm();
+  const { error, success, ingredients, steps } = useSelector(
+    ({ recipe }: RootState) => recipe
+  );
+  const loading = useSelector(
+    ({ loading }: RootState) => loading.myRecipesLoading
+  );
   const user = useSelector(selectorUser);
-  const error = useSelector(selectorRecipeError);
   const recipeError = getErrorFromJoiMessage(error);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(
+        createToast({
+          message: 'Add new recipe successful!',
+          type: ToastTypes.SUCCESS,
+        })
+      );
+      dispatch(changeStatusSuccess());
+      reset();
+      setThumbnail(null);
+    }
+  }, [success]);
 
   const onChangeThumbnail = (): void => {
     const input = inputFileRef.current;
@@ -64,19 +83,18 @@ const IntroTab = () => {
     }
   };
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     const newRecipe = {
       user: user._id,
       difficulty: RECIPES_BY_DIFFICULTY.EASY,
       reviews: [],
-      isPublished: false,
       ingredients,
       steps,
       image: {},
       ...data,
     };
 
-    dispatch(createRecipe(newRecipe));
+    await dispatch(createRecipe(newRecipe));
   });
 
   return (
@@ -181,26 +199,16 @@ const IntroTab = () => {
       </div>
       <div className='flex justify-between items-center'>
         <span className='text-sm text-gray-800'>Publish to Community?</span>
-        <Switch name='isPublished' onChange={setValue} />
+        <Switch name='is_published' onChange={setValue} />
       </div>
-      {loading ? (
-        <Button
-          type={ButtonTypes.BUTTON}
-          variant={ButtonVariants.PRIMARY}
-          className='mt-1'
-          disabled
-        >
-          <Spinner />
-        </Button>
-      ) : (
-        <Button
-          type={ButtonTypes.SUBMIT}
-          variant={ButtonVariants.PRIMARY}
-          className='mt-1'
-        >
-          Add
-        </Button>
-      )}
+      <Button
+        type={loading ? ButtonTypes.BUTTON : ButtonTypes.SUBMIT}
+        variant={ButtonVariants.PRIMARY}
+        className='mt-1'
+        disabled={loading}
+      >
+        {loading ? <Spinner /> : 'Add'}
+      </Button>
     </form>
   );
 };
