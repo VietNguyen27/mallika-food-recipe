@@ -1,13 +1,11 @@
-import FeatureCardItem from './FeatureCardItem';
+import { ReactChild, ReactChildren } from 'react';
 
-const FeatureCardList = ({ recipes }) => {
-  return (
-    <ul className='flex flex-col items-stretch'>
-      {recipes.map((recipe) => (
-        <FeatureCardItem key={recipe.id} {...recipe} />
-      ))}
-    </ul>
-  );
+interface FeatureCardListProps {
+  children: ReactChild | ReactChildren | ReactChild[] | ReactChildren[];
+}
+
+const FeatureCardList: React.FC<FeatureCardListProps> = ({ children }) => {
+  return <ul className='flex flex-col items-stretch list-none'>{children}</ul>;
 };
 
 export default FeatureCardList;

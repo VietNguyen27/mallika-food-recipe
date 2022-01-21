@@ -18,6 +18,6 @@ connectDB();
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/recipe', recipeRoutes);
+app.use('/api/recipes', recipeRoutes);
 
 app.listen(PORT, () => console.log(`Server is running at PORT: ${PORT}`));

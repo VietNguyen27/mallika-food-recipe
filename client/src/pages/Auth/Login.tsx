@@ -63,8 +63,8 @@ const Login = () => {
               <div className='col-span-12'>
                 <PasswordInput
                   placeholder='Password'
-                  {...register('password')}
                   error={authError['password']}
+                  {...register('password')}
                 />
               </div>
               <div className='col-span-12 leading-none'>

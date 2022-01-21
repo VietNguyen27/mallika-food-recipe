@@ -14,7 +14,9 @@ export const addRecipe = async (req: Request, res: Response): Promise<void> => {
   const newRecipe = new RecipeModel(req.body);
 
   try {
-    const recipe = await newRecipe.save();
+    let recipe = await newRecipe.save();
+    recipe = await recipe.populate('user', 'name avatar');
+
     if (!recipe) {
       res
         .status(400)
@@ -23,6 +25,60 @@ export const addRecipe = async (req: Request, res: Response): Promise<void> => {
     }
 
     res.status(200).json(recipe);
+    return;
+  } catch (error) {
+    res.status(400).json({ error });
+    return;
+  }
+};
+
+export const getFeaturedRecipes = async (
+  req: IGetUserAuthInfoRequest,
+  res: Response
+): Promise<void> => {
+  try {
+    const recipes = await RecipeModel.find({
+      user: { $nin: req.user._id },
+      is_published: true,
+    })
+      .populate('user', 'name avatar')
+      .sort({ _id: -1 })
+      .limit(4);
+
+    if (!recipes) {
+      res.status(400).json({
+        error: 'Something went wrong while getting featured recipes!',
+      });
+      return;
+    }
+
+    res.status(200).json(recipes);
+    return;
+  } catch (error) {
+    res.status(400).json({ error });
+    return;
+  }
+};
+
+export const getMyRecipes = async (
+  req: IGetUserAuthInfoRequest,
+  res: Response
+): Promise<void> => {
+  try {
+    const recipes = await RecipeModel.find({
+      user: req.user._id,
+    })
+      .populate('user', 'name avatar')
+      .sort({ _id: -1 });
+
+    if (!recipes) {
+      res.status(400).json({
+        error: 'Something went wrong while getting featured recipes!',
+      });
+      return;
+    }
+
+    res.status(200).json(recipes);
     return;
   } catch (error) {
     res.status(400).json({ error });
