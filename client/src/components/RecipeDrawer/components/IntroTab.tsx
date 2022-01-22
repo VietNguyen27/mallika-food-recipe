@@ -17,7 +17,11 @@ import { Edit20Regular } from '@fluentui/react-icons';
 import NoImage from '@img/no-image.jfif';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { changeStatusSuccess, createRecipe } from '@features/recipe-slice';
+import {
+  changeStatusSuccess,
+  clearError,
+  createRecipe,
+} from '@features/recipe-slice';
 import { selectorUser } from '@features/auth-slice';
 import {
   convertBase64,
@@ -82,6 +86,7 @@ const IntroTab = () => {
         base64,
         imageFormat: imageFormat.split('/')[1],
       });
+      dispatch(clearError('image'));
     }
   };
 
@@ -111,7 +116,10 @@ const IntroTab = () => {
         variant={InputVariants.SECONDARY}
         placeholder='Recipe title'
         error={recipeError['title']}
-        {...register('title')}
+        {...register('title', {
+          onChange: () => dispatch(clearError('title')),
+          onBlur: (e) => setValue('title', e.target.value.trim()),
+        })}
       />
       <div>
         <span className='text-gray-800 text-sm capitalize'>Cook time</span>
@@ -125,6 +133,8 @@ const IntroTab = () => {
             error={recipeError['time.hour']}
             {...register('time.hour', {
               valueAsNumber: true,
+              onChange: () => dispatch(clearError('time.hour')),
+              onBlur: (e) => setValue('time.hour', e.target.value.trim()),
             })}
           />
           <TextInput
@@ -136,6 +146,8 @@ const IntroTab = () => {
             error={recipeError['time.minute']}
             {...register('time.minute', {
               valueAsNumber: true,
+              onChange: () => dispatch(clearError('time.minute')),
+              onBlur: (e) => setValue('time.minute', e.target.value.trim()),
             })}
           />
         </div>
@@ -172,7 +184,10 @@ const IntroTab = () => {
         placeholder='Recipe description'
         rows={4}
         error={recipeError['description']}
-        {...register('description')}
+        {...register('description', {
+          onChange: () => dispatch(clearError('description')),
+          onBlur: (e) => setValue('description', e.target.value.trim()),
+        })}
       />
       <div>
         <span className='text-sm text-gray-800'>Category</span>
@@ -210,6 +225,8 @@ const IntroTab = () => {
             error={recipeError['serve']}
             {...register('serve', {
               valueAsNumber: true,
+              onChange: () => dispatch(clearError('serve')),
+              onBlur: (e) => setValue('serve', e.target.value.trim()),
             })}
           />
         </div>

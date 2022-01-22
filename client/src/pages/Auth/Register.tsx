@@ -5,7 +5,7 @@ import TextInput, { InputTypes } from '@components/Input/TextInput';
 import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '@features/auth-slice';
+import { clearError, registerUser } from '@features/auth-slice';
 import { getErrorFromJoiMessage } from '@helpers/helpers';
 import { RootState } from '@redux/reducers';
 import { Spinner } from '@components/Loading/Loading';
@@ -19,7 +19,7 @@ export interface RegisterData {
 }
 
 function Register() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, isLoggedIn, error } = useSelector(
@@ -57,7 +57,10 @@ function Register() {
                   type={InputTypes.TEXT}
                   placeholder='Name'
                   error={authError['name']}
-                  {...register('name')}
+                  {...register('name', {
+                    onChange: () => dispatch(clearError('name')),
+                    onBlur: (e) => setValue('name', e.target.value.trim()),
+                  })}
                 />
               </div>
               <div className='col-span-12'>
@@ -65,21 +68,32 @@ function Register() {
                   type={InputTypes.TEXT}
                   placeholder='Email Address'
                   error={authError['email']}
-                  {...register('email')}
+                  {...register('email', {
+                    onChange: () => dispatch(clearError('email')),
+                    onBlur: (e) => setValue('email', e.target.value.trim()),
+                  })}
                 />
               </div>
               <div className='col-span-12'>
                 <PasswordInput
                   placeholder='Password'
-                  {...register('password')}
                   error={authError['password']}
+                  {...register('password', {
+                    onChange: () => dispatch(clearError('password')),
+                    onBlur: (e) => setValue('password', e.target.value.trim()),
+                  })}
                 />
               </div>
               <div className='col-span-12'>
                 <PasswordInput
                   placeholder='Confirm Password'
-                  {...register('password_confirmation')}
                   error={authError['password_confirmation']}
+                  {...register('password_confirmation', {
+                    onChange: () =>
+                      dispatch(clearError('password_confirmation')),
+                    onBlur: (e) =>
+                      setValue('password_confirmation', e.target.value.trim()),
+                  })}
                 />
               </div>
               <div className='col-span-12 leading-none'>

@@ -15,9 +15,9 @@ export enum ButtonAs {
 }
 
 export enum ButtonVariants {
-  PRIMARY = 'border-transparent text-white bg-orange cursor-pointer hover:opacity-80',
-  SECONDARY = 'border-gray-300 bg-white cursor-pointer hover:bg-gray-100',
-  DISABLED = 'bg-gray-300 text-black cursor-not-allowed hover:bg-gray-200',
+  PRIMARY = 'border-transparent text-white bg-orange cursor-pointer hover:opacity-80 focus:ring-2 focus:ring-yellow',
+  SECONDARY = 'border-gray-300 bg-white cursor-pointer hover:bg-gray-100 focus:ring-2 focus:ring-gray-200',
+  DISABLED = 'bg-gray-300 text-black cursor-not-allowed hover:bg-gray-200 focus:ring-2 focus:ring-gray-200',
 }
 
 export enum ButtonSizes {

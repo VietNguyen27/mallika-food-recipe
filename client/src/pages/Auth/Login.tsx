@@ -8,7 +8,7 @@ import PasswordInput from '@components/Input/PasswordInput';
 import TextInput, { InputTypes } from '@components/Input/TextInput';
 import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
 import { getErrorFromJoiMessage } from '@helpers/helpers';
-import { loginUser } from '@features/auth-slice';
+import { clearError, loginUser } from '@features/auth-slice';
 import { Spinner } from '@components/Loading/Loading';
 import { RootState } from '@redux/reducers';
 import { useEffect } from 'react';
@@ -19,7 +19,7 @@ export interface LoginData {
 }
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, isLoggedIn, error } = useSelector(
@@ -57,14 +57,20 @@ const Login = () => {
                   type={InputTypes.TEXT}
                   placeholder='Email Address'
                   error={authError['email']}
-                  {...register('email')}
+                  {...register('email', {
+                    onChange: () => dispatch(clearError('email')),
+                    onBlur: (e) => setValue('email', e.target.value.trim()),
+                  })}
                 />
               </div>
               <div className='col-span-12'>
                 <PasswordInput
                   placeholder='Password'
                   error={authError['password']}
-                  {...register('password')}
+                  {...register('password', {
+                    onChange: () => dispatch(clearError('password')),
+                    onBlur: (e) => setValue('password', e.target.value.trim()),
+                  })}
                 />
               </div>
               <div className='col-span-12 leading-none'>
