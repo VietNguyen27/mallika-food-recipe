@@ -3,6 +3,7 @@ import {
   URL_RECIPE_CREATE,
   URL_FEATURED_RECIPES,
   URL_MY_RECIPES,
+  URL_ALL_RECIPES,
 } from '@config/constants';
 import { RecipeData } from '@features/recipe-slice';
 
@@ -15,5 +16,8 @@ export const recipeApi = {
   },
   getMine() {
     return request.get(URL_MY_RECIPES);
+  },
+  getAll() {
+    return request.get(URL_ALL_RECIPES);
   },
 };

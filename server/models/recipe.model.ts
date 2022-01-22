@@ -8,6 +8,7 @@ export interface Recipe {
   image: object;
   description: string;
   difficulty: number;
+  category: number;
   serve: number;
   ingredients: object[];
   steps: object[];
@@ -41,6 +42,10 @@ const RecipeSchema = new Schema<Recipe>(
       type: String,
     },
     difficulty: {
+      type: Number,
+      required: true,
+    },
+    category: {
       type: Number,
       required: true,
     },

@@ -8,6 +8,7 @@ export const URL_USER_UPDATE = `${SERVER_BASE_URL}/users`;
 export const URL_RECIPE_CREATE = `${SERVER_BASE_URL}/recipes`;
 export const URL_FEATURED_RECIPES = `${SERVER_BASE_URL}/recipes/featured`;
 export const URL_MY_RECIPES = `${SERVER_BASE_URL}/recipes/me`;
+export const URL_ALL_RECIPES = `${SERVER_BASE_URL}/recipes/all`;
 
 export const MINIMUM_LOADER_DELAY = 500;
 export const MINIMUM_AUTH_DELAY = 1000;

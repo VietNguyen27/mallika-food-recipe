@@ -9,17 +9,16 @@ import { selectorUser } from '@features/auth-slice';
 import { generateBase64Image } from '@helpers/helpers';
 import { List20Regular } from '@fluentui/react-icons';
 import { Tab, Tabs } from '@components/Tabs/Tabs';
+import { ReviewList, Review } from '@components/Review/Review';
+import { CardSkeleton } from '@components/Skeleton/Skeleton';
+import { Card, CardList } from '@components/Card/Card';
+import { uiActions } from '@features/ui-slice';
 import AccountDrawer from './components/AccountDrawer';
 import LikedRecipeDrawer from './components/LikedRecipeDrawer';
 import NotificationDrawer from './components/NotificationDrawer';
-import ReviewList from '@components/Review/ReviewList';
-import FeatureCardList from '@components/FeatureCard/FeatureCardList';
-import { uiActions } from '@features/ui-slice';
 import EditProfileDrawer from './components/EditProfileDrawer';
 import { getMyRecipes, selectorMyRecipes } from '@features/recipe-slice';
 import { RootState } from '@redux/reducers';
-import { FeatureCardSkeleton } from '@components/Skeleton/Skeleton';
-import FeatureCardItem from '@components/FeatureCard/FeatureCardItem';
 import { Loading } from '@components/Loading/Loading';
 import cx from 'clsx';
 
@@ -144,15 +143,15 @@ const Profile = () => {
           )}
           onScroll={onScroll}
         >
-          <FeatureCardList>
+          <CardList>
             {loading
               ? [...Array(3).keys()].map((_, index) => (
-                  <FeatureCardSkeleton key={index} />
+                  <CardSkeleton key={index} />
                 ))
               : my_recipes.map((recipe: any) => (
-                  <FeatureCardItem key={recipe._id} {...recipe} />
+                  <Card key={recipe._id} {...recipe} />
                 ))}
-          </FeatureCardList>
+          </CardList>
         </Tab>
         <Tab
           label='Reviews'
@@ -162,7 +161,11 @@ const Profile = () => {
           )}
           onScroll={onScroll}
         >
-          <ReviewList reviews={dumbReviews} />
+          <ReviewList>
+            {dumbReviews.map((review) => (
+              <Review key={review.id} {...review} />
+            ))}
+          </ReviewList>
         </Tab>
       </Tabs>
       <AccountDrawer />

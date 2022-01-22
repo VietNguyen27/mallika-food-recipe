@@ -92,6 +92,20 @@ export const getMyRecipes = createAsyncThunk(
   }
 );
 
+export const getAllRecipes = createAsyncThunk(
+  'recipes/all',
+  async (_, { rejectWithValue }) => {
+    try {
+      await slowLoading();
+      const response = await recipeApi.getAll();
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const recipeSlice = createSlice({
   name: 'auth',
   initialState,
@@ -133,6 +147,10 @@ const recipeSlice = createSlice({
     clearErrors: (state) => {
       state.error = [];
     },
+    clearRecipeWidgets: (state) => {
+      state.steps = [];
+      state.ingredients = [];
+    },
     changeStatusSuccess: (state) => {
       state.success = !state.success;
     },
@@ -154,6 +172,9 @@ const recipeSlice = createSlice({
     builder.addCase(getMyRecipes.fulfilled, (state, action: any) => {
       state.my_recipes = action.payload;
     });
+    builder.addCase(getAllRecipes.fulfilled, (state, action: any) => {
+      state.recipes = [...state.recipes, ...action.payload];
+    });
   },
 });
 
@@ -163,6 +184,7 @@ export const {
   changePositionRecipeWidget,
   removeRecipeWidget,
   clearErrors,
+  clearRecipeWidgets,
   changeStatusSuccess,
 } = recipeSlice.actions;
 export const selectorRecipeIntro = (state: { recipe: RecipeState }) =>

@@ -34,7 +34,7 @@ const Cookbooks = () => {
 
   return (
     <div className='relative mt-8 w-full'>
-      <h1 className='text-xl mb-4 font-medium'>Cookbooks</h1>
+      <h2 className='text-xl mb-4 font-semibold'>Cookbooks</h2>
       <span className='absolute top-0 right-0 m-1 text-gray-800'>
         {currentStep + 1}/{steps.length}
       </span>

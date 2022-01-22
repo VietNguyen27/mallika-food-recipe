@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactChild, ReactChildren } from 'react';
 import {
   MoreVertical24Filled,
   Clock20Regular,
@@ -9,12 +9,53 @@ import { DIFFICULTY_NAME, RECIPES_BY_TYPE } from '@config/recipe';
 import RoundedButton, {
   RoundedButtonSizes,
 } from '@components/Button/RoundedButton';
+import cx from 'clsx';
 
-const RecipeItem = ({ title, image, time, difficulty, type, published }) => {
+interface TimeType {
+  hour: number;
+  minute: number;
+}
+
+interface RecipeListProps {
+  className?: string;
+  children: ReactChild | ReactChildren | ReactChild[] | ReactChildren[];
+}
+
+interface RecipeProps {
+  className?: string;
+  title: string;
+  image: string;
+  time: TimeType;
+  difficulty: number;
+  type: number;
+  published: boolean;
+}
+
+export const RecipeList: React.FC<RecipeListProps> = ({
+  className,
+  children,
+}) => {
+  const defaultClassName = 'flex flex-col items-stretch';
+  const allClassNames = cx(defaultClassName, className);
+
+  return <ul className={allClassNames}>{children}</ul>;
+};
+
+export const Recipe: React.FC<RecipeProps> = ({
+  className,
+  title,
+  image,
+  time,
+  difficulty,
+  type,
+  published,
+}) => {
+  const defaultClassName = 'py-3 px-layout border-b border-gray-400';
+  const allClassNames = cx(defaultClassName, className);
   const { ME, LIKED } = RECIPES_BY_TYPE;
 
   return (
-    <li className='py-3 px-layout border-b border-gray-400'>
+    <li className={allClassNames}>
       <div className='flex gap-2'>
         <div className='relative w-14 h-14 flex-shrink-0 mt-1 rounded-lg overflow-hidden'>
           <img
@@ -81,5 +122,3 @@ const RecipeItem = ({ title, image, time, difficulty, type, published }) => {
     </li>
   );
 };
-
-export default RecipeItem;

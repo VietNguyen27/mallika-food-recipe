@@ -1,6 +1,6 @@
 import { TextSortAscending20Regular } from '@fluentui/react-icons';
 import { RECIPES_BY_DIFFICULTY, RECIPES_BY_TYPE } from '@config/recipe';
-import RecipeList from '@components/Recipe/RecipeList';
+import { RecipeList, Recipe } from '@components/Recipe/Recipe';
 
 import RecipeImage5 from '@img/recipe-5.png';
 import RecipeImage6 from '@img/recipe-6.png';
@@ -54,6 +54,7 @@ const dumbRecipes = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.MEDIUM,
     type: RECIPES_BY_TYPE.LIKED,
+    published: true,
   },
   {
     id: '5',
@@ -65,6 +66,7 @@ const dumbRecipes = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.MEDIUM,
     type: RECIPES_BY_TYPE.LIKED,
+    published: false,
   },
   {
     id: '6',
@@ -76,6 +78,7 @@ const dumbRecipes = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.MEDIUM,
     type: RECIPES_BY_TYPE.LIKED,
+    published: true,
   },
   {
     id: '7',
@@ -99,7 +102,11 @@ const AllRecipe = () => {
         <TextSortAscending20Regular />
       </button>
       <div className='h-full overflow-auto scrollbar-none'>
-        <RecipeList recipes={dumbRecipes} />
+        <RecipeList>
+          {dumbRecipes.map((recipe) => (
+            <Recipe key={recipe.id} {...recipe} />
+          ))}
+        </RecipeList>
       </div>
     </div>
   );

@@ -39,6 +39,9 @@ module.exports = {
         orange: 'var(--color-orange)',
         beige: 'var(--color-beige)',
       },
+      fontSize: {
+        '2xs': ['0.625rem', '0.875rem'],
+      },
       width: {
         phone: 'var(--phone-width)',
       },
@@ -61,6 +64,7 @@ module.exports = {
         'slide-in': 'slide-in 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards',
         'slide-out': 'slide-out 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards',
         'slide-up': 'slide-up 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+        'slide-down': 'slide-down 0.15s cubic-bezier(0.4, 0, 0.2, 1) forwards',
         'zoom-in': 'zoom-in 0.15s cubic-bezier(0.4, 0, 0.2, 1) forwards',
       },
       keyframes: {
@@ -123,6 +127,14 @@ module.exports = {
             transform: 'translateY(0)',
           },
         },
+        'slide-down': {
+          '0%': {
+            transform: 'translateY(0)',
+          },
+          '100%': {
+            transform: 'translateY(100%)',
+          },
+        },
         'zoom-in': {
           '0%': {
             transform: 'scale(0)',
@@ -133,12 +145,16 @@ module.exports = {
         },
       },
       padding: {
-        layout: '16px'
-      }
+        layout: '16px',
+      },
     },
     animationDelay: {
       'negative-1000': '-1000ms',
     },
   },
-  plugins: [require('tailwindcss-animation-delay'), rotateX],
+  plugins: [
+    require('tailwindcss-animation-delay'),
+    require('@tailwindcss/line-clamp'),
+    rotateX,
+  ],
 };

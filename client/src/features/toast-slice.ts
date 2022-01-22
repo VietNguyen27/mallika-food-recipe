@@ -2,23 +2,23 @@ import { uuid } from '@helpers/helpers';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOAST_EXPIRED_TIME } from '@config/constants';
 
-export interface ToastItemState {
+export interface ToastProps {
   _id?: string;
   message: string;
   type: string;
 }
 
-interface ToastState {
-  toastList: ToastItemState[];
+interface ToastListState {
+  toastList: ToastProps[];
 }
 
-const initialState: ToastState = {
+const initialState: ToastListState = {
   toastList: [],
 };
 
 export const createToast = createAsyncThunk(
   'toast/create',
-  async (body: ToastItemState, { dispatch }) => {
+  async (body: ToastProps, { dispatch }) => {
     const _id = uuid();
     const toast = {
       _id,
@@ -49,6 +49,6 @@ const toastSlice = createSlice({
 });
 
 export const { addToast, removeToast } = toastSlice.actions;
-export const selectorToast = (state: { toast: ToastState }) =>
+export const selectorToast = (state: { toast: ToastListState }) =>
   state.toast.toastList;
 export default toastSlice.reducer;
