@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SplashImage1 from '@img/splash-1.jfif';
 import SplashImage2 from '@img/splash-2.jfif';
 import SplashImage3 from '@img/splash-3.jfif';
 import UnionImage from '@img/union.png';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button, {
   ButtonAs,
   ButtonSizes,
   ButtonVariants,
 } from '@components/Button/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { finishSplash, selectorUser, updateUser } from '@features/auth-slice';
 
 interface SplashItemTypes {
   title: string;
@@ -40,7 +42,22 @@ const steps: SplashItemTypes[] = [
 const Splash = () => {
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [skipped, setSkipped] = useState<boolean>(false);
-  const { title, image, content } = steps[currentStep];
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector(selectorUser);
+  const { image } = steps[currentStep];
+
+  useEffect(() => {
+    if (skipped) {
+      goToHomePage();
+    }
+  }, [skipped]);
+
+  const goToHomePage = () => {
+    dispatch(finishSplash);
+    dispatch(updateUser({ _id: user._id, firstLogin: false }));
+    navigate('/home');
+  };
 
   return (
     <>
@@ -61,16 +78,34 @@ const Splash = () => {
         )}
       </div>
       <div className='relative z-10 h-3/5 bg-white -mt-4 px-6 py-14 rounded-t-3xl'>
-        <div className='flex flex-col justify-start items-center text-center h-full mb-auto overflow-auto scrollbar-none'>
-          <div className='p-3 border border-gray-400 rounded-full mb-8'>
-            <img
-              src={UnionImage}
-              width={25}
-              alt='logo of mallika food recipe app'
-            />
+        <div className='overflow-hidden pb-4'>
+          <div
+            className='flex transition-transform'
+            style={{ transform: `translateX(${currentStep * -100}%)` }}
+          >
+            {steps.map((step, index) => {
+              const { title, content } = step;
+
+              return (
+                <div
+                  key={index}
+                  className='flex flex-col justify-start items-center min-w-full text-center h-full mb-auto overflow-auto scrollbar-none'
+                >
+                  <div className='p-3 border border-gray-400 rounded-full mb-8'>
+                    <img
+                      src={UnionImage}
+                      width={25}
+                      alt='logo of mallika food recipe app'
+                    />
+                  </div>
+                  <h2 className='font-medium uppercase text-xl mb-3'>
+                    {title}
+                  </h2>
+                  <p className='text-sm'>{content}</p>
+                </div>
+              );
+            })}
           </div>
-          <h2 className='font-medium uppercase text-xl mb-3'>{title}</h2>
-          <p className='text-sm'>{content}</p>
         </div>
         <div
           className={`flex items-center ${
@@ -87,7 +122,7 @@ const Splash = () => {
             </Button>
           )}
           {currentStep + 1 === steps.length ? (
-            <Button as={ButtonAs.LINK} to='/home' size={ButtonSizes.SMALL}>
+            <Button size={ButtonSizes.SMALL} onClick={() => setSkipped(true)}>
               Explore now
             </Button>
           ) : (
@@ -105,13 +140,11 @@ const Splash = () => {
               key={index}
               className={`${
                 currentStep === index ? 'bg-orange' : 'bg-transparent'
-              } w-2 h-2 border border-orange rounded-full cursor-pointer`}
-              onClick={() => setCurrentStep(index)}
+              } w-2 h-2 border border-orange rounded-full`}
             ></span>
           ))}
         </div>
       </div>
-      {skipped && <Navigate to='/home' />}
     </>
   );
 };

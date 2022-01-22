@@ -6,6 +6,7 @@ export interface User {
   password?: string;
   avatar?: object;
   bio?: string;
+  firstLogin?: boolean;
 }
 
 const UserSchema = new Schema<User>(
@@ -30,6 +31,10 @@ const UserSchema = new Schema<User>(
     bio: {
       type: String,
       default: '',
+    },
+    firstLogin: {
+      type: Boolean,
+      default: true,
     },
   },
   {

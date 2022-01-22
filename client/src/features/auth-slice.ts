@@ -89,6 +89,9 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.user = null;
     },
+    finishSplash: (state) => {
+      state.user.firstLogin = false;
+    },
     clearErrors: (state) => {
       state.error = [];
     },
@@ -137,7 +140,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, clearErrors } = authSlice.actions;
+export const { logout, finishSplash, clearErrors } = authSlice.actions;
 export const selectorAuthError = (state: { auth: AuthState }) =>
   state.auth.error;
 export const selectorUser = (state: { auth: AuthState }) => state.auth.user;

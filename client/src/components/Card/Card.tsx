@@ -17,8 +17,8 @@ interface CardProps {
   image: object;
   title: string;
   user: object | any;
-  liked_count: number;
-  num_reviews: number;
+  likedCount: number;
+  numReviews: number;
 }
 
 interface CardSmallProps {
@@ -26,8 +26,8 @@ interface CardSmallProps {
   image: object;
   title: string;
   user: object | any;
-  liked_count: number;
-  num_reviews: number;
+  likedCount: number;
+  numReviews: number;
 }
 
 export const CardList: React.FC<CardListProps> = ({ className, children }) => {
@@ -47,8 +47,8 @@ export const Card: React.FC<CardProps> = ({
   image,
   title,
   user,
-  liked_count,
-  num_reviews,
+  likedCount,
+  numReviews,
 }) => {
   const defaultClassName = 'mb-8 last:mb-0';
   const allClassNames = cx(defaultClassName, className);
@@ -76,12 +76,12 @@ export const Card: React.FC<CardProps> = ({
           <div className='text-xs flex items-center text-gray-800'>
             <p className='flex items-center'>
               <Heart20Filled className='mr-1 text-orange inline-block' />
-              <span>{liked_count}</span>
+              <span>{likedCount}</span>
             </p>
             <span className='mx-2'>·</span>
             <p>
-              <span className='mr-1'>{num_reviews}</span>
-              <span>{num_reviews > 1 ? 'Reviews' : 'Review'}</span>
+              <span className='mr-1'>{numReviews}</span>
+              <span>{numReviews > 1 ? 'Reviews' : 'Review'}</span>
             </p>
           </div>
         </div>
@@ -96,7 +96,7 @@ export const CardSmall: React.FC<CardSmallProps> = ({
   image,
   title,
   user,
-  num_reviews,
+  numReviews,
 }) => {
   const defaultClassName = 'w-1/2 mb-5 px-1';
   const allClassNames = cx(defaultClassName, className);
@@ -122,8 +122,8 @@ export const CardSmall: React.FC<CardSmallProps> = ({
         <div className='relative flex-1'>
           <p className='text-xs line-clamp-1'>{user.name}</p>
           <p className='text-xs text-gray-800 mr-1'>
-            <span className='mr-1'>{num_reviews}</span>
-            <span>{num_reviews > 1 ? 'Reviews' : 'Review'}</span>
+            <span className='mr-1'>{numReviews}</span>
+            <span>{numReviews > 1 ? 'Reviews' : 'Review'}</span>
           </p>
           <button className='absolute -bottom-0.5 right-1 text-orange'>
             <Heart20Regular />

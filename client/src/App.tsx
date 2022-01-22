@@ -1,5 +1,5 @@
 import { Suspense, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Phone from '@layout/Phone/Phone';
 import Main from '@layout/Main/Main';
 import { Loading } from '@components/Loading/Loading';
@@ -29,17 +29,24 @@ const DetailCookbookPage = lazyImportWithDelay(
 
 const App = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   const user: any = useSelector(selectorUser);
   const token = localStorage.getItem('token');
 
   useEffect(() => {
     dispatch(clearErrors());
+  }, [dispatch, location]);
+
+  useEffect(() => {
+    if (user && user.firstLogin) {
+      navigate('/splash');
+    }
 
     if (token && !user) {
       dispatch(fetchUser());
     }
-  }, [dispatch, location]);
+  }, [dispatch, user]);
 
   return (
     <Phone>

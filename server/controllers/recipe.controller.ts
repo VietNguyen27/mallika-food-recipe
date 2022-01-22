@@ -39,7 +39,7 @@ export const getFeaturedRecipes = async (
   try {
     const recipes = await RecipeModel.find({
       user: { $nin: req.user._id },
-      is_published: true,
+      isPublished: true,
     })
       .populate('user', 'name avatar')
       .sort({ _id: -1 })
