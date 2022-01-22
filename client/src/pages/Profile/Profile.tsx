@@ -20,6 +20,7 @@ import EditProfileDrawer from './components/EditProfileDrawer';
 import { getMyRecipes, selectorMyRecipes } from '@features/recipe-slice';
 import { RootState } from '@redux/reducers';
 import { Loading } from '@components/Loading/Loading';
+import BoxEmpty from '@img/box-empty.png';
 import cx from 'clsx';
 
 import RecipeImage1 from '@img/recipe-1.png';
@@ -75,7 +76,7 @@ const Profile = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const dispatch = useDispatch();
   const user: any = useSelector(selectorUser);
-  const my_recipes = useSelector(selectorMyRecipes);
+  const myRecipes = useSelector(selectorMyRecipes);
   const loading = useSelector(
     ({ loading }: RootState) => loading.myRecipesLoading
   );
@@ -89,7 +90,7 @@ const Profile = () => {
   );
 
   useEffect(() => {
-    if (!my_recipes.length) {
+    if (!myRecipes.length) {
       dispatch(getMyRecipes());
     }
   }, [dispatch]);
@@ -143,15 +144,24 @@ const Profile = () => {
           )}
           onScroll={onScroll}
         >
-          <CardList>
-            {loading
-              ? [...Array(3).keys()].map((_, index) => (
-                  <CardSkeleton key={index} />
-                ))
-              : my_recipes.map((recipe: any) => (
-                  <Card key={recipe._id} {...recipe} />
-                ))}
-          </CardList>
+          <>
+            <CardList>
+              {loading
+                ? [...Array(3).keys()].map((_, index) => (
+                    <CardSkeleton key={index} />
+                  ))
+                : myRecipes.map((recipe: any) => (
+                    <Card key={recipe._id} {...recipe} />
+                  ))}
+            </CardList>
+            {!myRecipes.length && (
+              <div className='flex flex-col items-center text-center px-4'>
+                <img src={BoxEmpty} alt='no ingredients yet' width='150' />
+                <h4 className='font-semibold'>No recipes yet!</h4>
+                <p>Click the plus button to create some recipes of your own.</p>
+              </div>
+            )}
+          </>
         </Tab>
         <Tab
           label='Reviews'

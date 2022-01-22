@@ -17,9 +17,9 @@ import {
   RECIPES_BY_SORT,
   SORT_NAME,
 } from '@config/recipe';
-import cx from 'clsx';
 import { Spinner } from '@components/Loading/Loading';
-import Icon, { IconTypes } from '@components/Icon/Icon';
+import NoFound from '@img/no-found.png';
+import cx from 'clsx';
 
 const CommunityDrawer = () => {
   const [category, setCategory] = useState<number>(-1);
@@ -37,7 +37,7 @@ const CommunityDrawer = () => {
   const moreLoading = useSelector(
     ({ loading }: RootState) => loading.moreRecipesLoading
   );
-  const { recipes, out_of_recipe } = useSelector(
+  const { recipes, outOfRecipe } = useSelector(
     ({ recipe }: RootState) => recipe
   );
 
@@ -51,7 +51,7 @@ const CommunityDrawer = () => {
     const isBottom =
       e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight;
 
-    if (isBottom && !moreLoading && !out_of_recipe) {
+    if (isBottom && !moreLoading && !outOfRecipe) {
       dispatch(getMoreRecipes());
     }
   };
@@ -116,15 +116,14 @@ const CommunityDrawer = () => {
           </CardList>
           <div className='flex justify-center h-7'>
             {moreLoading && <Spinner color='var(--color-orange)' />}
-            {out_of_recipe && (
-              <span className='inline-flex items-center gap-1.5'>
-                <Icon
-                  className='text-zinc-700'
-                  icon='receipt_long'
-                  type={IconTypes.ROUNDED}
-                />{' '}
-                Out of recipe
-              </span>
+          </div>
+          <div className='flex flex-col items-center -mt-7'>
+            {outOfRecipe && (
+              <>
+                <img src={NoFound} alt='no more recipes' width='130' />
+                <h3 className='font-semibold'>No more recipes!</h3>
+                <p className='-mt-1'>You have seen it all.</p>
+              </>
             )}
           </div>
         </div>

@@ -6,7 +6,7 @@ import Button, { ButtonSizes, ButtonTypes } from '@components/Button/Button';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { uuid } from '@helpers/helpers';
-import { addRecipeWidget } from '@features/recipe-slice';
+import { addRecipeWidget, clearError } from '@features/recipe-slice';
 
 interface ModalAddWidgetProps {
   type: string;
@@ -50,6 +50,7 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
       isHeader: isHeader || false,
     };
 
+    dispatch(clearError(type));
     dispatch(addRecipeWidget(newWidget));
     setValue('title', '');
     setError('');
@@ -71,7 +72,10 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
           inputClassName='py-1 px-2'
           error={error}
           autoFocus={true}
-          {...register('title')}
+          {...register('title', {
+            onChange: () => setError(''),
+            onBlur: (e) => setValue('title', e.target.value.trim()),
+          })}
         />
         <div className='flex justify-between items-center pb-4'>
           <span className='text-sm text-gray-800'>Set it item?</span>

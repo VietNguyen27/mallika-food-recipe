@@ -139,7 +139,11 @@ const EditProfileDrawer = () => {
           className='mb-4'
           error={error}
           {...register('name', {
-            onChange: () => setIsEdited(true),
+            onChange: () => {
+              setError('');
+              setIsEdited(true);
+            },
+            onBlur: (e) => setValue('name', e.target.value.trim()),
           })}
         />
         <TextInput
@@ -151,6 +155,7 @@ const EditProfileDrawer = () => {
           className='mb-4'
           {...register('bio', {
             onChange: () => setIsEdited(true),
+            onBlur: (e) => setValue('bio', e.target.value.trim()),
           })}
         />
         {loading ? (
