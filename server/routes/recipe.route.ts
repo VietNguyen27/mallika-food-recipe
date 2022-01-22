@@ -4,6 +4,7 @@ import {
   deleteRecipe,
   getAllRecipes,
   getFeaturedRecipes,
+  getMoreRecipes,
   getMyRecipes,
   getRecipeById,
   updateRecipe,
@@ -27,6 +28,10 @@ router.route('/me').get(auth, getMyRecipes);
 // @routes GET api/recipes/all
 // @desc Get all recipes
 router.route('/all').get(auth, getAllRecipes);
+
+// @routes GET api/recipes/more
+// @desc Get more recipes
+router.route('/more').get(auth, getMoreRecipes);
 
 // @routes PATCH api/recipes/:id
 // @desc Update the selected recipe
