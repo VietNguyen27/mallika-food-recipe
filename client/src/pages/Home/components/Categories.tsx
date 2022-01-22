@@ -1,53 +1,53 @@
+import { CategoryList, Category } from '@components/Category/Category';
 import CategoryImage1 from '@img/landing-page.jfif';
 import CategoryImage2 from '@img/splash-1.jfif';
 import CategoryImage3 from '@img/splash-2.jfif';
 import CategoryImage4 from '@img/splash-3.jfif';
-import CategoryItem from '@components/Category/CategoryItem';
 
 interface CategoryType {
   id: number;
   image: string;
+  category: string;
   title: string;
 }
 
-const categories: CategoryType[] = [
+export const categories: CategoryType[] = [
   {
     id: 1,
     image: CategoryImage1,
+    category: 'seasonal',
     title: 'Seasonal',
   },
   {
     id: 2,
     image: CategoryImage2,
-    title: 'Cakes',
+    category: 'everyday',
+    title: 'Everyday',
   },
   {
     id: 3,
     image: CategoryImage3,
-    title: 'Everyday',
+    category: 'drinks',
+    title: 'Drinks',
   },
   {
     id: 4,
     image: CategoryImage4,
-    title: 'Drinks',
-  },
-  {
-    id: 5,
-    image: CategoryImage1,
+    category: 'dessert',
     title: 'Dessert',
   },
 ];
 
 const Categories = () => {
   return (
-    <>
-      <h2 className='text-lg mt-8 font-medium'>Category</h2>
-      <div className='overflow-x-auto flex scrollbar-none'>
+    <div className='pb-6'>
+      <h2 className='text-xl mt-8 mb-3 font-semibold'>Category</h2>
+      <CategoryList>
         {categories.map((category) => (
-          <CategoryItem key={category.id} {...category} />
+          <Category key={category.id} {...category} />
         ))}
-      </div>
-    </>
+      </CategoryList>
+    </div>
   );
 };
 

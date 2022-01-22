@@ -1,6 +1,6 @@
 import Navigation from '@layout/Navigation/Navigation';
 import { Outlet } from 'react-router-dom';
-import ToastList from '@components/Toast/ToastList';
+import { ToastList } from '@components/Toast/Toast';
 import AddRecipeDrawer from '@components/RecipeDrawer/AddRecipeDrawer';
 
 const Main = () => {

@@ -1,4 +1,4 @@
-import RecipeList from '@components/Recipe/RecipeList';
+import { RecipeList, Recipe } from '@components/Recipe/Recipe';
 import { RECIPES_BY_DIFFICULTY, RECIPES_BY_TYPE } from '@config/recipe';
 import ImageRecipe5 from '@img/recipe-5.png';
 import ImageRecipe6 from '@img/recipe-6.png';
@@ -16,6 +16,7 @@ const lastSeenItem = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.EASY,
     type: RECIPES_BY_TYPE.OTHER,
+    published: true,
   },
   {
     id: '2',
@@ -27,6 +28,7 @@ const lastSeenItem = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.EASY,
     type: RECIPES_BY_TYPE.OTHER,
+    published: false,
   },
   {
     id: '3',
@@ -38,6 +40,7 @@ const lastSeenItem = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.EASY,
     type: RECIPES_BY_TYPE.OTHER,
+    published: false,
   },
   {
     id: '4',
@@ -49,6 +52,7 @@ const lastSeenItem = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.EASY,
     type: RECIPES_BY_TYPE.OTHER,
+    published: true,
   },
 ];
 
@@ -56,7 +60,11 @@ const LastSeen = () => {
   return (
     <div className='mt-4'>
       <h1 className='text-xl font-medium py-4 px-layout'>Last Seen</h1>
-      <RecipeList recipes={lastSeenItem} />
+      <RecipeList>
+        {lastSeenItem.map((recipe) => (
+          <Recipe key={recipe.id} {...recipe} />
+        ))}
+      </RecipeList>
     </div>
   );
 };

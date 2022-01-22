@@ -17,7 +17,7 @@ import {
 } from '@helpers/helpers';
 import { Camera28Regular } from '@fluentui/react-icons';
 import { createToast } from '@features/toast-slice';
-import { ToastTypes } from '@components/Toast/ToastItem';
+import { ToastTypes } from '@components/Toast/Toast';
 import { Spinner } from '@components/Loading/Loading';
 
 export interface UpdateUserData {

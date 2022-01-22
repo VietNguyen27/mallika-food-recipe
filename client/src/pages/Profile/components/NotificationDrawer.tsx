@@ -1,6 +1,9 @@
 import React from 'react';
 import Drawer from '@components/Drawer/Drawer';
-import NotificationList from '@components/Notification/NotificationList';
+import {
+  NotificationList,
+  Notification,
+} from '@components/Notification/Notification';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
@@ -65,7 +68,11 @@ const NotificationDrawer = () => {
       onClose={() => dispatch(uiActions.setNotificationDrawerShowing(false))}
     >
       <div className='relative h-full overflow-auto scrollbar-none'>
-        <NotificationList notifications={dumbNotifications} />
+        <NotificationList>
+          {dumbNotifications.map((notification) => (
+            <Notification key={notification.id} {...notification} />
+          ))}
+        </NotificationList>
         <Button
           className='absolute left-1/2 bottom-1 -translate-x-1/2 rounded-full'
           size={ButtonSizes.SMALL}

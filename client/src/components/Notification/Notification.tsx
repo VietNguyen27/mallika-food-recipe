@@ -1,5 +1,4 @@
-import React from 'react';
-import cx from 'clsx';
+import React, { ReactChild, ReactChildren } from 'react';
 import { NOTIFICATION_TYPES, NOTIFICATION_NAMES } from '@config/notification';
 import { timeSince } from '@helpers/helpers';
 import {
@@ -9,6 +8,21 @@ import {
   PersonAvailable16Regular,
   ThumbLike16Regular,
 } from '@fluentui/react-icons';
+import cx from 'clsx';
+
+interface NotificationListProps {
+  className?: string;
+  children: ReactChild | ReactChildren | ReactChild[] | ReactChildren[];
+}
+
+interface NotificationProps {
+  className?: string;
+  title: string;
+  description: string | null;
+  type: number;
+  timestamps: any;
+  isReaded: boolean;
+}
 
 const Icons = Object.freeze({
   [NOTIFICATION_TYPES.NEW_FOLLOWER]: <PersonAvailable16Regular />,
@@ -18,7 +32,18 @@ const Icons = Object.freeze({
   [NOTIFICATION_TYPES.REVIEW_LIKED]: <ThumbLike16Regular />,
 });
 
-const NotificationItem = ({
+export const NotificationList: React.FC<NotificationListProps> = ({
+  className,
+  children,
+}) => {
+  const defaultClassName = 'flex flex-col items-stretch';
+  const allClassNames = cx(defaultClassName, className);
+
+  return <ul className={allClassNames}>{children}</ul>;
+};
+
+export const Notification: React.FC<NotificationProps> = ({
+  className,
   title,
   description,
   type,
@@ -28,6 +53,7 @@ const NotificationItem = ({
   const defaultClassName = 'relative p-3 pl-9';
   const allClassNames = cx(
     defaultClassName,
+    className,
     isReaded ? 'bg-beige' : 'bg-transparent'
   );
 
@@ -47,5 +73,3 @@ const NotificationItem = ({
     </li>
   );
 };
-
-export default NotificationItem;

@@ -11,6 +11,7 @@ const initialState: UiState = {
   notificationDrawerShowing: false,
   editProfileDrawerShowing: false,
   addRecipeDrawerShowing: false,
+  communityDrawerShowing: false,
 };
 
 const reducersCreator = (initialState: UiState): any => {

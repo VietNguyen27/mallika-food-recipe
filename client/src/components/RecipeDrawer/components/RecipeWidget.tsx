@@ -42,8 +42,6 @@ const RecipeWidget: React.FC<RecieWidgetProps> = ({
   );
 
   const onEditWidget = () => {
-    toggle();
-
     if (setEditable) {
       setEditable(true);
     }
@@ -57,12 +55,10 @@ const RecipeWidget: React.FC<RecieWidgetProps> = ({
         direction,
       })
     );
-    toggle();
   };
 
   const onSetAsItem = () => {
     dispatch(editRecipeWidget({ type, _id, isHeader: !isHeader }));
-    toggle();
   };
 
   const onRemoveWidget = () => {
@@ -72,7 +68,6 @@ const RecipeWidget: React.FC<RecieWidgetProps> = ({
         _id,
       })
     );
-    toggle();
   };
 
   return (

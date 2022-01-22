@@ -37,9 +37,9 @@ const Switch: React.FC<SwitchProps> = ({
   onChange,
 }) => {
   const [isActive, setIsActive] = useState(false);
-  const defaultClassNames = 'relative rounded-full cursor-pointer';
+  const defaultClassName = 'relative rounded-full cursor-pointer';
   const allClassNames = cx(
-    defaultClassNames,
+    defaultClassName,
     SwitchContainerSize[size],
     isActive ? 'bg-orange' : 'bg-gray-800',
     className

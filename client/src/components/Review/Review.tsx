@@ -1,7 +1,34 @@
-import React from 'react';
+import React, { ReactChild, ReactChildren } from 'react';
 import { Heart24Regular, MoreVertical24Filled } from '@fluentui/react-icons';
+import cx from 'clsx';
 
-const ReviewItem = ({ recipe, comment }) => {
+interface RecipeType {
+  image: string;
+  title: string;
+}
+
+interface ReviewListProps {
+  className?: string;
+  children: ReactChild | ReactChildren | ReactChild[] | ReactChildren[];
+}
+
+interface ReviewProps {
+  className?: string;
+  recipe: RecipeType;
+  comment: string;
+}
+
+export const ReviewList: React.FC<ReviewListProps> = ({
+  className,
+  children,
+}) => {
+  const defaultClassName = 'flex flex-col items-stretch';
+  const allClassNames = cx(defaultClassName, className);
+
+  return <ul className={allClassNames}>{children}</ul>;
+};
+
+export const Review: React.FC<ReviewProps> = ({ recipe, comment }) => {
   return (
     <li className='px-layout py-3 border-b border-gray-400'>
       <div className='flex gap-2'>
@@ -30,5 +57,3 @@ const ReviewItem = ({ recipe, comment }) => {
     </li>
   );
 };
-
-export default ReviewItem;

@@ -7,7 +7,11 @@ import { Tab, Tabs } from '@components/Tabs/Tabs';
 import IntroTab from './components/IntroTab';
 import IngredientTab from './components/IngredientTab';
 import StepTab from './components/StepTab';
-import { clearErrors, selectorRecipeError } from '@features/recipe-slice';
+import {
+  clearErrors,
+  clearRecipeWidgets,
+  selectorRecipeError,
+} from '@features/recipe-slice';
 import { getErrorFromJoiMessage } from '@helpers/helpers';
 
 const tabs = [
@@ -40,6 +44,7 @@ const AddRecipeDrawer = () => {
   const onCloseDrawer = (): void => {
     dispatch(uiActions.setAddRecipeDrawerShowing(false));
     dispatch(clearErrors());
+    dispatch(clearRecipeWidgets());
   };
 
   return (

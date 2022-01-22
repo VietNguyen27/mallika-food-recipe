@@ -5,11 +5,17 @@ import {
   isSomeAsyncActionsPending,
   isSomeAsyncActionsRejected,
 } from '@helpers/action-slice';
-import { createRecipe, getFeaturedRecipes, getMyRecipes } from './recipe-slice';
+import {
+  createRecipe,
+  getAllRecipes,
+  getFeaturedRecipes,
+  getMyRecipes,
+} from './recipe-slice';
 
 const initialState = {
   featuredRecipesLoading: false,
   myRecipesLoading: false,
+  allRecipesLoading: false,
 };
 
 const isFeaturedRecipesPending = isSomeAsyncActionsPending([
@@ -34,6 +40,10 @@ const isMyRecipesReject = isSomeAsyncActionsRejected([
   createRecipe,
   getMyRecipes,
 ]);
+
+const isAllRecipesPending = isSomeAsyncActionsPending([getAllRecipes]);
+const isAllRecipesFulfilled = isSomeAsyncActionsFulfilled([getAllRecipes]);
+const isAllRecipesReject = isSomeAsyncActionsRejected([getAllRecipes]);
 
 const reducersCreator = (initialState) => {
   const reducersObj = {};
@@ -76,6 +86,16 @@ const loadingSlice = createSlice({
     });
     builder.addMatcher(isMyRecipesReject, (state) => {
       state.myRecipesLoading = false;
+    });
+
+    builder.addMatcher(isAllRecipesPending, (state) => {
+      state.allRecipesLoading = true;
+    });
+    builder.addMatcher(isAllRecipesFulfilled, (state) => {
+      state.allRecipesLoading = false;
+    });
+    builder.addMatcher(isAllRecipesReject, (state) => {
+      state.allRecipesLoading = false;
     });
   },
 });

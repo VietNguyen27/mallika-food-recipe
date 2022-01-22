@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import cx from 'clsx';
-import { ToastItemState } from '@features/toast-slice';
+import { selectorToast, ToastProps } from '@features/toast-slice';
+import { useSelector } from 'react-redux';
 import {
   CheckmarkCircle20Filled,
   Warning20Filled,
@@ -14,6 +16,10 @@ export enum ToastTypes {
   WARNING = 'warning',
   ERROR = 'error',
   INFO = 'info',
+}
+
+interface ToastListProps {
+  className?: string;
 }
 
 const ToastColor = Object.freeze({
@@ -44,12 +50,30 @@ const ToastIconColors = Object.freeze({
   [ToastTypes.INFO]: 'text-blue-600',
 });
 
-const ToastItem: React.FC<ToastItemState> = ({ message, type }) => {
+export const ToastList: React.FC<ToastListProps> = ({ className }) => {
+  const toasts = useSelector(selectorToast);
+  const defaultClassName =
+    'absolute z-50 top-8 right-0 px-3 flex flex-col items-stretch';
+  const allClassNames = cx(defaultClassName, className);
+
+  return toasts.length
+    ? ReactDOM.createPortal(
+        <ul className={allClassNames}>
+          {toasts.map((toast) => (
+            <Toast key={toast._id} {...toast} />
+          ))}
+        </ul>,
+        document.querySelector('main')
+      )
+    : null;
+};
+
+export const Toast: React.FC<ToastProps> = ({ message, type }) => {
   const [isVisible, setIsVisible] = useState(true);
-  const defaultClassNames =
+  const defaultClassName =
     'relative py-2 pr-2 pl-8 rounded-md mb-2 text-xs max-w-[200px] overflow-hidden animate-slide-in after:absolute after:inset-y-0 after:left-0 after:w-1';
   const allClassNames = cx(
-    defaultClassNames,
+    defaultClassName,
     ToastColor[type],
     !isVisible && 'animate-slide-out'
   );
@@ -67,5 +91,3 @@ const ToastItem: React.FC<ToastItemState> = ({ message, type }) => {
     </li>
   );
 };
-
-export default ToastItem;

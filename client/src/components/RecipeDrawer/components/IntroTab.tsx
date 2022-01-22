@@ -8,18 +8,16 @@ import RoundedButton, {
 import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
 import Switch from '@components/Switch/Switch';
 import { Option, Select } from '@components/Select/Select';
-import { RECIPES_BY_DIFFICULTY } from '@config/recipe';
+import {
+  CATEGORY_NAME,
+  RECIPES_BY_CATEGORY,
+  RECIPES_BY_DIFFICULTY,
+} from '@config/recipe';
 import { Edit20Regular } from '@fluentui/react-icons';
 import NoImage from '@img/no-image.jfif';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import {
-  changeStatusSuccess,
-  createRecipe,
-  selectorRecipeError,
-  selectorRecipeIngredients,
-  selectorRecipeSteps,
-} from '@features/recipe-slice';
+import { changeStatusSuccess, createRecipe } from '@features/recipe-slice';
 import { selectorUser } from '@features/auth-slice';
 import {
   convertBase64,
@@ -29,10 +27,14 @@ import {
 import { RootState } from '@redux/reducers';
 import { Spinner } from '@components/Loading/Loading';
 import { createToast } from '@features/toast-slice';
-import { ToastTypes } from '@components/Toast/ToastItem';
+import { ToastTypes } from '@components/Toast/Toast';
+import { TagList, Tag } from '@components/Tag/Tag';
 
 const IntroTab = () => {
   const [thumbnail, setThumbnail] = useState<null | string>(null);
+  const [categorySelected, setCategorySelected] = useState<number>(
+    RECIPES_BY_CATEGORY.BREAKFAST
+  );
   const inputFileRef: any = useRef(null);
   const dispatch = useDispatch();
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -87,6 +89,7 @@ const IntroTab = () => {
     const newRecipe = {
       user: user._id,
       difficulty: RECIPES_BY_DIFFICULTY.EASY,
+      category: categorySelected,
       reviews: [],
       ingredients,
       steps,
@@ -171,6 +174,20 @@ const IntroTab = () => {
         error={recipeError['description']}
         {...register('description')}
       />
+      <div>
+        <span className='text-sm text-gray-800'>Category</span>
+        <TagList className='pt-1.5'>
+          {Object.values(RECIPES_BY_CATEGORY).map((category) => (
+            <Tag
+              key={category}
+              isActive={category === categorySelected}
+              onClick={() => setCategorySelected(category)}
+            >
+              {CATEGORY_NAME[category]}
+            </Tag>
+          ))}
+        </TagList>
+      </div>
       <div className='flex gap-4'>
         <div className='flex-1'>
           <Select
