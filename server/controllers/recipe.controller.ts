@@ -94,7 +94,39 @@ export const getAllRecipes = async (
     const recipes = await RecipeModel.find({ user: { $nin: req.user._id } })
       .populate('user', 'name avatar')
       .sort({ _id: -1 })
-      .limit(8);
+      .limit(6);
+
+    if (!recipes) {
+      res
+        .status(400)
+        .json({ error: 'Something went wrong while getting all recipes!' });
+      return;
+    }
+
+    res.status(200).json(recipes);
+    return;
+  } catch (error) {
+    res.status(400).json({ error });
+    return;
+  }
+};
+
+export const getMoreRecipes = async (
+  req: IGetUserAuthInfoRequest,
+  res: Response
+): Promise<void> => {
+  try {
+    const skip = req.query.skip ? Number(req.query.skip) : 0;
+    const recipes = await RecipeModel.find(
+      {
+        user: { $nin: req.user._id },
+      },
+      undefined,
+      { skip }
+    )
+      .populate('user', 'name avatar')
+      .sort({ _id: -1 })
+      .limit(6);
 
     if (!recipes) {
       res

@@ -1,6 +1,7 @@
 import { recipeApi } from '@api/recipe';
 import { DOWNWARDS, UPWARDS } from '@config/constants';
 import { slowLoading } from '@helpers/helpers';
+import { RootState } from '@redux/reducers';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export interface IngredientState {
@@ -30,6 +31,7 @@ export interface RecipeData {
 
 interface RecipeState {
   success: boolean;
+  out_of_recipe: boolean;
   intro: object;
   ingredients: IngredientState[];
   steps: StepState[];
@@ -41,6 +43,7 @@ interface RecipeState {
 
 const initialState: RecipeState = {
   success: false,
+  out_of_recipe: false,
   intro: {},
   ingredients: [],
   steps: [],
@@ -98,6 +101,22 @@ export const getAllRecipes = createAsyncThunk(
     try {
       await slowLoading();
       const response = await recipeApi.getAll();
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getMoreRecipes = createAsyncThunk(
+  'recipes/more',
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      await slowLoading();
+      const state: any = getState();
+      const totalRecipes = state.recipe.recipes.length;
+      const response = await recipeApi.getMore(totalRecipes);
 
       return response.data;
     } catch (error: any) {
@@ -173,7 +192,14 @@ const recipeSlice = createSlice({
       state.my_recipes = action.payload;
     });
     builder.addCase(getAllRecipes.fulfilled, (state, action: any) => {
-      state.recipes = [...state.recipes, ...action.payload];
+      state.recipes = action.payload;
+    });
+    builder.addCase(getMoreRecipes.fulfilled, (state, action: any) => {
+      if (action.payload.length) {
+        state.recipes = [...state.recipes, ...action.payload];
+      } else {
+        state.out_of_recipe = true;
+      }
     });
   },
 });

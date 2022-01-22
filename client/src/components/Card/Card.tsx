@@ -98,7 +98,7 @@ export const CardSmall: React.FC<CardSmallProps> = ({
   user,
   num_reviews,
 }) => {
-  const defaultClassName = 'w-1/2 mb-5 px-1 last:mb-0';
+  const defaultClassName = 'w-1/2 mb-5 px-1';
   const allClassNames = cx(defaultClassName, className);
 
   return (

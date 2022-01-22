@@ -3,7 +3,7 @@ import Drawer from '@components/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
-import { getAllRecipes, selectorRecipes } from '@features/recipe-slice';
+import { getAllRecipes, getMoreRecipes } from '@features/recipe-slice';
 import { CardSmallSkeleton } from '@components/Skeleton/Skeleton';
 import { Options20Regular } from '@fluentui/react-icons';
 import useToggle from '@hooks/useToggle';
@@ -18,6 +18,8 @@ import {
   SORT_NAME,
 } from '@config/recipe';
 import cx from 'clsx';
+import { Spinner } from '@components/Loading/Loading';
+import Icon, { IconTypes } from '@components/Icon/Icon';
 
 const CommunityDrawer = () => {
   const [category, setCategory] = useState<number>(-1);
@@ -32,7 +34,12 @@ const CommunityDrawer = () => {
   const loading = useSelector(
     ({ loading }: RootState) => loading.allRecipesLoading
   );
-  const recipes = useSelector(selectorRecipes);
+  const moreLoading = useSelector(
+    ({ loading }: RootState) => loading.moreRecipesLoading
+  );
+  const { recipes, out_of_recipe } = useSelector(
+    ({ recipe }: RootState) => recipe
+  );
 
   useEffect(() => {
     if (active && !recipes.length) {
@@ -43,6 +50,10 @@ const CommunityDrawer = () => {
   const handleScroll = (e) => {
     const isBottom =
       e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight;
+
+    if (isBottom && !moreLoading && !out_of_recipe) {
+      dispatch(getMoreRecipes());
+    }
   };
 
   const closeOptionDropdown = () => {
@@ -91,7 +102,7 @@ const CommunityDrawer = () => {
           </div>
         </div>
         <div
-          className='h-full px-3 pt-4 pb-8 overflow-auto scrollbar-none'
+          className='h-full px-3 pt-4 pb-2 overflow-auto scrollbar-none'
           onScroll={handleScroll}
         >
           <CardList className='flex-row flex-wrap -mx-1'>
@@ -103,6 +114,19 @@ const CommunityDrawer = () => {
                   <CardSmall key={recipe._id} {...recipe} />
                 ))}
           </CardList>
+          <div className='flex justify-center h-7'>
+            {moreLoading && <Spinner color='var(--color-orange)' />}
+            {out_of_recipe && (
+              <span className='inline-flex items-center gap-1.5'>
+                <Icon
+                  className='text-zinc-700'
+                  icon='receipt_long'
+                  type={IconTypes.ROUNDED}
+                />{' '}
+                Out of recipe
+              </span>
+            )}
+          </div>
         </div>
       </Drawer>
       <Dropdown isShowing={isShowing} onClose={closeOptionDropdown}>
