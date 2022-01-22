@@ -216,7 +216,7 @@ const IntroTab = () => {
       </div>
       <div className='flex justify-between items-center'>
         <span className='text-sm text-gray-800'>Publish to Community?</span>
-        <Switch name='is_published' onChange={setValue} />
+        <Switch name='isPublished' onChange={setValue} />
       </div>
       <Button
         type={loading ? ButtonTypes.BUTTON : ButtonTypes.SUBMIT}
