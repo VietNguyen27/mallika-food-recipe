@@ -109,12 +109,22 @@ export const decreaseLikedCount = createAsyncThunk(
 
 export const getFeaturedRecipes = createAsyncThunk(
   'recipes/featured',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
+      const state: any = getState();
+      const userId = state.auth.user._id;
       const response = await recipeApi.getFeatured();
+      const recipes = response.data.map((recipe) => {
+        const isLiked = recipe.likes.includes(userId);
 
-      return response.data;
+        return {
+          ...recipe,
+          isLiked,
+        };
+      });
+
+      return recipes;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -137,12 +147,22 @@ export const getMyRecipes = createAsyncThunk(
 
 export const getAllRecipes = createAsyncThunk(
   'recipes/all',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
+      const state: any = getState();
+      const userId = state.auth.user._id;
       const response = await recipeApi.getAll();
+      const recipes = response.data.map((recipe) => {
+        const isLiked = recipe.likes.includes(userId);
 
-      return response.data;
+        return {
+          ...recipe,
+          isLiked,
+        };
+      });
+
+      return recipes;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -155,10 +175,19 @@ export const getMoreRecipes = createAsyncThunk(
     try {
       await slowLoading();
       const state: any = getState();
+      const userId = state.auth.user._id;
       const totalRecipes = state.recipe.recipes.length;
       const response = await recipeApi.getMore(totalRecipes);
+      const recipes = response.data.map((recipe) => {
+        const isLiked = recipe.likes.includes(userId);
 
-      return response.data;
+        return {
+          ...recipe,
+          isLiked,
+        };
+      });
+
+      return recipes;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -239,11 +268,17 @@ const recipeSlice = createSlice({
       );
 
       if (index !== -1) {
-        state.recipes[index] = action.payload;
+        state.recipes[index] = {
+          ...action.payload,
+          isLiked: true,
+        };
       }
 
       if (featuredIndex !== -1) {
-        state.featuredRecipes[featuredIndex] = action.payload;
+        state.featuredRecipes[featuredIndex] = {
+          ...action.payload,
+          isLiked: true,
+        };
       }
     });
     builder.addCase(decreaseLikedCount.fulfilled, (state: any, action: any) => {
@@ -255,11 +290,17 @@ const recipeSlice = createSlice({
       );
 
       if (index !== -1) {
-        state.recipes[index] = action.payload;
+        state.recipes[index] = {
+          ...action.payload,
+          isLiked: false,
+        };
       }
 
       if (featuredIndex !== -1) {
-        state.featuredRecipes[featuredIndex] = action.payload;
+        state.featuredRecipes[featuredIndex] = {
+          ...action.payload,
+          isLiked: false,
+        };
       }
     });
     builder.addCase(getFeaturedRecipes.fulfilled, (state, action: any) => {

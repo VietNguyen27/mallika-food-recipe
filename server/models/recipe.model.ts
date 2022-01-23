@@ -16,7 +16,7 @@ export interface IRecipe {
   rating: number;
   numReviews: number;
   likedCount: number;
-  isLiked: boolean;
+  likes: string[];
   isPublished: boolean;
 }
 
@@ -93,10 +93,12 @@ export const RecipeSchema = new Schema<IRecipe>(
       type: Number,
       default: 0,
     },
-    isLiked: {
-      type: Boolean,
-      default: false,
-    },
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
     isPublished: {
       type: Boolean,
       default: false,

@@ -186,7 +186,7 @@ export const updateRecipe = async (
 };
 
 export const likeRecipe = async (
-  req: Request,
+  req: IGetUserAuthInfoRequest,
   res: Response
 ): Promise<void> => {
   try {
@@ -196,7 +196,7 @@ export const likeRecipe = async (
       },
       {
         $inc: { likedCount: 1 },
-        isLiked: true,
+        $push: { likes: req.user._id },
       },
       { returnOriginal: false }
     ).populate('user', 'name avatar');
@@ -216,7 +216,7 @@ export const likeRecipe = async (
 };
 
 export const unlikeRecipe = async (
-  req: Request,
+  req: IGetUserAuthInfoRequest,
   res: Response
 ): Promise<void> => {
   try {
@@ -226,7 +226,7 @@ export const unlikeRecipe = async (
       },
       {
         $inc: { likedCount: -1 },
-        isLiked: false,
+        $pull: { likes: req.user._id },
       },
       { returnOriginal: false }
     ).populate('user', 'name avatar');
