@@ -24,7 +24,9 @@ interface RecieWidgetProps {
   _id?: string;
   title: string;
   isHeader: boolean;
+  index?: number;
   setEditable?: (editable: boolean) => void;
+  setInputValue?: (value: object) => void;
 }
 
 const RecipeWidget: React.FC<RecieWidgetProps> = ({
@@ -32,7 +34,9 @@ const RecipeWidget: React.FC<RecieWidgetProps> = ({
   _id,
   title,
   isHeader,
+  index,
   setEditable,
+  setInputValue,
 }) => {
   const { isShowing, toggle } = useToggle();
   const dispatch = useDispatch();
@@ -42,8 +46,12 @@ const RecipeWidget: React.FC<RecieWidgetProps> = ({
   );
 
   const onEditWidget = () => {
-    if (setEditable) {
+    if (setEditable && setInputValue) {
       setEditable(true);
+      setInputValue({
+        title,
+        index,
+      });
     }
   };
 

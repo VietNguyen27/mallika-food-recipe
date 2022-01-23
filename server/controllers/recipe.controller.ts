@@ -91,7 +91,10 @@ export const getAllRecipes = async (
   res: Response
 ): Promise<void> => {
   try {
-    const recipes = await RecipeModel.find({ user: { $nin: req.user._id } })
+    const recipes = await RecipeModel.find({
+      user: { $nin: req.user._id },
+      isPublished: true,
+    })
       .populate('user', 'name avatar')
       .sort({ _id: -1 })
       .limit(6);
@@ -120,6 +123,7 @@ export const getMoreRecipes = async (
     const recipes = await RecipeModel.find(
       {
         user: { $nin: req.user._id },
+        isPublished: true,
       },
       undefined,
       { skip }

@@ -39,6 +39,7 @@ const IntroTab = () => {
   const [categorySelected, setCategorySelected] = useState<number>(
     RECIPES_BY_CATEGORY.BREAKFAST
   );
+  const [triggerReset, setTriggerReset] = useState<boolean>(false);
   const inputFileRef: any = useRef(null);
   const dispatch = useDispatch();
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -62,6 +63,9 @@ const IntroTab = () => {
       dispatch(changeStatusSuccess());
       reset();
       setThumbnail(null);
+      setCategorySelected(RECIPES_BY_CATEGORY.BREAKFAST);
+      setTriggerReset(true);
+      setTimeout(() => setTriggerReset(false), 100);
     }
   }, [success]);
 
@@ -90,7 +94,7 @@ const IntroTab = () => {
     }
   };
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit((data) => {
     const newRecipe = {
       user: user._id,
       difficulty: RECIPES_BY_DIFFICULTY.EASY,
@@ -103,7 +107,7 @@ const IntroTab = () => {
       ...data,
     };
 
-    await dispatch(createRecipe(newRecipe));
+    dispatch(createRecipe(newRecipe));
   });
 
   return (
@@ -210,6 +214,7 @@ const IntroTab = () => {
             name='difficulty'
             label='Difficulty'
             defaultValue={RECIPES_BY_DIFFICULTY.EASY}
+            triggerReset={triggerReset}
             onChange={setValue}
           >
             <Option value={RECIPES_BY_DIFFICULTY.EASY}>Easy</Option>
@@ -234,7 +239,11 @@ const IntroTab = () => {
       </div>
       <div className='flex justify-between items-center'>
         <span className='text-sm text-gray-800'>Publish to Community?</span>
-        <Switch name='isPublished' onChange={setValue} />
+        <Switch
+          name='isPublished'
+          triggerReset={triggerReset}
+          onChange={setValue}
+        />
       </div>
       <Button
         type={loading ? ButtonTypes.BUTTON : ButtonTypes.SUBMIT}

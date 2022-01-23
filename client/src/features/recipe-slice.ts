@@ -207,6 +207,7 @@ const recipeSlice = createSlice({
       const index = state[type].findIndex(
         ({ _id }) => _id === action.payload._id
       );
+
       state[type][index] = { ...state[type][index], ...rest };
     },
     changePositionRecipeWidget: (state, action) => {
