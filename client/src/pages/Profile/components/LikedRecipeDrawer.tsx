@@ -25,7 +25,7 @@ const LikedRecipeDrawer = () => {
     if (active && !likedRecipes.length) {
       dispatch(getAllLikedRecipes());
     }
-  }, [dispatch]);
+  }, [dispatch, active]);
 
   return (
     <Drawer

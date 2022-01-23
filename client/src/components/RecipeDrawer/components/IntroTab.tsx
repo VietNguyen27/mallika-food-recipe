@@ -96,6 +96,7 @@ const IntroTab = () => {
       difficulty: RECIPES_BY_DIFFICULTY.EASY,
       category: categorySelected,
       reviews: [],
+      likes: [],
       ingredients,
       steps,
       image: {},
