@@ -4,14 +4,21 @@ import Modal from '@components/Modal/Modal';
 import Switch, { SwitchSizes } from '@components/Switch/Switch';
 import Button, { ButtonSizes, ButtonTypes } from '@components/Button/Button';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { uuid } from '@helpers/helpers';
-import { addRecipeWidget, clearError } from '@features/recipe-slice';
+import {
+  addRecipeWidget,
+  clearError,
+  editRecipeWidget,
+} from '@features/recipe-slice';
+import { RootState } from '@redux/reducers';
 
 interface ModalAddWidgetProps {
   type: string;
   isShowing: boolean;
   editable?: boolean;
+  inputValue?: any;
+  setEditable?: (editable: boolean) => void;
   toggle: () => void;
 }
 
@@ -19,6 +26,8 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
   type,
   isShowing,
   editable,
+  inputValue,
+  setEditable,
   toggle,
 }) => {
   const typeTitle = type === 'ingredients' ? 'Ingredient' : 'Step';
@@ -27,11 +36,13 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
     : `Add new ${typeTitle}`;
   const [error, setError] = useState<string>('');
   const dispatch = useDispatch();
+  const recipe = useSelector(({ recipe }: RootState) => recipe);
   const { register, handleSubmit, setValue } = useForm();
 
   useEffect(() => {
     if (editable) {
       toggle();
+      setValue('title', inputValue.title);
     }
   }, [editable]);
 
@@ -42,16 +53,24 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
       return setError(`${typeTitle} is not allowed to be empty`);
     }
 
-    const _id = uuid();
-    const newWidget = {
-      ...data,
-      type,
-      _id,
-      isHeader: isHeader || false,
-    };
+    if (editable) {
+      const { _id } = recipe[type][inputValue.index];
+
+      dispatch(editRecipeWidget({ type, _id, title }));
+      setEditable && setEditable(false);
+      toggle();
+    } else {
+      const _id = uuid();
+      const newWidget = {
+        ...data,
+        type,
+        _id,
+        isHeader: isHeader || false,
+      };
+      dispatch(addRecipeWidget(newWidget));
+    }
 
     dispatch(clearError(type));
-    dispatch(addRecipeWidget(newWidget));
     setValue('title', '');
     setError('');
   });

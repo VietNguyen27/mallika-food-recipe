@@ -11,6 +11,7 @@ import ListEmpty from '@img/list-empty.png';
 import ModalAddWidget from './ModalAddWidget';
 
 const StepTab = () => {
+  const [inputValue, setInputValue] = useState({});
   const [editable, setEditable] = useState(false);
   const { isShowing, toggle } = useToggle();
   const steps = useSelector(selectorRecipeSteps);
@@ -19,11 +20,13 @@ const StepTab = () => {
     <>
       <div className='relative h-full flex flex-col items-stretch px-3 pt-3'>
         {steps.length > 0 ? (
-          steps.map((ingredient) => (
+          steps.map((ingredient, index) => (
             <RecipeWidget
               key={ingredient._id}
               type='steps'
+              index={index}
               setEditable={setEditable}
+              setInputValue={setInputValue}
               {...ingredient}
             />
           ))
@@ -48,6 +51,8 @@ const StepTab = () => {
         isShowing={isShowing}
         toggle={toggle}
         editable={editable}
+        inputValue={inputValue}
+        setEditable={setEditable}
       />
     </>
   );

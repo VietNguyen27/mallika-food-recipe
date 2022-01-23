@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cx from 'clsx';
 import { FieldValues, UseFormSetValue } from 'react-hook-form';
 
@@ -27,6 +27,7 @@ interface SwitchProps {
   name: string;
   size?: SwitchSizes;
   className?: string;
+  triggerReset?: boolean;
   onChange: UseFormSetValue<FieldValues>;
 }
 
@@ -34,6 +35,7 @@ const Switch: React.FC<SwitchProps> = ({
   name,
   size = SwitchSizes.MEDIUM,
   className,
+  triggerReset,
   onChange,
 }) => {
   const [isActive, setIsActive] = useState(false);
@@ -44,6 +46,13 @@ const Switch: React.FC<SwitchProps> = ({
     isActive ? 'bg-orange' : 'bg-gray-800',
     className
   );
+
+  useEffect(() => {
+    if (triggerReset) {
+      setIsActive(false);
+      onChange(name, false);
+    }
+  }, [triggerReset]);
 
   const onClick = () => {
     setIsActive((prevState) => !prevState);

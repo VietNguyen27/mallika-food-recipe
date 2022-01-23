@@ -5,6 +5,7 @@ import React, {
   useRef,
   Fragment,
   cloneElement,
+  useEffect,
 } from 'react';
 import cx from 'clsx';
 import useOnClickOutside from '@hooks/useOnClickOutside';
@@ -19,8 +20,9 @@ interface SelectProps {
   variant?: SelectVariants;
   name: string;
   label: string;
-  defaultValue?: string | number;
+  defaultValue: string | number;
   className?: string;
+  triggerReset?: boolean;
   children: ReactChild | ReactChildren | ReactChild[] | ReactChildren[];
   onChange: (name: string, value: string | number) => void;
 }
@@ -38,6 +40,7 @@ export const Select: React.FC<SelectProps> = ({
   label,
   defaultValue,
   className,
+  triggerReset,
   children,
   onChange,
 }) => {
@@ -49,6 +52,13 @@ export const Select: React.FC<SelectProps> = ({
     variant === SelectVariants.PRIMARY && 'p-2 mb-1 border rounded-md',
     variant === SelectVariants.SECONDARY && 'pb-1 pt-1 border-b'
   );
+
+  useEffect(() => {
+    if (triggerReset) {
+      setSelectedOption(defaultValue);
+      onChange(name, defaultValue);
+    }
+  }, [triggerReset]);
 
   const handleClickOutside = () => setShowDropdown(false);
 
