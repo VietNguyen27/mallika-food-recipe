@@ -6,10 +6,8 @@ import {
   Heart12Filled,
 } from '@fluentui/react-icons';
 import { DIFFICULTY_NAME, RECIPES_BY_TYPE } from '@config/recipe';
-import RoundedButton, {
-  RoundedButtonSizes,
-} from '@components/Button/RoundedButton';
 import cx from 'clsx';
+import { generateBase64Image } from '@helpers/helpers';
 
 interface TimeType {
   hour: number;
@@ -28,7 +26,7 @@ interface RecipeProps {
   time: TimeType;
   difficulty: number;
   type: number;
-  published: boolean;
+  isPublished: boolean;
 }
 
 export const RecipeList: React.FC<RecipeListProps> = ({
@@ -48,35 +46,32 @@ export const Recipe: React.FC<RecipeProps> = ({
   time,
   difficulty,
   type,
-  published,
+  isPublished,
 }) => {
   const defaultClassName = 'py-3 px-layout border-b border-gray-400';
   const allClassNames = cx(defaultClassName, className);
-  const { ME, LIKED } = RECIPES_BY_TYPE;
+  const { ME, OTHER, LIKED } = RECIPES_BY_TYPE;
 
   return (
     <li className={allClassNames}>
       <div className='flex gap-2'>
-        <div className='relative w-14 h-14 flex-shrink-0 mt-1 rounded-lg overflow-hidden'>
+        <div className='relative w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden'>
           <img
-            src={image}
+            src={generateBase64Image(image)}
             className='absolute w-full h-full object-cover'
             alt={title}
           />
         </div>
         <div className='w-full'>
           <div className='flex justify-between items-start pb-1'>
-            <h3 className='text-sm pr-2'>{title}</h3>
-            {type === ME ||
-              (type === LIKED && (
-                <div className='flex-shrink-0'>
-                  <button className='text-gray-600'>
-                    <MoreVertical24Filled />
-                  </button>
-                </div>
-              ))}
+            <h3 className='pr-2 leading-5 line-clamp-2'>{title}</h3>
+            <div className='flex-shrink-0'>
+              <button className='text-gray-600'>
+                <MoreVertical24Filled />
+              </button>
+            </div>
           </div>
-          {!published ? (
+          {type === OTHER || (type === ME && !isPublished) ? (
             <div className='flex gap-3'>
               <div className='inline-flex items-center'>
                 <span className='text-gray-600 pr-1'>
@@ -109,12 +104,9 @@ export const Recipe: React.FC<RecipeProps> = ({
                 <span className='pr-1'>103</span>
                 <span>Reviews</span>
               </p>
-              <RoundedButton
-                className='absolute right-0 bg-blue-800 mr-4 inline-flex items-center'
-                size={RoundedButtonSizes.EXTRA_SMALL}
-              >
+              <span className='ml-auto bg-blue-800 text-white mr-4 px-2 py-1 inline-flex items-center rounded-2xl'>
                 Published
-              </RoundedButton>
+              </span>
             </div>
           )}
         </div>

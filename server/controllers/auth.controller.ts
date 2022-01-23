@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import fs from 'fs';
-import UserModel, { User } from '../models/user.model';
+import UserModel, { IUser } from '../models/user.model';
 import {
   loginValidation,
   registerValidation,
@@ -13,7 +13,7 @@ import {
 } from '../utils/utils';
 
 export const register = async (req: Request, res: Response): Promise<void> => {
-  const { email, password }: User = req.body;
+  const { email, password }: IUser = req.body;
   const { error } = registerValidation(req.body);
 
   if (error) {
@@ -70,7 +70,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const login = async (req: Request, res: Response): Promise<void> => {
-  const { email, password }: User = req.body;
+  const { email, password }: IUser = req.body;
   const { error } = loginValidation(req.body);
 
   if (error) {

@@ -31,3 +31,22 @@ export const CardSmallSkeleton = () => {
     </li>
   );
 };
+
+export const RecipeSkeleton = () => {
+  return (
+    <li className='py-3 px-layout border-b border-gray-400'>
+      <div className='relative flex gap-2'>
+        <div className='w-14 h-14 flex-shrink-0 bg-gray-200 animate-pulse rounded-lg overflow-hidden'></div>
+        <div className='w-full'>
+          <div className='w-4/5 h-3.5 bg-gray-200 animate-pulse rounded-sm'></div>
+          <div className='w-3/5 h-3.5 bg-gray-200 animate-pulse mt-1 rounded-sm'></div>
+          <div className='flex mt-2'>
+            <div className='w-16 h-3.5 bg-gray-200 animate-pulse rounded-sm'></div>
+            <div className='w-12 h-3.5 bg-gray-200 animate-pulse ml-3 rounded-sm'></div>
+          </div>
+        </div>
+        <div className='absolute top-0 right-2 w-2 h-6 bg-gray-200 animate-pulse rounded-sm'></div>
+      </div>
+    </li>
+  );
+};

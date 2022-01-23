@@ -16,7 +16,7 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
     }
 
     const _id = decoded.id;
-    const user = await UserModel.findById({ _id });
+    const user = await UserModel.findById({ _id }).select('-password');
 
     res.status(200).json(user);
     return;

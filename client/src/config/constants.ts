@@ -6,10 +6,18 @@ export const GET_USER_URL = `${SERVER_BASE_URL}/users/me`;
 export const UPDATE_USER_URL = `${SERVER_BASE_URL}/users`;
 
 export const CREATE_RECIPE_URL = `${SERVER_BASE_URL}/recipes`;
+export const UPDATE_RECIPE_URL = `${SERVER_BASE_URL}/recipes`;
+export const LIKE_RECIPE_URL = `${SERVER_BASE_URL}/recipes/like`;
+export const UNLIKE_RECIPE_URL = `${SERVER_BASE_URL}/recipes/unlike`;
 export const GET_FEATURED_RECIPES_URL = `${SERVER_BASE_URL}/recipes/featured`;
 export const GET_MY_RECIPES_URL = `${SERVER_BASE_URL}/recipes/me`;
 export const GET_ALL_RECIPES_URL = `${SERVER_BASE_URL}/recipes/all`;
 export const GET_MORE_RECIPES_URL = `${SERVER_BASE_URL}/recipes/more`;
+
+export const ADD_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked`;
+export const REMOVE_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked`;
+export const GET_ALL_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked/all`;
+export const GET_MORE_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked/more`;
 
 export const MINIMUM_LOADER_DELAY = 500;
 export const MINIMUM_AUTH_DELAY = 1000;

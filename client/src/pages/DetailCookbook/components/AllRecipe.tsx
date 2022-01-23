@@ -18,7 +18,7 @@ const dumbRecipes = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.EASY,
     type: RECIPES_BY_TYPE.LIKED,
-    published: true,
+    isPublished: true,
   },
   {
     id: '2',
@@ -30,7 +30,7 @@ const dumbRecipes = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.MEDIUM,
     type: RECIPES_BY_TYPE.LIKED,
-    published: true,
+    isPublished: true,
   },
   {
     id: '3',
@@ -42,7 +42,7 @@ const dumbRecipes = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.HARD,
     type: RECIPES_BY_TYPE.LIKED,
-    published: true,
+    isPublished: true,
   },
   {
     id: '4',
@@ -54,7 +54,7 @@ const dumbRecipes = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.MEDIUM,
     type: RECIPES_BY_TYPE.LIKED,
-    published: true,
+    isPublished: true,
   },
   {
     id: '5',
@@ -66,7 +66,7 @@ const dumbRecipes = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.MEDIUM,
     type: RECIPES_BY_TYPE.LIKED,
-    published: false,
+    isPublished: false,
   },
   {
     id: '6',
@@ -78,7 +78,7 @@ const dumbRecipes = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.MEDIUM,
     type: RECIPES_BY_TYPE.LIKED,
-    published: true,
+    isPublished: true,
   },
   {
     id: '7',
@@ -90,7 +90,7 @@ const dumbRecipes = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.MEDIUM,
     type: RECIPES_BY_TYPE.LIKED,
-    published: true,
+    isPublished: true,
   },
 ];
 
