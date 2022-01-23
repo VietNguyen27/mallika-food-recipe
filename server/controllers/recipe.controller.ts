@@ -177,7 +177,67 @@ export const updateRecipe = async (
       return;
     }
 
-    res.status(200).json({ message: 'Updated this recipe successfully!' });
+    res.status(200).json(recipe);
+    return;
+  } catch (error) {
+    res.status(400).json({ error });
+    return;
+  }
+};
+
+export const likeRecipe = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const recipe = await RecipeModel.findOneAndUpdate(
+      {
+        _id: req.params.id,
+      },
+      {
+        $inc: { likedCount: 1 },
+        isLiked: true,
+      },
+      { returnOriginal: false }
+    ).populate('user', 'name avatar');
+    if (!recipe) {
+      res
+        .status(400)
+        .json({ error: 'Something went wrong while updating this recipe!' });
+      return;
+    }
+
+    res.status(200).json(recipe);
+    return;
+  } catch (error) {
+    res.status(400).json({ error });
+    return;
+  }
+};
+
+export const unlikeRecipe = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const recipe = await RecipeModel.findOneAndUpdate(
+      {
+        _id: req.params.id,
+      },
+      {
+        $inc: { likedCount: -1 },
+        isLiked: false,
+      },
+      { returnOriginal: false }
+    ).populate('user', 'name avatar');
+    if (!recipe) {
+      res
+        .status(400)
+        .json({ error: 'Something went wrong while updating this recipe!' });
+      return;
+    }
+
+    res.status(200).json(recipe);
     return;
   } catch (error) {
     res.status(400).json({ error });

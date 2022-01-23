@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-export interface User {
+export interface IUser {
   email: string;
   name: string;
   password?: string;
@@ -9,7 +9,7 @@ export interface User {
   firstLogin?: boolean;
 }
 
-const UserSchema = new Schema<User>(
+const UserSchema = new Schema<IUser>(
   {
     email: {
       type: String,
@@ -42,6 +42,12 @@ const UserSchema = new Schema<User>(
   }
 );
 
-const UserModel = model<User>('User', UserSchema);
+UserSchema.virtual('liked', {
+  ref: 'Liked',
+  localField: '_id',
+  foreignField: 'user',
+});
+
+const UserModel = model<IUser>('User', UserSchema);
 
 export default UserModel;

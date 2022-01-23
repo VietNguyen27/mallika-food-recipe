@@ -1,13 +1,13 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
-interface Review {
+interface IReview {
   user: Types.ObjectId;
   name: string;
   rating: number;
   comment: string;
 }
 
-const ReviewSchema = new Schema<Review>(
+const ReviewSchema = new Schema<IReview>(
   {
     name: {
       type: String,

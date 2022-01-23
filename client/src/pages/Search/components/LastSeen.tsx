@@ -16,7 +16,7 @@ const lastSeenItem = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.EASY,
     type: RECIPES_BY_TYPE.OTHER,
-    published: true,
+    isPublished: true,
   },
   {
     id: '2',
@@ -28,7 +28,7 @@ const lastSeenItem = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.EASY,
     type: RECIPES_BY_TYPE.OTHER,
-    published: false,
+    isPublished: false,
   },
   {
     id: '3',
@@ -40,7 +40,7 @@ const lastSeenItem = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.EASY,
     type: RECIPES_BY_TYPE.OTHER,
-    published: false,
+    isPublished: false,
   },
   {
     id: '4',
@@ -52,7 +52,7 @@ const lastSeenItem = [
     },
     difficulty: RECIPES_BY_DIFFICULTY.EASY,
     type: RECIPES_BY_TYPE.OTHER,
-    published: true,
+    isPublished: true,
   },
 ];
 

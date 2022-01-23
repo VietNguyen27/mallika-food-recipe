@@ -4,6 +4,7 @@ import uiReducer from '@features/ui-slice';
 import toastReducer from '@features/toast-slice';
 import recipeReducer from '@features/recipe-slice';
 import loadingReducer from '@features/loading-slice';
+import likedReducer from '@features/liked-slice';
 
 export const appReducer = combineReducers({
   auth: authReducer,
@@ -11,6 +12,7 @@ export const appReducer = combineReducers({
   toast: toastReducer,
   loading: loadingReducer,
   recipe: recipeReducer,
+  liked: likedReducer,
 });
 
 export const rootReducer = (

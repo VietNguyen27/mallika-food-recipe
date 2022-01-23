@@ -1,7 +1,6 @@
 import { recipeApi } from '@api/recipe';
 import { DOWNWARDS, UPWARDS } from '@config/constants';
 import { slowLoading } from '@helpers/helpers';
-import { RootState } from '@redux/reducers';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export interface IngredientState {
@@ -59,6 +58,47 @@ export const createRecipe = createAsyncThunk(
     try {
       await slowLoading();
       const response = await recipeApi.create(body);
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateRecipe = createAsyncThunk(
+  'recipes/update',
+  async (body: any, { rejectWithValue }) => {
+    try {
+      await slowLoading();
+      const { _id, ...rest } = body;
+      const response = await recipeApi.update(_id, rest);
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const increaseLikedCount = createAsyncThunk(
+  'recipes/like',
+  async (_id: string, { rejectWithValue }) => {
+    try {
+      const response = await recipeApi.like(_id);
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const decreaseLikedCount = createAsyncThunk(
+  'recipes/unlike',
+  async (_id: string, { rejectWithValue }) => {
+    try {
+      const response = await recipeApi.unlike(_id);
 
       return response.data;
     } catch (error: any) {
@@ -126,7 +166,7 @@ export const getMoreRecipes = createAsyncThunk(
 );
 
 const recipeSlice = createSlice({
-  name: 'auth',
+  name: 'recipe',
   initialState,
   reducers: {
     addRecipeWidget: (state, action) => {
@@ -189,6 +229,38 @@ const recipeSlice = createSlice({
     });
     builder.addCase(createRecipe.rejected, (state, action: any) => {
       state.error = action.payload;
+    });
+    builder.addCase(increaseLikedCount.fulfilled, (state: any, action: any) => {
+      const index = state.recipes.findIndex(
+        ({ _id }) => _id === action.payload._id
+      );
+      const featuredIndex = state.featuredRecipes.findIndex(
+        ({ _id }) => _id === action.payload._id
+      );
+
+      if (index !== -1) {
+        state.recipes[index] = action.payload;
+      }
+
+      if (featuredIndex !== -1) {
+        state.featuredRecipes[featuredIndex] = action.payload;
+      }
+    });
+    builder.addCase(decreaseLikedCount.fulfilled, (state: any, action: any) => {
+      const index = state.recipes.findIndex(
+        ({ _id }) => _id === action.payload._id
+      );
+      const featuredIndex = state.featuredRecipes.findIndex(
+        ({ _id }) => _id === action.payload._id
+      );
+
+      if (index !== -1) {
+        state.recipes[index] = action.payload;
+      }
+
+      if (featuredIndex !== -1) {
+        state.featuredRecipes[featuredIndex] = action.payload;
+      }
     });
     builder.addCase(getFeaturedRecipes.fulfilled, (state, action: any) => {
       state.featuredRecipes = action.payload;

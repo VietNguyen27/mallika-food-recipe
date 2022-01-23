@@ -12,12 +12,15 @@ import {
   getMoreRecipes,
   getMyRecipes,
 } from './recipe-slice';
+import { getAllLikedRecipes, getMoreLikedRecipes } from './liked-slice';
 
 const initialState = {
   featuredRecipesLoading: false,
   myRecipesLoading: false,
   allRecipesLoading: false,
   moreRecipesLoading: false,
+  allLikedRecipesLoading: false,
+  moreLikedRecipesLoading: false,
 };
 
 const isFeaturedRecipesPending = isSomeAsyncActionsPending([
@@ -50,6 +53,26 @@ const isAllRecipesReject = isSomeAsyncActionsRejected([getAllRecipes]);
 const isMoreRecipesPending = isSomeAsyncActionsPending([getMoreRecipes]);
 const isMoreRecipesFulfilled = isSomeAsyncActionsFulfilled([getMoreRecipes]);
 const isMoreRecipesReject = isSomeAsyncActionsRejected([getMoreRecipes]);
+
+const isAllLikedRecipesPending = isSomeAsyncActionsPending([
+  getAllLikedRecipes,
+]);
+const isAllLikedRecipesFulfilled = isSomeAsyncActionsFulfilled([
+  getAllLikedRecipes,
+]);
+const isAllLikedRecipesReject = isSomeAsyncActionsRejected([
+  getAllLikedRecipes,
+]);
+
+const isMoreLikedRecipesPending = isSomeAsyncActionsPending([
+  getMoreLikedRecipes,
+]);
+const isMoreLikedRecipesFulfilled = isSomeAsyncActionsFulfilled([
+  getMoreLikedRecipes,
+]);
+const isMoreLikedRecipesReject = isSomeAsyncActionsRejected([
+  getMoreLikedRecipes,
+]);
 
 const reducersCreator = (initialState) => {
   const reducersObj = {};
@@ -112,6 +135,26 @@ const loadingSlice = createSlice({
     });
     builder.addMatcher(isMoreRecipesReject, (state) => {
       state.moreRecipesLoading = false;
+    });
+
+    builder.addMatcher(isAllLikedRecipesPending, (state) => {
+      state.allLikedRecipesLoading = true;
+    });
+    builder.addMatcher(isAllLikedRecipesFulfilled, (state) => {
+      state.allLikedRecipesLoading = false;
+    });
+    builder.addMatcher(isAllLikedRecipesReject, (state) => {
+      state.allLikedRecipesLoading = false;
+    });
+
+    builder.addMatcher(isMoreLikedRecipesPending, (state) => {
+      state.moreLikedRecipesLoading = true;
+    });
+    builder.addMatcher(isMoreLikedRecipesFulfilled, (state) => {
+      state.moreLikedRecipesLoading = false;
+    });
+    builder.addMatcher(isMoreLikedRecipesReject, (state) => {
+      state.moreLikedRecipesLoading = false;
     });
   },
 });

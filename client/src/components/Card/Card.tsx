@@ -2,10 +2,15 @@ import React, { ReactChild, ReactChildren } from 'react';
 import {
   Heart20Filled,
   Heart20Regular,
+  Heart24Filled,
   Heart24Regular,
 } from '@fluentui/react-icons';
 import { generateBase64Image } from '@helpers/helpers';
 import cx from 'clsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectorUser } from '@features/auth-slice';
+import { addLikedRecipe, removeLikedRecipe } from '@features/liked-slice';
+import { decreaseLikedCount, increaseLikedCount } from '@features/recipe-slice';
 
 interface CardListProps {
   className?: string;
@@ -13,21 +18,37 @@ interface CardListProps {
 }
 
 interface CardProps {
+  _id: string;
   className?: string;
   image: object;
   title: string;
+  time: {
+    hour: number;
+    minute: number;
+  };
   user: object | any;
+  difficulty: number;
+  serve: number;
   likedCount: number;
   numReviews: number;
+  isLiked: boolean;
 }
 
 interface CardSmallProps {
+  _id: string;
   className?: string;
   image: object;
   title: string;
+  time: {
+    hour: number;
+    minute: number;
+  };
   user: object | any;
+  difficulty: number;
+  serve: number;
   likedCount: number;
   numReviews: number;
+  isLiked: boolean;
 }
 
 export const CardList: React.FC<CardListProps> = ({ className, children }) => {
@@ -43,15 +64,34 @@ export const CardList: React.FC<CardListProps> = ({ className, children }) => {
 };
 
 export const Card: React.FC<CardProps> = ({
+  _id,
   className,
   image,
   title,
   user,
   likedCount,
   numReviews,
+  isLiked,
 }) => {
   const defaultClassName = 'mb-8 last:mb-0';
   const allClassNames = cx(defaultClassName, className);
+  const dispatch = useDispatch();
+  const currentUser = useSelector(selectorUser);
+
+  const handleLikeRecipe = async () => {
+    const likedRecipe = {
+      recipe: _id,
+      user: currentUser._id,
+    };
+
+    await dispatch(addLikedRecipe(likedRecipe));
+    dispatch(increaseLikedCount(_id));
+  };
+
+  const handleUnlikeRecipe = async () => {
+    await dispatch(removeLikedRecipe(_id));
+    dispatch(decreaseLikedCount(_id));
+  };
 
   return (
     <li className={allClassNames}>
@@ -85,21 +125,52 @@ export const Card: React.FC<CardProps> = ({
             </p>
           </div>
         </div>
-        <Heart24Regular className='text-orange absolute top-1/2 right-0 -translate-y-1/2 cursor-pointer' />
+        {currentUser._id !== user._id &&
+          (isLiked ? (
+            <Heart24Filled
+              className='text-orange absolute top-1/2 right-0 -translate-y-1/2 cursor-pointer'
+              onClick={() => handleUnlikeRecipe()}
+            />
+          ) : (
+            <Heart24Regular
+              className='text-orange absolute top-1/2 right-0 -translate-y-1/2 cursor-pointer'
+              onClick={() => handleLikeRecipe()}
+            />
+          ))}
       </div>
     </li>
   );
 };
 
 export const CardSmall: React.FC<CardSmallProps> = ({
+  _id,
   className,
   image,
   title,
   user,
+  likedCount,
   numReviews,
+  isLiked,
 }) => {
   const defaultClassName = 'w-1/2 mb-5 px-1';
   const allClassNames = cx(defaultClassName, className);
+  const dispatch = useDispatch();
+  const currentUser = useSelector(selectorUser);
+
+  const handleLikeRecipe = async () => {
+    const likedRecipe = {
+      recipe: _id,
+      user: currentUser._id,
+    };
+
+    await dispatch(addLikedRecipe(likedRecipe));
+    dispatch(increaseLikedCount(_id));
+  };
+
+  const handleUnlikeRecipe = async () => {
+    await dispatch(removeLikedRecipe(_id));
+    dispatch(decreaseLikedCount(_id));
+  };
 
   return (
     <li className={allClassNames}>
@@ -121,13 +192,27 @@ export const CardSmall: React.FC<CardSmallProps> = ({
         />
         <div className='relative flex-1'>
           <p className='text-xs line-clamp-1'>{user.name}</p>
-          <p className='text-xs text-gray-800 mr-1'>
-            <span className='mr-1'>{numReviews}</span>
-            <span>{numReviews > 1 ? 'Reviews' : 'Review'}</span>
-          </p>
-          <button className='absolute -bottom-0.5 right-1 text-orange'>
-            <Heart20Regular />
-          </button>
+          <div className='w-full flex justify-between items-center'>
+            <p className='text-xs text-gray-800 mr-1'>
+              <span className='mr-1'>{numReviews}</span>
+              <span>{numReviews > 1 ? 'reviews' : 'review'}</span>
+            </p>
+            <p className='inline-flex items-center text-xs text-gray-800'>
+              <span className='mr-1'>{likedCount}</span>
+              {currentUser._id !== user._id &&
+                (isLiked ? (
+                  <Heart20Filled
+                    className='text-orange cursor-pointer'
+                    onClick={() => handleUnlikeRecipe()}
+                  />
+                ) : (
+                  <Heart20Regular
+                    className='text-orange cursor-pointer'
+                    onClick={() => handleLikeRecipe()}
+                  />
+                ))}
+            </p>
+          </div>
         </div>
       </div>
     </li>

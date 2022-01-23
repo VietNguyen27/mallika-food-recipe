@@ -7,6 +7,8 @@ import {
   getMoreRecipes,
   getMyRecipes,
   getRecipeById,
+  likeRecipe,
+  unlikeRecipe,
   updateRecipe,
 } from '../controllers/recipe.controller';
 import { auth } from '../middlewares/auth.middleware';
@@ -32,6 +34,14 @@ router.route('/all').get(auth, getAllRecipes);
 // @routes GET api/recipes/more
 // @desc Get more recipes
 router.route('/more').get(auth, getMoreRecipes);
+
+// @routes PATCH api/recipes/me
+// @desc PATCH my recipes
+router.route('/like/:id').patch(auth, likeRecipe);
+
+// @routes PATCH api/recipes/me
+// @desc PATCH my recipes
+router.route('/unlike/:id').patch(auth, unlikeRecipe);
 
 // @routes PATCH api/recipes/:id
 // @desc Update the selected recipe

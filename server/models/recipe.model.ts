@@ -1,7 +1,7 @@
 import mongoose, { Schema, model, Types } from 'mongoose';
 import ReviewSchema from './review.model';
 
-export interface Recipe {
+export interface IRecipe {
   user: Types.ObjectId;
   title: string;
   time: object;
@@ -16,10 +16,11 @@ export interface Recipe {
   rating: number;
   numReviews: number;
   likedCount: number;
+  isLiked: boolean;
   isPublished: boolean;
 }
 
-const RecipeSchema = new Schema<Recipe>(
+export const RecipeSchema = new Schema<IRecipe>(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -92,6 +93,10 @@ const RecipeSchema = new Schema<Recipe>(
       type: Number,
       default: 0,
     },
+    isLiked: {
+      type: Boolean,
+      default: false,
+    },
     isPublished: {
       type: Boolean,
       default: false,
@@ -102,6 +107,6 @@ const RecipeSchema = new Schema<Recipe>(
   }
 );
 
-const RecipeModel = model<Recipe>('Recipe', RecipeSchema);
+const RecipeModel = model<IRecipe>('Recipe', RecipeSchema);
 
 export default RecipeModel;
