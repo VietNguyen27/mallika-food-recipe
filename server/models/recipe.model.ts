@@ -106,6 +106,7 @@ export const RecipeSchema = new Schema<IRecipe>(
   },
   {
     timestamps: true,
+    strict: false,
   }
 );
 

@@ -19,6 +19,9 @@ export const REMOVE_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked`;
 export const GET_ALL_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked/all`;
 export const GET_MORE_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked/more`;
 
+export const SEARCH_URL = `${SERVER_BASE_URL}/search`;
+
+export const MINIMUM_SEARCH_DELAY = 500;
 export const MINIMUM_LOADER_DELAY = 500;
 export const MINIMUM_AUTH_DELAY = 1000;
 

@@ -22,11 +22,11 @@ interface RecipeListProps {
 interface RecipeProps {
   className?: string;
   title: string;
-  image: string;
+  image: object;
   time: TimeType;
   difficulty: number;
   type: number;
-  isPublished: boolean;
+  isPublished?: boolean;
 }
 
 export const RecipeList: React.FC<RecipeListProps> = ({

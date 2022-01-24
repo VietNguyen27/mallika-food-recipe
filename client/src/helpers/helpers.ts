@@ -153,9 +153,11 @@ export const uuid = (): number => {
   return Number(array.join(''));
 };
 
-export const slowLoading = async (): Promise<void> => {
+export const slowLoading = async (
+  delay = MINIMUM_AUTH_DELAY
+): Promise<void> => {
   return new Promise(function (resolve, reject) {
-    setTimeout(resolve, MINIMUM_AUTH_DELAY);
+    setTimeout(resolve, delay);
   });
 };
 
