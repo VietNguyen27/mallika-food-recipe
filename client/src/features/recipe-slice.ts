@@ -37,7 +37,7 @@ interface RecipeState {
   error: object[];
   recipes: object[];
   featuredRecipes: object[];
-  myRecipes: object[];
+  myRecipes: object[] | null;
 }
 
 const initialState: RecipeState = {
@@ -49,7 +49,7 @@ const initialState: RecipeState = {
   error: [],
   recipes: [],
   featuredRecipes: [],
-  myRecipes: [],
+  myRecipes: null,
 };
 
 export const createRecipe = createAsyncThunk(
@@ -255,7 +255,11 @@ const recipeSlice = createSlice({
       state.ingredients = [];
       state.steps = [];
       state.error = [];
-      state.myRecipes = [action.payload, ...state.myRecipes];
+      if (state.myRecipes) {
+        state.myRecipes = [action.payload, ...state.myRecipes];
+      } else {
+        state.myRecipes = [action.payload];
+      }
     });
     builder.addCase(createRecipe.rejected, (state, action: any) => {
       state.error = action.payload;

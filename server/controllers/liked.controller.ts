@@ -31,14 +31,13 @@ export const addLikedRecipe = async (
 };
 
 export const removeLikedRecipe = async (
-  req: Request,
+  req: IGetUserAuthInfoRequest,
   res: Response
 ): Promise<void> => {
   try {
     const recipe = await LikedModel.findOneAndDelete({
-      recipe: {
-        _id: req.params.id,
-      },
+      recipe: req.params.id,
+      user: req.user._id,
     });
     if (!recipe) {
       res
@@ -47,7 +46,7 @@ export const removeLikedRecipe = async (
       return;
     }
 
-    res.status(200).json(recipe._id);
+    res.status(200).json(recipe.recipe);
     return;
   } catch (error) {
     res.status(400).json({ error });

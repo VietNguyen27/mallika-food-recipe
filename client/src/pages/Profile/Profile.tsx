@@ -76,7 +76,7 @@ const Profile = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const dispatch = useDispatch();
   const user: any = useSelector(selectorUser);
-  const myRecipes = useSelector(selectorMyRecipes);
+  const myRecipes: any = useSelector(selectorMyRecipes);
   const loading = useSelector(
     ({ loading }: RootState) => loading.myRecipesLoading
   );
@@ -90,7 +90,7 @@ const Profile = () => {
   );
 
   useEffect(() => {
-    if (!myRecipes.length) {
+    if (!myRecipes) {
       dispatch(getMyRecipes());
     }
   }, [dispatch]);
@@ -150,12 +150,13 @@ const Profile = () => {
                 ? [...Array(3).keys()].map((_, index) => (
                     <CardSkeleton key={index} />
                   ))
-                : myRecipes.map((recipe: any) => (
+                : myRecipes &&
+                  myRecipes.map((recipe: any) => (
                     <Card key={recipe._id} {...recipe} />
                   ))}
             </CardList>
-            {!myRecipes.length && (
-              <div className='flex flex-col items-center text-center px-4'>
+            {myRecipes && !myRecipes.length && (
+              <div className='flex flex-col items-center text-center px-4 pt-4'>
                 <img src={BoxEmpty} alt='no ingredients yet' width='150' />
                 <h4 className='font-semibold'>No recipes yet!</h4>
                 <p>Click the plus button to create some recipes of your own.</p>
