@@ -1,4 +1,4 @@
-import { ReactNode, forwardRef } from 'react';
+import { ChangeEvent, ReactNode, forwardRef } from 'react';
 import { ChangeHandler } from 'react-hook-form';
 import cx from 'clsx';
 
@@ -7,11 +7,14 @@ interface SearchInputProps {
   label?: string;
   placeholder: string;
   className?: string;
+  containerClassName?: string;
+  value?: string;
   register?: any;
   suffix?: ReactNode;
   autoFocus?: boolean;
-  onChange?: ChangeHandler;
-  onBlur?: ChangeHandler;
+  onFocus?: () => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
@@ -21,8 +24,11 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       name,
       placeholder,
       className,
+      containerClassName,
+      value,
       register,
       suffix,
+      onFocus,
       onChange,
       onBlur,
       ...otherProps
@@ -30,11 +36,11 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     ref
   ) => {
     const defaultClassName =
-      'w-full outline-0 rounded-2xl text-sm placeholder-gray-800';
+      'w-full pr-10 outline-0 rounded-2xl text-sm placeholder-gray-800';
     const allClassNames = cx(defaultClassName, className);
 
     return (
-      <div className='relative'>
+      <div className={cx('relative', containerClassName)}>
         <input
           type='text'
           className={allClassNames}
@@ -42,6 +48,8 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           placeholder={placeholder}
           autoComplete='off'
           ref={ref}
+          value={value}
+          onFocus={onFocus}
           onChange={onChange}
           onBlur={onBlur}
           {...otherProps}

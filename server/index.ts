@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.route';
 import userRoutes from './routes/user.route';
 import recipeRoutes from './routes/recipe.route';
 import likedRoutes from './routes/liked.route';
+import searchRoutes from './routes/search.route';
 import connectDB from './config/database';
 
 dotenv.config();
@@ -21,5 +22,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/liked', likedRoutes);
+app.use('/api/search', searchRoutes);
 
 app.listen(PORT, () => console.log(`Server is running at PORT: ${PORT}`));

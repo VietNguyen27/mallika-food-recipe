@@ -2,7 +2,6 @@ import LandingImage from '@img/landing-page.jfif';
 import PopularRecipe from './components/PopularRecipe';
 import AllRecipe from './components/AllRecipe';
 import SearchInput from '@components/Input/SearchInput';
-import { useForm } from 'react-hook-form';
 import {
   ChevronLeft24Regular,
   Edit24Regular,
@@ -14,12 +13,6 @@ import RoundedButton, {
 } from '@components/Button/RoundedButton';
 
 const DetailCookbook = () => {
-  const { register, handleSubmit } = useForm();
-
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
-  });
-
   return (
     <div className='relative h-full overflow-auto scrollbar-none pb-20'>
       <RoundedButton
@@ -55,11 +48,11 @@ const DetailCookbook = () => {
           </div>
         </div>
       </div>
-      <form onSubmit={onSubmit} className='px-layout pt-4'>
+      <div className='px-layout pt-4'>
         <SearchInput
+          name='search'
           placeholder='Recipe Title, Ingredient'
           className='px-4 py-3 bg-gray-100'
-          {...register('search')}
           suffix={
             <button
               type='submit'
@@ -70,7 +63,7 @@ const DetailCookbook = () => {
             </button>
           }
         />
-      </form>
+      </div>
       <PopularRecipe />
       <AllRecipe />
     </div>
