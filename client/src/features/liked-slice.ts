@@ -9,11 +9,11 @@ export interface LikedRecipeData {
 }
 
 interface LikedState {
-  recipes: object[];
+  recipes: object[] | null;
 }
 
 const initialState: LikedState = {
-  recipes: [],
+  recipes: null,
 };
 
 export const addLikedRecipe = createAsyncThunk(
@@ -78,15 +78,20 @@ const likedSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(addLikedRecipe.fulfilled, (state, action: any) => {
-      state.recipes = [
-        { ...action.payload, type: RECIPES_BY_TYPE.OTHER },
-        ...state.recipes,
-      ];
+      const likedRecipe = { ...action.payload, type: RECIPES_BY_TYPE.OTHER };
+
+      if (state.recipes) {
+        state.recipes = [likedRecipe, ...state.recipes];
+      } else {
+        state.recipes = [likedRecipe];
+      }
     });
     builder.addCase(removeLikedRecipe.fulfilled, (state, action: any) => {
-      state.recipes = state.recipes.filter(
-        (recipe: any) => recipe._id !== action.payload
-      );
+      state.recipes =
+        state.recipes &&
+        state.recipes.filter(
+          ({ recipe }: any) => recipe._id !== action.payload
+        );
     });
     builder.addCase(getAllLikedRecipes.fulfilled, (state, action: any) => {
       state.recipes = action.payload.map((recipe) => ({
@@ -95,13 +100,15 @@ const likedSlice = createSlice({
       }));
     });
     builder.addCase(getMoreLikedRecipes.fulfilled, (state, action: any) => {
-      state.recipes = [
-        ...state.recipes,
-        ...action.payload.map((recipe) => ({
-          ...recipe,
-          type: RECIPES_BY_TYPE.OTHER,
-        })),
-      ];
+      if (state.recipes) {
+        state.recipes = [
+          ...state.recipes,
+          ...action.payload.map((recipe) => ({
+            ...recipe,
+            type: RECIPES_BY_TYPE.OTHER,
+          })),
+        ];
+      }
     });
   },
 });

@@ -22,7 +22,7 @@ const LikedRecipeDrawer = () => {
   const likedRecipes: any = useSelector(selectorLikedRecipes);
 
   useEffect(() => {
-    if (active && !likedRecipes.length) {
+    if (active && !likedRecipes) {
       dispatch(getAllLikedRecipes());
     }
   }, [dispatch, active]);
@@ -39,11 +39,12 @@ const LikedRecipeDrawer = () => {
             ? [...Array(6).keys()].map((recipe) => (
                 <RecipeSkeleton key={recipe} />
               ))
-            : likedRecipes.map(({ _id, recipe, type }) => (
+            : likedRecipes &&
+              likedRecipes.map(({ _id, recipe, type }) => (
                 <Recipe key={_id} type={type} {...recipe} />
               ))}
         </RecipeList>
-        {!likedRecipes.length && (
+        {likedRecipes && !likedRecipes.length && (
           <div className='flex flex-col items-center text-center px-4 mt-10'>
             <img src={BoxEmpty} alt='no ingredients yet' width='150' />
             <h4 className='font-semibold'>No recipes yet!</h4>
