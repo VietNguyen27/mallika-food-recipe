@@ -14,7 +14,7 @@ import RoundedButton, {
 
 const DetailCookbook = () => {
   return (
-    <div className='relative h-full overflow-auto scrollbar-none pb-20'>
+    <div className='relative h-full overflow-auto scrollbar-none pb-4'>
       <RoundedButton
         className='absolute z-10 top-4 left-3 cursor-pointer'
         variant={RoundedButtonVariants.SECONDARY}

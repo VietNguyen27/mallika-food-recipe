@@ -2,6 +2,7 @@ import { Suspense, useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Phone from '@layout/Phone/Phone';
 import Main from '@layout/Main/Main';
+import Content from '@layout/Content/Content';
 import { Loading } from '@components/Loading/Loading';
 import { lazyImportWithDelay } from '@helpers/helpers';
 import {
@@ -25,6 +26,9 @@ const GroceryPage = lazyImportWithDelay(import('@pages/Grocery/Grocery'));
 const ProfilePage = lazyImportWithDelay(import('@pages/Profile/Profile'));
 const DetailCookbookPage = lazyImportWithDelay(
   import('@pages/DetailCookbook/DetailCookbook')
+);
+const RecipeDetailPage = lazyImportWithDelay(
+  import('@pages/RecipeDetail/RecipeDetail')
 );
 
 const App = () => {
@@ -64,7 +68,10 @@ const App = () => {
               <Route path='/search' element={<SearchPage />} />
               <Route path='/grocery' element={<GroceryPage />} />
               <Route path='/profile' element={<ProfilePage />} />
+            </Route>
+            <Route element={<Content />}>
               <Route path='/detail-cookbook' element={<DetailCookbookPage />} />
+              <Route path='/recipe/:id' element={<RecipeDetailPage />} />
             </Route>
           </Route>
         </Routes>

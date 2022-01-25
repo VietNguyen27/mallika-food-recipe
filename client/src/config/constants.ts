@@ -13,6 +13,7 @@ export const GET_FEATURED_RECIPES_URL = `${SERVER_BASE_URL}/recipes/featured`;
 export const GET_MY_RECIPES_URL = `${SERVER_BASE_URL}/recipes/me`;
 export const GET_ALL_RECIPES_URL = `${SERVER_BASE_URL}/recipes/all`;
 export const GET_MORE_RECIPES_URL = `${SERVER_BASE_URL}/recipes/more`;
+export const GET_RECIPE_BY_ID_URL = `${SERVER_BASE_URL}/recipes`;
 
 export const ADD_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked`;
 export const REMOVE_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked`;

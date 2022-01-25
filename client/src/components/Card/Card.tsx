@@ -6,11 +6,12 @@ import {
   Heart24Regular,
 } from '@fluentui/react-icons';
 import { generateBase64Image } from '@helpers/helpers';
-import cx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectorUser } from '@features/auth-slice';
 import { addLikedRecipe, removeLikedRecipe } from '@features/liked-slice';
 import { decreaseLikedCount, increaseLikedCount } from '@features/recipe-slice';
+import { Link } from 'react-router-dom';
+import cx from 'clsx';
 
 interface CardListProps {
   className?: string;
@@ -102,9 +103,12 @@ export const Card: React.FC<CardProps> = ({
           className='absolute top-0 left-0 w-full h-full object-cover'
         />
       </div>
-      <h2 className='text-xl my-2 font-medium leading-6 line-clamp-2'>
+      <Link
+        to={`/recipe/${_id}`}
+        className='text-xl my-2 font-medium leading-6 line-clamp-2'
+      >
         {title}
-      </h2>
+      </Link>
       <div className='flex items-center mt-1 relative'>
         <img
           src={generateBase64Image(user.avatar)}
@@ -181,9 +185,12 @@ export const CardSmall: React.FC<CardSmallProps> = ({
           className='absolute top-0 left-0 w-full h-full object-cover'
         />
       </div>
-      <h2 className='text-md mt-1 font-medium leading-5 line-clamp-2'>
+      <Link
+        to={`/recipe/${_id}`}
+        className='text-md mt-1 font-medium leading-5 line-clamp-2'
+      >
         {title}
-      </h2>
+      </Link>
       <div className='flex items-center mt-1 relative'>
         <img
           src={generateBase64Image(user.avatar)}

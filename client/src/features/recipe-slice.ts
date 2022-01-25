@@ -35,6 +35,7 @@ interface RecipeState {
   ingredients: IngredientState[];
   steps: StepState[];
   error: object[];
+  recipe: any;
   recipes: object[];
   featuredRecipes: object[];
   myRecipes: object[] | null;
@@ -47,6 +48,7 @@ const initialState: RecipeState = {
   ingredients: [],
   steps: [],
   error: [],
+  recipe: null,
   recipes: [],
   featuredRecipes: [],
   myRecipes: null,
@@ -194,6 +196,26 @@ export const getMoreRecipes = createAsyncThunk(
   }
 );
 
+export const getRecipeById = createAsyncThunk(
+  'recipes/id',
+  async (id: string, { rejectWithValue, getState }) => {
+    try {
+      await slowLoading();
+      const state: any = getState();
+      const userId = state.auth.user._id;
+      const response = await recipeApi.getById(id);
+      const isLiked = response.data.likes.includes(userId);
+
+      return {
+        ...response.data,
+        isLiked,
+      };
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const recipeSlice = createSlice({
   name: 'recipe',
   initialState,
@@ -264,6 +286,7 @@ const recipeSlice = createSlice({
     builder.addCase(createRecipe.rejected, (state, action: any) => {
       state.error = action.payload;
     });
+
     builder.addCase(increaseLikedCount.fulfilled, (state: any, action: any) => {
       const index = state.recipes.findIndex(
         ({ _id }) => _id === action.payload._id
@@ -285,7 +308,15 @@ const recipeSlice = createSlice({
           isLiked: true,
         };
       }
+
+      if (state.recipe) {
+        state.recipe = {
+          ...action.payload,
+          isLiked: true,
+        };
+      }
     });
+
     builder.addCase(decreaseLikedCount.fulfilled, (state: any, action: any) => {
       const index = state.recipes.findIndex(
         ({ _id }) => _id === action.payload._id
@@ -307,22 +338,37 @@ const recipeSlice = createSlice({
           isLiked: false,
         };
       }
+
+      if (state.recipe) {
+        state.recipe = {
+          ...action.payload,
+          isLiked: false,
+        };
+      }
     });
+
     builder.addCase(getFeaturedRecipes.fulfilled, (state, action: any) => {
       state.featuredRecipes = action.payload;
     });
+
     builder.addCase(getMyRecipes.fulfilled, (state, action: any) => {
       state.myRecipes = action.payload;
     });
+
     builder.addCase(getAllRecipes.fulfilled, (state, action: any) => {
       state.recipes = action.payload;
     });
+
     builder.addCase(getMoreRecipes.fulfilled, (state, action: any) => {
       if (action.payload.length) {
         state.recipes = [...state.recipes, ...action.payload];
       } else {
         state.outOfRecipe = true;
       }
+    });
+
+    builder.addCase(getRecipeById.fulfilled, (state, action: any) => {
+      state.recipe = action.payload;
     });
   },
 });
@@ -351,4 +397,6 @@ export const selectorFeaturedRecipes = (state: { recipe: RecipeState }) =>
   state.recipe.featuredRecipes;
 export const selectorMyRecipes = (state: { recipe: RecipeState }) =>
   state.recipe.myRecipes;
+export const selectorRecipe = (state: { recipe: RecipeState }) =>
+  state.recipe.recipe;
 export default recipeSlice.reducer;
