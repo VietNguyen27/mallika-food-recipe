@@ -50,3 +50,24 @@ export const RecipeSkeleton = () => {
     </li>
   );
 };
+
+export const RecipeDetailSkeleton = () => {
+  return (
+    <div className='h-full overflow-scroll scrollbar-none'>
+      <div className='h-[150%]'>
+        <div className='relative h-[30%] bg-gray-100'>
+          <div className='absolute top-4 left-4 w-12 h-12 bg-gray-200 animate-pulse rounded-full'></div>
+          <div className='absolute top-4 right-4 w-12 h-12 bg-gray-200 animate-pulse rounded-full'></div>
+          <div className='absolute bottom-0 left-0 w-full h-12 px-layout'>
+            <div className='h-full rounded-t-2xl bg-white'></div>
+          </div>
+        </div>
+        <div className='flex flex-col gap-3 h-1/3 px-layout -mt-12'>
+          <div className='h-3/5 bg-gray-200 animate-pulse rounded-2xl'></div>
+          <div className='h-2/5 bg-gray-200 animate-pulse rounded-2xl'></div>
+        </div>
+        <div className='h-1/2 bg-gray-200 animate-pulse mt-4'></div>
+      </div>
+    </div>
+  );
+};

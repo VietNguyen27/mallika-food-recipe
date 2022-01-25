@@ -8,6 +8,7 @@ import {
   UPDATE_RECIPE_URL,
   LIKE_RECIPE_URL,
   UNLIKE_RECIPE_URL,
+  GET_RECIPE_BY_ID_URL,
 } from '@config/constants';
 import { RecipeData } from '@features/recipe-slice';
 
@@ -35,5 +36,8 @@ export const recipeApi = {
   },
   getMore(skip) {
     return request.get(`${GET_MORE_RECIPES_URL}?skip=${skip}`);
+  },
+  getById(id) {
+    return request.get(`${GET_RECIPE_BY_ID_URL}/${id}`);
   },
 };
