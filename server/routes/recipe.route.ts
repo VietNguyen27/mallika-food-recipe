@@ -11,6 +11,12 @@ import {
   unlikeRecipe,
   updateRecipe,
 } from '../controllers/recipe.controller';
+import {
+  addNewReview,
+  deleteReview,
+  getAllReviews,
+  updateReview,
+} from '../controllers/review.controller';
 import { auth } from '../middlewares/auth.middleware';
 
 const router = Router();
@@ -42,6 +48,22 @@ router.route('/like/:id').patch(auth, likeRecipe);
 // @routes PATCH api/recipes/me
 // @desc PATCH my recipes
 router.route('/unlike/:id').patch(auth, unlikeRecipe);
+
+// @routes POST api/recipe/:recipeId/reviews
+// @desc Create new review
+router.route('/:recipeId/reviews').post(auth, addNewReview);
+
+// @routes GET api/recipe/recipeId/reviews/all
+// @desc Get all reviews
+router.route('/:recipeId/reviews/all').get(auth, getAllReviews);
+
+// @routes PATCH api/recipe/:recipeId/reviews/:reviewId
+// @desc Update selected review
+router.route('/:recipeId/reviews/:reviewId').patch(auth, updateReview);
+
+// @routes DELETE api/recipe/:recipeId/reviews/:reviewId
+// @desc Delete the selected review
+router.route('/:recipeId/reviews/:reviewId').delete(auth, deleteReview);
 
 // @routes PATCH api/recipes/:id
 // @desc Update the selected recipe

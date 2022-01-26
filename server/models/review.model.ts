@@ -2,17 +2,12 @@ import mongoose, { Schema, Types } from 'mongoose';
 
 interface IReview {
   user: Types.ObjectId;
-  name: string;
   rating: number;
   comment: string;
 }
 
 const ReviewSchema = new Schema<IReview>(
   {
-    name: {
-      type: String,
-      required: true,
-    },
     rating: {
       type: Number,
       required: true,

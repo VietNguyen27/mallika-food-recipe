@@ -12,6 +12,7 @@ const initialState: UiState = {
   editProfileDrawerShowing: false,
   addRecipeDrawerShowing: false,
   communityDrawerShowing: false,
+  reviewsDrawerShowing: false,
 };
 
 const reducersCreator = (initialState: UiState): any => {

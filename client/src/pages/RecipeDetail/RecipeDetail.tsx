@@ -32,6 +32,7 @@ import RoundedButton, {
 } from '@components/Button/RoundedButton';
 import { DIFFICULTY_NAME } from '@config/recipe';
 import { Tab, Tabs } from '@components/Tabs/Tabs';
+import { uiActions } from '@features/ui-slice';
 
 const RecipeDetail = () => {
   const { id } = useParams();
@@ -160,7 +161,10 @@ const RecipeDetail = () => {
             <span>
               {numReviews > 0 ? `Reviews (${numReviews})` : 'Review (0)'}
             </span>
-            <button className='uppercase text-orange text-small font-semibold'>
+            <button
+              className='uppercase text-orange text-small font-semibold'
+              onClick={() => dispatch(uiActions.setReviewsDrawerShowing(true))}
+            >
               Read all
             </button>
           </div>

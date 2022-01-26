@@ -6,8 +6,9 @@ import {
   Heart12Filled,
 } from '@fluentui/react-icons';
 import { DIFFICULTY_NAME, RECIPES_BY_TYPE } from '@config/recipe';
-import cx from 'clsx';
 import { generateBase64Image } from '@helpers/helpers';
+import { Link } from 'react-router-dom';
+import cx from 'clsx';
 
 interface TimeType {
   hour: number;
@@ -20,6 +21,7 @@ interface RecipeListProps {
 }
 
 interface RecipeProps {
+  _id?: string;
   className?: string;
   title: string;
   image: object;
@@ -40,6 +42,7 @@ export const RecipeList: React.FC<RecipeListProps> = ({
 };
 
 export const Recipe: React.FC<RecipeProps> = ({
+  _id,
   className,
   title,
   image,
@@ -64,7 +67,9 @@ export const Recipe: React.FC<RecipeProps> = ({
         </div>
         <div className='w-full'>
           <div className='flex justify-between items-start pb-1'>
-            <h3 className='pr-2 leading-5 line-clamp-2'>{title}</h3>
+            <Link to={`/recipe/${_id}`} className='pr-2 leading-5 line-clamp-2'>
+              {title}
+            </Link>
             <div className='flex-shrink-0'>
               <button className='text-gray-600'>
                 <MoreVertical24Filled />
