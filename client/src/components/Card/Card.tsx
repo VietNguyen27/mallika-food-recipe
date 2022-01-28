@@ -96,13 +96,16 @@ export const Card: React.FC<CardProps> = ({
 
   return (
     <li className={allClassNames}>
-      <div className='relative w-full h-0 pb-[62.5%] border border-gray-100 rounded-2xl overflow-hidden shadow-sm'>
+      <Link
+        to={`/recipe/${_id}`}
+        className='block relative w-full h-0 pb-[62.5%] border border-gray-100 rounded-2xl overflow-hidden shadow-sm'
+      >
         <img
           src={generateBase64Image(image)}
           alt='soup'
           className='absolute top-0 left-0 w-full h-full object-cover'
         />
-      </div>
+      </Link>
       <Link
         to={`/recipe/${_id}`}
         className='text-xl my-2 font-medium leading-6 line-clamp-2'
@@ -178,13 +181,16 @@ export const CardSmall: React.FC<CardSmallProps> = ({
 
   return (
     <li className={allClassNames}>
-      <div className='relative w-full h-0 pb-[85%] border border-gray-100 rounded-2xl overflow-hidden shadow-sm'>
+      <Link
+        to={`/recipe/${_id}`}
+        className='block relative w-full h-0 pb-[85%] border border-gray-100 rounded-2xl overflow-hidden shadow-sm'
+      >
         <img
           src={generateBase64Image(image)}
           alt='soup'
           className='absolute top-0 left-0 w-full h-full object-cover'
         />
-      </div>
+      </Link>
       <Link
         to={`/recipe/${_id}`}
         className='text-md mt-1 font-medium leading-5 line-clamp-2'

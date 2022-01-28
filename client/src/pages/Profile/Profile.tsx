@@ -9,7 +9,7 @@ import { selectorUser } from '@features/auth-slice';
 import { generateBase64Image } from '@helpers/helpers';
 import { List20Regular } from '@fluentui/react-icons';
 import { Tab, Tabs } from '@components/Tabs/Tabs';
-import { ReviewList, Review } from '@components/Review/Review';
+import { ReviewList, MyReview } from '@components/Review/Review';
 import { CardSkeleton } from '@components/Skeleton/Skeleton';
 import { Card, CardList } from '@components/Card/Card';
 import { uiActions } from '@features/ui-slice';
@@ -174,7 +174,7 @@ const Profile = () => {
         >
           <ReviewList>
             {dumbReviews.map((review) => (
-              <Review key={review.id} {...review} />
+              <MyReview key={review.id} {...review} />
             ))}
           </ReviewList>
         </Tab>

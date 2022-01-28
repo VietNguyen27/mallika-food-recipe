@@ -6,6 +6,7 @@ import recipeReducer from '@features/recipe-slice';
 import loadingReducer from '@features/loading-slice';
 import likedReducer from '@features/liked-slice';
 import searchReducer from '@features/search-slice';
+import reviewReducer from '@features/review-slice';
 
 export const appReducer = combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ export const appReducer = combineReducers({
   recipe: recipeReducer,
   liked: likedReducer,
   search: searchReducer,
+  review: reviewReducer,
 });
 
 export const rootReducer = (

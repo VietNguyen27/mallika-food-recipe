@@ -13,6 +13,7 @@ export enum InputTypes {
 export enum InputVariants {
   PRIMARY = 'primary',
   SECONDARY = 'secondary',
+  TERTIARY = 'tertiary',
 }
 
 interface TextInputProps {
@@ -29,6 +30,7 @@ interface TextInputProps {
   suffix?: ReactNode;
   onlyNumber?: boolean;
   autoFocus?: boolean;
+  onFocus?: () => void;
   onChange?: ChangeHandler;
   onBlur?: ChangeHandler;
 }
@@ -41,6 +43,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       label,
       name,
       placeholder,
+      onFocus,
       onChange,
       onBlur,
       error,
@@ -58,7 +61,8 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       'block w-full outline-0 border-gray-300 text-sm placeholder-gray-600',
       inputClassName,
       variant === InputVariants.PRIMARY && 'p-2 mb-1 border rounded-md',
-      variant === InputVariants.SECONDARY && 'pb-1 pt-1 border-b'
+      variant === InputVariants.SECONDARY && 'pb-1 pt-1 border-b',
+      variant === InputVariants.TERTIARY && 'px-4 py-2 bg-gray-100 rounded-3xl'
     );
 
     const onKeyPress = (e) => {
@@ -80,6 +84,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           autoComplete='off'
           readOnly={readOnly}
           ref={ref}
+          onFocus={onFocus}
           onChange={onChange}
           onBlur={onBlur}
           onKeyPress={onKeyPress}
@@ -94,7 +99,12 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           </Tooltip>
         )}
         {error && (
-          <span className='absolute top-full left-0 text-xs text-red-500'>
+          <span
+            className={cx(
+              'absolute top-full left-0 text-xs text-red-500',
+              variant === InputVariants.TERTIARY && 'pl-3'
+            )}
+          >
             {error}
           </span>
         )}

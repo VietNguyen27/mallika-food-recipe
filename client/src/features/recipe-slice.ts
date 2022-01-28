@@ -270,6 +270,11 @@ const recipeSlice = createSlice({
     changeStatusSuccess: (state) => {
       state.success = !state.success;
     },
+    updateReviews: (state, action) => {
+      const { rating, numReviews } = action.payload;
+      state.recipe.rating = rating;
+      state.recipe.numReviews = numReviews;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createRecipe.fulfilled, (state, action: any) => {
@@ -382,6 +387,7 @@ export const {
   clearErrors,
   clearRecipeWidgets,
   changeStatusSuccess,
+  updateReviews,
 } = recipeSlice.actions;
 export const selectorRecipeIntro = (state: { recipe: RecipeState }) =>
   state.recipe.intro;

@@ -103,6 +103,16 @@ export const capitalizeFirstLetter = (text: string): string => {
   return text[0].toUpperCase() + text.substring(1);
 };
 
+export const convertYear = (string: string): string => {
+  return string.split('-').reverse().join('-');
+};
+
+export const getFullDateTime = (date: Date): string => {
+  const [dmy, time] = date.toString().split('T');
+
+  return convertYear(dmy) + ' ' + time.slice(0, 5);
+};
+
 export const timeSince = (date: Date): string => {
   const seconds = Math.floor((+new Date() - +date) / 1000);
   let interval = seconds / SECONDS_PER_YEAR;

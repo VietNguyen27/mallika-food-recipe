@@ -58,13 +58,16 @@ export const Recipe: React.FC<RecipeProps> = ({
   return (
     <li className={allClassNames}>
       <div className='flex gap-2'>
-        <div className='relative w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden'>
+        <Link
+          to={`/recipe/${_id}`}
+          className='block relative w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden'
+        >
           <img
             src={generateBase64Image(image)}
             className='absolute w-full h-full object-cover'
             alt={title}
           />
-        </div>
+        </Link>
         <div className='w-full'>
           <div className='flex justify-between items-start pb-1'>
             <Link to={`/recipe/${_id}`} className='pr-2 leading-5 line-clamp-2'>

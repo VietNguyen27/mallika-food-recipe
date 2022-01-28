@@ -20,6 +20,11 @@ export const REMOVE_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked`;
 export const GET_ALL_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked/all`;
 export const GET_MORE_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked/more`;
 
+export const GET_ALL_REVIEWS_URL = `${SERVER_BASE_URL}/recipes`;
+export const ADD_NEW_REVIEW_URL = `${SERVER_BASE_URL}/recipes`;
+export const UPDATE_REVIEW_URL = `${SERVER_BASE_URL}/recipes`;
+export const DELETE_REVIEW_URL = `${SERVER_BASE_URL}/recipes`;
+
 export const SEARCH_URL = `${SERVER_BASE_URL}/search`;
 
 export const MINIMUM_SEARCH_DELAY = 500;
