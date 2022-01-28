@@ -28,7 +28,7 @@ const Search = () => {
     user: searchUsersByNameOrEmail,
     ingredient: searchRecipesByIngredient,
   };
-  const debouncedSearchTerm: string = useDebounce<string>(searchTerm);
+  const debouncedSearchTerm: string = useDebounce<string>(searchTerm.trim());
 
   useEffect(() => {
     dispatch(clearSearchResults());
@@ -48,7 +48,7 @@ const Search = () => {
       e.target.scrollHeight - e.target.scrollTop - 1 <= e.target.clientHeight;
 
     if (isBottom && !loading && !outOfResults) {
-      dispatch(searchFn(searchTerm));
+      dispatch(searchFn(searchTerm.trim()));
     }
   };
 
@@ -75,8 +75,11 @@ const Search = () => {
           containerClassName='w-full'
           value={searchTerm}
           onFocus={() => setSearchable(true)}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onBlur={(e: ChangeEvent<HTMLInputElement>) =>
             setSearchTerm(e.target.value.trim())
+          }
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setSearchTerm(e.target.value)
           }
           suffix={
             <button

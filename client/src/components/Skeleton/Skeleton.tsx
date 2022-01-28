@@ -71,3 +71,22 @@ export const RecipeDetailSkeleton = () => {
     </div>
   );
 };
+
+export const ReviewSkeleton = () => {
+  return (
+    <li className='px-layout py-3'>
+      <div className='flex gap-2'>
+        <div className='relative w-8 h-8 flex-shrink-0 mt-1 bg-gray-200 animate-pulse rounded-full'></div>
+        <div className='w-full'>
+          <div className='flex justify-between items-center pb-1'>
+            <div className='w-4/5 h-3 bg-gray-200 animate-pulse rounded-sm'></div>
+            <div className='flex-shrink-0 w-2 h-6 bg-gray-200 animate-pulse rounded-sm'></div>
+          </div>
+          <div className='flex w-[68px] h-2 -mt-1.5 mb-1.5 bg-gray-200 animate-pulse rounded-sm'></div>
+          <div className='w-full h-3 bg-gray-200 mb-1 animate-pulse rounded-sm'></div>
+          <div className='w-24 h-2 bg-gray-200 animate-pulse rounded-sm'></div>
+        </div>
+      </div>
+    </li>
+  );
+};

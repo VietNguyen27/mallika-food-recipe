@@ -2,6 +2,7 @@ import { NextFunction, Response } from 'express';
 import { IGetUserAuthInfoRequest } from '../utils/interfaces';
 import RecipeModel from '../models/recipe.model';
 import UserModel from '../models/user.model';
+import { iLikeVietnamese } from 'vietnamese-query';
 
 export const searchRecipesByTitle = async (
   req: IGetUserAuthInfoRequest,
@@ -16,7 +17,7 @@ export const searchRecipesByTitle = async (
   const skip = req.query.skip ? Number(req.query.skip) : 0;
   const recipes = await RecipeModel.find(
     {
-      title: { $regex: req.query.title, $options: 'i' },
+      title: iLikeVietnamese(req.query.title as string),
       user: { $nin: req.user._id },
       isPublished: true,
     },
@@ -54,10 +55,10 @@ export const searchUsers = async (
     {
       $or: [
         {
-          name: { $regex: user, $options: 'i' },
+          name: iLikeVietnamese(user as string),
         },
         {
-          email: { $regex: user, $options: 'i' },
+          email: iLikeVietnamese(user as string),
         },
       ],
       user: { $nin: req.user._id },
@@ -93,7 +94,7 @@ export const searchRecipesByIngredient = async (
   const skip = req.query.skip ? Number(req.query.skip) : 0;
   const recipes = await RecipeModel.find(
     {
-      'ingredients.title': { $regex: req.query.ingredient, $options: 'i' },
+      'ingredients.title': iLikeVietnamese(req.query.ingredient as string),
       user: { $nin: req.user._id },
       isPublished: true,
     },

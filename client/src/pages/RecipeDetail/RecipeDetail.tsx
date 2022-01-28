@@ -10,7 +10,7 @@ import { addLikedRecipe, removeLikedRecipe } from '@features/liked-slice';
 import { selectorUser } from '@features/auth-slice';
 import { RootState } from '@redux/reducers';
 import { RecipeDetailSkeleton } from '@components/Skeleton/Skeleton';
-import { generateBase64Image } from '@helpers/helpers';
+import { generateBase64Image, getFullDateTime } from '@helpers/helpers';
 import {
   Add16Filled,
   ChevronLeft24Regular,
@@ -25,6 +25,8 @@ import {
   MoreVertical24Regular,
   Heart16Filled,
   Heart24Filled,
+  MoreVertical24Filled,
+  Star12Filled,
 } from '@fluentui/react-icons';
 import RoundedButton, {
   RoundedButtonTypes,
@@ -33,6 +35,7 @@ import RoundedButton, {
 import { DIFFICULTY_NAME } from '@config/recipe';
 import { Tab, Tabs } from '@components/Tabs/Tabs';
 import { uiActions } from '@features/ui-slice';
+import { getAllReviews } from '@features/review-slice';
 
 const RecipeDetail = () => {
   const { id } = useParams();
@@ -42,10 +45,12 @@ const RecipeDetail = () => {
     ({ loading }: RootState) => loading.recipeDetailLoading
   );
   const { recipe } = useSelector(({ recipe }: RootState) => recipe);
+  const { reviews }: any = useSelector(({ review }: RootState) => review);
   const currentUser = useSelector(selectorUser);
 
   useEffect(() => {
     if (id) {
+      dispatch(getAllReviews(id));
       dispatch(getRecipeById(id));
     }
   }, [id]);
@@ -63,6 +68,7 @@ const RecipeDetail = () => {
     steps,
     likedCount,
     isLiked,
+    rating,
     numReviews,
     difficulty,
     serve,
@@ -81,6 +87,10 @@ const RecipeDetail = () => {
   const handleUnlikeRecipe = async () => {
     await dispatch(removeLikedRecipe(_id));
     dispatch(decreaseLikedCount(_id));
+  };
+
+  const handleOpenReviewsDrawer = () => {
+    dispatch(uiActions.setReviewsDrawerShowing(true));
   };
 
   return (
@@ -134,9 +144,33 @@ const RecipeDetail = () => {
             ) : (
               <Heart16Regular className='text-orange mr-1' />
             )}
-            {likedCount +
-              ' | ' +
-              (numReviews > 0 ? `${numReviews} Reviews` : '0 Review')}
+            <span className='relative pr-2 mr-2 after:absolute after:top-1/2 after:left-full after:-translate-y-1/2 after:h-3 after:w-px after:bg-gray-800'>
+              {likedCount}
+            </span>
+            <span className='relative pr-2 mr-2 after:absolute after:top-1/2 after:left-full after:-translate-y-1/2 after:h-3 after:w-px after:bg-gray-800'>
+              {numReviews > 0 ? `${numReviews} Reviews` : '0 Review'}
+            </span>
+            <span className='pr-1'>{rating}</span>
+            <div className='inline-flex items-center gap-0.5'>
+              {[...Array(5).keys()].map((_, index) => (
+                <div className='relative' key={index}>
+                  <div
+                    className='absolute top-0 left-0 h-full overflow-hidden'
+                    style={{
+                      width:
+                        index + 1 - rating <= 0
+                          ? '100%'
+                          : index + 1 - rating >= 1
+                          ? '0%'
+                          : `${(1 - (index + 1 - rating)) * 100}%`,
+                    }}
+                  >
+                    <Star12Filled className='text-orange' />
+                  </div>
+                  <Star12Filled className='text-gray-800' />
+                </div>
+              ))}
+            </div>
           </div>
           <div className='flex items-stretch border-t border-gray-400 pt-3 text-center text-sm'>
             <div className='flex-1 inline-flex flex-col items-center border-r border-gray-400'>
@@ -163,13 +197,51 @@ const RecipeDetail = () => {
             </span>
             <button
               className='uppercase text-orange text-small font-semibold'
-              onClick={() => dispatch(uiActions.setReviewsDrawerShowing(true))}
+              onClick={() => handleOpenReviewsDrawer()}
             >
               Read all
             </button>
           </div>
           <div className='pt-3'>
-            {numReviews > 0 ? null : (
+            {numReviews > 0 ? (
+              <div className='flex gap-2'>
+                <div className='relative w-8 h-8 flex-shrink-0 mt-1 rounded-full overflow-hidden'>
+                  <img
+                    src={generateBase64Image(reviews[0].user.avatar)}
+                    className='absolute w-full h-full object-cover'
+                    alt={reviews[0].user.name}
+                  />
+                </div>
+                <div className='w-full'>
+                  <div className='flex justify-between items-center pb-1'>
+                    <h3 className='text-sm font-semibold'>
+                      {reviews[0].user.name}
+                    </h3>
+                    <button className='flex-shrink-0 text-gray-600 -mr-2'>
+                      <MoreVertical24Filled />
+                    </button>
+                  </div>
+                  <div className='flex gap-0.5 -mt-1.5 pb-1'>
+                    {[...Array(5).keys()].map((_, index) => {
+                      return (
+                        <Star12Filled
+                          key={index}
+                          className={
+                            index + 1 <= reviews[0].rating
+                              ? 'text-orange'
+                              : 'text-gray-400'
+                          }
+                        />
+                      );
+                    })}
+                  </div>
+                  <p className='text-sm'>{reviews[0].comment}</p>
+                  <p className='text-xs text-gray-500'>
+                    {getFullDateTime(reviews[0].createdAt)}
+                  </p>
+                </div>
+              </div>
+            ) : (
               <div className='text-center'>There is no reviews yet!</div>
             )}
           </div>
