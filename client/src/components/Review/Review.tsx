@@ -14,6 +14,7 @@ import { Dropdown, DropdownItem } from '@components/Dropdown/Dropdown';
 import useToggle from '@hooks/useToggle';
 import { useDispatch } from 'react-redux';
 import { deleteReview, updateReview } from '@features/review-slice';
+import CollapseText from '@components/CollapseText/CollapseText';
 
 interface RecipeType {
   image: string;
@@ -132,7 +133,7 @@ export const Review: React.FC<ReviewProps> = ({
                 );
               })}
             </div>
-            <p className='text-sm'>{comment}</p>
+            <CollapseText className='text-sm'>{comment}</CollapseText>
             <p className='text-xs text-gray-500'>
               {getFullDateTime(createdAt)}
             </p>

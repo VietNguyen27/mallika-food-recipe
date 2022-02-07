@@ -29,7 +29,6 @@ import {
   MoreVertical24Regular,
   Heart16Filled,
   Heart24Filled,
-  MoreVertical24Filled,
   Star12Filled,
 } from '@fluentui/react-icons';
 import RoundedButton, {
@@ -42,7 +41,7 @@ import { uiActions } from '@features/ui-slice';
 import { getAllReviews } from '@features/review-slice';
 
 const RecipeDetail = () => {
-  const { id } = useParams();
+  const { id: recipeId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loading = useSelector(
@@ -53,11 +52,11 @@ const RecipeDetail = () => {
   const currentUser = useSelector(selectorUser);
 
   useEffect(() => {
-    if (id) {
-      dispatch(getAllReviews(id));
-      dispatch(getRecipeById(id));
+    if (recipeId) {
+      dispatch(getAllReviews(recipeId));
+      dispatch(getRecipeById(recipeId));
     }
-  }, [id]);
+  }, [recipeId]);
 
   if (loading) return <RecipeDetailSkeleton />;
   if (!recipe) return null;

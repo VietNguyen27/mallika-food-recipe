@@ -11,8 +11,13 @@ import useOnClickOutside from '@hooks/useOnClickOutside';
 import NoFound from '@img/no-found.png';
 import cx from 'clsx';
 import { ReviewSkeleton } from '@components/Skeleton/Skeleton';
-import { createNewReview, updateReview } from '@features/review-slice';
-import { clearError } from '@features/review-slice';
+import {
+  createNewReview,
+  updateReview,
+  clearError,
+  getMoreReviews,
+} from '@features/review-slice';
+import { Spinner } from '@components/Loading/Loading';
 
 const ReviewDrawer = () => {
   const [rating, setRating] = useState<number>(5);
@@ -26,9 +31,13 @@ const ReviewDrawer = () => {
   const { recipe } = useSelector(({ recipe }: RootState) => recipe);
   const {
     loading,
+    outOfReview,
     error: reviewError,
     reviews,
   } = useSelector(({ review }: RootState) => review);
+  const moreLoading = useSelector(
+    ({ loading }: RootState) => loading.moreReviewsLoading
+  );
   const dispatch = useDispatch();
 
   const handleClickOutside = () => setShowRating(false);
@@ -88,27 +97,45 @@ const ReviewDrawer = () => {
     setSelectedReview(reviewId);
   };
 
+  const handleScroll = (e) => {
+    const isBottom =
+      e.target.scrollHeight - e.target.scrollTop - 1 <= e.target.clientHeight;
+
+    if (isBottom && !moreLoading && !outOfReview) {
+      dispatch(getMoreReviews(recipe._id));
+    }
+  };
+
   return (
     <Drawer title='Reviews' open={active} onClose={() => onCloseDrawer()}>
       <>
-        <ReviewList>
-          <>
-            {loading
-              ? [...Array(5).keys()].map((_, index) => {
-                  return <ReviewSkeleton key={index} />;
-                })
-              : reviews &&
-                reviews.map((review: any) => (
-                  <Review
-                    key={review._id}
-                    recipeId={recipe?._id}
-                    handleUpdateReview={handleUpdateReview}
-                    {...review}
-                  />
-                ))}
-          </>
-        </ReviewList>
-        {reviews && !reviews.length && (
+        {reviews && reviews.length ? (
+          <div
+            className='h-full overflow-auto scrollbar-none pb-7'
+            onScroll={handleScroll}
+          >
+            <ReviewList>
+              <>
+                {loading
+                  ? [...Array(5).keys()].map((_, index) => {
+                      return <ReviewSkeleton key={index} />;
+                    })
+                  : reviews &&
+                    reviews.map((review: any) => (
+                      <Review
+                        key={review._id}
+                        recipeId={recipe?._id}
+                        handleUpdateReview={handleUpdateReview}
+                        {...review}
+                      />
+                    ))}
+              </>
+            </ReviewList>
+            <div className='flex justify-center h-7 -mt-10'>
+              {moreLoading && <Spinner color='var(--color-orange)' />}
+            </div>
+          </div>
+        ) : (
           <div className='flex flex-col items-center pt-8'>
             <img src={NoFound} alt='no more recipes' width='130' />
             <h3 className='font-semibold'>There are no reviews yet!</h3>
@@ -119,7 +146,7 @@ const ReviewDrawer = () => {
       <form className='relative mt-auto' ref={formRef} onSubmit={onSubmit}>
         <div
           className={cx(
-            'absolute -bottom-3 w-full text-center pt-2 border-t border-gray-400 transition-transform',
+            'absolute -bottom-3 w-full text-center bg-white pt-2 border-t border-gray-400 transition-transform',
             showRating ? '-translate-y-full -mb-2' : 'translate-y-0'
           )}
         >
@@ -137,7 +164,7 @@ const ReviewDrawer = () => {
             })}
           </div>
         </div>
-        <div className='relative z-10 flex px-3 gap-3 pb-3 -mb-1 bg-white'>
+        <div className='relative z-10 flex px-3 gap-3 pb-5 -mb-3 bg-white'>
           <TextInput
             className='w-full'
             variant={InputVariants.TERTIARY}

@@ -82,11 +82,11 @@ const Profile = () => {
   );
   const profileClassNames = cx(
     'px-4 -mb-6 transition-transform',
-    isScrolled ? '-translate-y-10' : 'translate-y-0'
+    isScrolled ? '-translate-y-14' : 'translate-y-0'
   );
   const tabsClassNames = cx(
     'transition-transform pt-2 bg-white',
-    isScrolled ? '-translate-y-24' : 'translate-y-0'
+    isScrolled ? '-translate-y-28' : 'translate-y-0'
   );
 
   useEffect(() => {

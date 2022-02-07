@@ -1,4 +1,5 @@
 import mongoose, { Schema, Types } from 'mongoose';
+import timeZone from 'mongoose-timezone';
 
 interface IReview {
   user: Types.ObjectId;
@@ -26,5 +27,7 @@ const ReviewSchema = new Schema<IReview>(
     timestamps: true,
   }
 );
+
+ReviewSchema.plugin(timeZone, { paths: ['createdAt', 'updatedAt'] });
 
 export default ReviewSchema;
