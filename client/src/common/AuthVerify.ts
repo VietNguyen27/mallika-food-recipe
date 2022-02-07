@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { logout } from '@features/auth-slice';
 
 const parseJwt = (token: string) => {
   try {
@@ -10,7 +11,8 @@ const parseJwt = (token: string) => {
   }
 };
 
-const AuthVerify = ({ logout }) => {
+const AuthVerify = () => {
+  const [isTokenExpired, setIsTokenExpired] = useState<boolean>(false);
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -22,6 +24,9 @@ const AuthVerify = ({ logout }) => {
 
         if (decodedJwt.exp * 1000 < Date.now()) {
           dispatch(logout());
+          setIsTokenExpired(true);
+        } else {
+          setIsTokenExpired(false);
         }
       }
     }, 60 * 1000);
@@ -29,7 +34,7 @@ const AuthVerify = ({ logout }) => {
     return () => {
       clearInterval(timer);
     };
-  }, [dispatch, location, logout]);
+  }, [dispatch, location, logout, isTokenExpired]);
 
   return null;
 };

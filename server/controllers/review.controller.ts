@@ -138,12 +138,16 @@ export const deleteReview = async (
     }
 
     recipe.numReviews = recipe.reviews.length;
-    recipe.rating = Number(
-      (
-        recipe.reviews.reduce((acc, item: any) => item.rating + acc, 0) /
-        recipe.reviews.length
-      ).toFixed(1)
-    );
+    recipe.rating =
+      recipe.reviews.length > 0
+        ? Number(
+            (
+              recipe.reviews.reduce((acc, item: any) => item.rating + acc, 0) /
+              recipe.reviews.length
+            ).toFixed(1)
+          )
+        : 0;
+
     await recipe.save();
 
     res.status(200).json(recipe);

@@ -29,7 +29,7 @@ export const SEARCH_URL = `${SERVER_BASE_URL}/search`;
 
 export const MINIMUM_SEARCH_DELAY = 500;
 export const MINIMUM_LOADER_DELAY = 500;
-export const MINIMUM_AUTH_DELAY = 1000;
+export const MINIMUM_AUTH_DELAY = 500;
 
 export const TOAST_VISIBLE_TIME = 2500;
 export const TOAST_EXPIRED_TIME = 3500;

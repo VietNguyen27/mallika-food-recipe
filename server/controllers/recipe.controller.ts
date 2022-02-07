@@ -152,7 +152,9 @@ export const getRecipeById = async (
   res: Response
 ): Promise<void> => {
   try {
-    const recipe = await RecipeModel.findById(req.params.id).select('-reviews');
+    const recipe = await RecipeModel.findById(req.params.id)
+      .select('-reviews')
+      .populate('user', 'name');
     if (!recipe) {
       res
         .status(400)

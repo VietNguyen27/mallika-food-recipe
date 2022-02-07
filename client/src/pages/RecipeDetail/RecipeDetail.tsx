@@ -10,7 +10,11 @@ import { addLikedRecipe, removeLikedRecipe } from '@features/liked-slice';
 import { selectorUser } from '@features/auth-slice';
 import { RootState } from '@redux/reducers';
 import { RecipeDetailSkeleton } from '@components/Skeleton/Skeleton';
-import { generateBase64Image, getFullDateTime } from '@helpers/helpers';
+import {
+  generateBase64Image,
+  getFullDate,
+  getFullDateTime,
+} from '@helpers/helpers';
 import {
   Add16Filled,
   ChevronLeft24Regular,
@@ -72,6 +76,8 @@ const RecipeDetail = () => {
     numReviews,
     difficulty,
     serve,
+    user,
+    createdAt,
   } = recipe;
 
   const handleLikeRecipe = async () => {
@@ -129,7 +135,7 @@ const RecipeDetail = () => {
           </RoundedButton>
         )}
       </div>
-      <div className='relative flex flex-col gap-3 h- px-layout -mt-12'>
+      <div className='relative flex flex-col gap-3 px-layout -mt-12'>
         <div className='rounded-2xl bg-white overflow-hidden p-4'>
           <div className='flex justify-between items-center bg-gray-100 mb-4 text-gray-800 text-sm rounded-md px-2 py-1'>
             <span>Cookbooks / Menu special</span>
@@ -137,7 +143,14 @@ const RecipeDetail = () => {
               <Add16Filled />
             </button>
           </div>
-          <h1 className='text-2xl font-semibold mb-3'>{title}</h1>
+          <h1 className='text-2xl font-semibold'>{title}</h1>
+          <p className='text-xs pb-3'>
+            By
+            <Link className='text-orange px-1' to='/#'>
+              {user.name}
+            </Link>
+            on {getFullDate(createdAt)}
+          </p>
           <div className='flex items-center text-sm text-gray-800 mb-2'>
             {isLiked ? (
               <Heart16Filled className='text-orange mr-1' />
@@ -203,7 +216,7 @@ const RecipeDetail = () => {
             </button>
           </div>
           <div className='pt-3'>
-            {numReviews > 0 ? (
+            {numReviews > 0 && reviews[0] ? (
               <div className='flex gap-2'>
                 <div className='relative w-8 h-8 flex-shrink-0 mt-1 rounded-full overflow-hidden'>
                   <img
@@ -217,9 +230,6 @@ const RecipeDetail = () => {
                     <h3 className='text-sm font-semibold'>
                       {reviews[0].user.name}
                     </h3>
-                    <button className='flex-shrink-0 text-gray-600 -mr-2'>
-                      <MoreVertical24Filled />
-                    </button>
                   </div>
                   <div className='flex gap-0.5 -mt-1.5 pb-1'>
                     {[...Array(5).keys()].map((_, index) => {
@@ -235,7 +245,7 @@ const RecipeDetail = () => {
                       );
                     })}
                   </div>
-                  <p className='text-sm'>{reviews[0].comment}</p>
+                  <p className='text-sm line-clamp-2'>{reviews[0].comment}</p>
                   <p className='text-xs text-gray-500'>
                     {getFullDateTime(reviews[0].createdAt)}
                   </p>
