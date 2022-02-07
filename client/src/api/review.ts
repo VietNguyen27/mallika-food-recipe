@@ -7,9 +7,12 @@ import {
 } from '@config/constants';
 
 export const reviewApi = {
-  getAll(recipeId, skip) {
+  getAll(recipeId) {
+    return request.get(`${GET_ALL_REVIEWS_URL}/${recipeId}/reviews/all`);
+  },
+  getMore(recipeId, skip) {
     return request.get(
-      `${GET_ALL_REVIEWS_URL}/${recipeId}/reviews/all?skip=${skip}`
+      `${GET_ALL_REVIEWS_URL}/${recipeId}/reviews/more?skip=${skip}`
     );
   },
   create(recipeId, body) {

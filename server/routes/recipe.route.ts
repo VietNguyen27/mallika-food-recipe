@@ -15,6 +15,7 @@ import {
   addNewReview,
   deleteReview,
   getAllReviews,
+  getMoreReviews,
   updateReview,
 } from '../controllers/review.controller';
 import { auth } from '../middlewares/auth.middleware';
@@ -56,6 +57,10 @@ router.route('/:recipeId/reviews').post(auth, addNewReview);
 // @routes GET api/recipe/recipeId/reviews/all
 // @desc Get all reviews
 router.route('/:recipeId/reviews/all').get(auth, getAllReviews);
+
+// @routes GET api/recipe/recipeId/reviews/more
+// @desc Get more reviews
+router.route('/:recipeId/reviews/more').get(auth, getMoreReviews);
 
 // @routes PATCH api/recipe/:recipeId/reviews/:reviewId
 // @desc Update selected review

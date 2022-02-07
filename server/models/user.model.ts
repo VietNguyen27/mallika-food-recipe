@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import timeZone from 'mongoose-timezone';
 
 export interface IUser {
   email: string;
@@ -47,6 +48,8 @@ UserSchema.virtual('liked', {
   localField: '_id',
   foreignField: 'user',
 });
+
+UserSchema.plugin(timeZone, { paths: ['createdAt', 'updatedAt'] });
 
 const UserModel = model<IUser>('User', UserSchema);
 

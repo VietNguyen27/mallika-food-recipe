@@ -8,16 +8,40 @@ interface ReviewState {
   reviews: object[] | null;
   error: any;
   loading: boolean;
+  outOfReview: boolean;
 }
 
 const initialState: ReviewState = {
   reviews: null,
   error: null,
   loading: false,
+  outOfReview: false,
 };
 
 export const getAllReviews = createAsyncThunk(
   'review/getAll',
+  async (recipeId: string, { rejectWithValue, getState }) => {
+    try {
+      const state: any = getState();
+      const currentUser = state.auth.user;
+      const response = await reviewApi.getAll(recipeId);
+      const reviewList = response.data.map((review) => {
+        const isOwner = review.user._id === currentUser._id;
+        return {
+          ...review,
+          isOwner,
+        };
+      });
+
+      return reviewList;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getMoreReviews = createAsyncThunk(
+  'review/getMore',
   async (recipeId: string, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
@@ -26,7 +50,7 @@ export const getAllReviews = createAsyncThunk(
       const totalReviews = state.review.reviews
         ? state.review.reviews.length
         : 0;
-      const response = await reviewApi.getAll(recipeId, totalReviews);
+      const response = await reviewApi.getMore(recipeId, totalReviews);
       const reviewList = response.data.map((review) => {
         const isOwner = review.user._id === currentUser._id;
         return {
@@ -140,6 +164,13 @@ const reviewSlice = createSlice({
     });
     builder.addCase(createNewReview.rejected, (state, action: any) => {
       state.error = action.payload.error;
+    });
+    builder.addCase(getMoreReviews.fulfilled, (state, action: any) => {
+      if (action.payload.length && state.reviews) {
+        state.reviews = [...state.reviews, ...action.payload];
+      } else {
+        state.outOfReview = true;
+      }
     });
     builder.addMatcher(isReviewFulfilled, (state, action: any) => {
       state.loading = false;

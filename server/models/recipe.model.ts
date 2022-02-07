@@ -1,4 +1,5 @@
 import mongoose, { Schema, model, Types } from 'mongoose';
+import timeZone from 'mongoose-timezone';
 import ReviewSchema from './review.model';
 
 export interface IRecipe {
@@ -109,6 +110,8 @@ export const RecipeSchema = new Schema<IRecipe>(
     strict: false,
   }
 );
+
+RecipeSchema.plugin(timeZone, { paths: ['createdAt', 'updatedAt'] });
 
 const RecipeModel = model<IRecipe>('Recipe', RecipeSchema);
 

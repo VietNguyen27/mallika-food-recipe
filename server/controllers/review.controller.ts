@@ -50,11 +50,40 @@ export const getAllReviews = async (
   res: Response
 ): Promise<void> => {
   try {
-    const recipe = await RecipeModel.findById(req.params.recipeId)
-      .select('reviews')
-      .populate('reviews.user', 'name avatar')
-      .sort({ _id: -1 })
-      .limit(6);
+    const recipe = await RecipeModel.findOne(
+      { _id: req.params.recipeId },
+      {
+        reviews: { $slice: [0, 6] },
+      }
+    ).populate('reviews.user', 'name avatar');
+
+    if (!recipe) {
+      res.status(400).json({
+        error: 'Something went wrong while getting reviews!',
+      });
+      return;
+    }
+
+    res.status(200).json(recipe.reviews);
+    return;
+  } catch (error) {
+    res.status(400).json({ error });
+    return;
+  }
+};
+
+export const getMoreReviews = async (
+  req: IGetUserAuthInfoRequest,
+  res: Response
+): Promise<void> => {
+  try {
+    const skip = req.query.skip ? Number(req.query.skip) : 0;
+    const recipe = await RecipeModel.findOne(
+      { _id: req.params.recipeId },
+      {
+        reviews: { $slice: [skip, 6] },
+      }
+    ).populate('reviews.user', 'name avatar');
 
     if (!recipe) {
       res.status(400).json({
