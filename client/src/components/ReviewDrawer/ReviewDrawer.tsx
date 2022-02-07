@@ -11,17 +11,24 @@ import useOnClickOutside from '@hooks/useOnClickOutside';
 import NoFound from '@img/no-found.png';
 import cx from 'clsx';
 import { ReviewSkeleton } from '@components/Skeleton/Skeleton';
-import { createNewReview } from '@features/review-slice';
+import { createNewReview, updateReview } from '@features/review-slice';
+import { clearError } from '@features/review-slice';
 
 const ReviewDrawer = () => {
   const [rating, setRating] = useState<number>(5);
   const [showRating, setShowRating] = useState<boolean>(false);
+  const [isUpdateReview, setIsUpdateReview] = useState<boolean>(false);
+  const [selectedReview, setSelectedReview] = useState<string | null>(null);
   const [error, setError] = useState<string>('');
   const formRef = useRef(null);
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, setFocus } = useForm();
   const active = useSelector(({ ui }: RootState) => ui.reviewsDrawerShowing);
   const { recipe } = useSelector(({ recipe }: RootState) => recipe);
-  const { loading, reviews } = useSelector(({ review }: RootState) => review);
+  const {
+    loading,
+    error: reviewError,
+    reviews,
+  } = useSelector(({ review }: RootState) => review);
   const dispatch = useDispatch();
 
   const handleClickOutside = () => setShowRating(false);
@@ -30,6 +37,8 @@ const ReviewDrawer = () => {
 
   const onCloseDrawer = (): void => {
     dispatch(uiActions.setReviewsDrawerShowing(false));
+    dispatch(clearError());
+    resetForm();
   };
 
   const onSubmit = handleSubmit(({ comment }) => {
@@ -38,17 +47,46 @@ const ReviewDrawer = () => {
       return;
     }
 
-    dispatch(
-      createNewReview({
-        recipeId: recipe._id,
-        rating,
-        comment,
-      })
-    );
+    if (isUpdateReview) {
+      dispatch(
+        updateReview({
+          recipeId: recipe._id,
+          reviewId: selectedReview,
+          rating,
+          comment,
+        })
+      );
+    } else {
+      dispatch(
+        createNewReview({
+          recipeId: recipe._id,
+          rating,
+          comment,
+        })
+      );
+    }
+
+    resetForm();
+  });
+
+  const resetForm = () => {
     setError('');
     setRating(5);
     setValue('comment', '');
-  });
+    setIsUpdateReview(false);
+  };
+
+  const handleUpdateReview = (review) => {
+    const { reviewId, comment, rating } = review;
+
+    dispatch(clearError());
+    setError('');
+    setRating(rating);
+    setValue('comment', comment);
+    setFocus('comment');
+    setIsUpdateReview(true);
+    setSelectedReview(reviewId);
+  };
 
   return (
     <Drawer title='Reviews' open={active} onClose={() => onCloseDrawer()}>
@@ -61,7 +99,12 @@ const ReviewDrawer = () => {
                 })
               : reviews &&
                 reviews.map((review: any) => (
-                  <Review key={review._id} {...review} />
+                  <Review
+                    key={review._id}
+                    recipeId={recipe?._id}
+                    handleUpdateReview={handleUpdateReview}
+                    {...review}
+                  />
                 ))}
           </>
         </ReviewList>
@@ -100,9 +143,12 @@ const ReviewDrawer = () => {
             variant={InputVariants.TERTIARY}
             placeholder='Your review'
             onFocus={() => setShowRating(true)}
-            error={error}
+            error={error || reviewError}
             {...register('comment', {
-              onChange: () => setError(''),
+              onChange: () => {
+                setError('');
+                dispatch(clearError());
+              },
               onBlur: (e) => setValue('comment', e.target.value.trim()),
             })}
           />

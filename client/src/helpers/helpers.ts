@@ -107,6 +107,12 @@ export const convertYear = (string: string): string => {
   return string.split('-').reverse().join('-');
 };
 
+export const getFullDate = (date: Date): string => {
+  const [dmy, _] = date.toString().split('T');
+
+  return convertYear(dmy);
+};
+
 export const getFullDateTime = (date: Date): string => {
   const [dmy, time] = date.toString().split('T');
 

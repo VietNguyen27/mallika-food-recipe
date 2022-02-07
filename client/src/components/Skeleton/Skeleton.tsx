@@ -62,7 +62,7 @@ export const RecipeDetailSkeleton = () => {
             <div className='h-full rounded-t-2xl bg-white'></div>
           </div>
         </div>
-        <div className='flex flex-col gap-3 h-1/3 px-layout -mt-12'>
+        <div className='flex flex-col gap-3 h-[43%] px-layout -mt-12'>
           <div className='h-3/5 bg-gray-200 animate-pulse rounded-2xl'></div>
           <div className='h-2/5 bg-gray-200 animate-pulse rounded-2xl'></div>
         </div>
