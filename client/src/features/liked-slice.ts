@@ -96,7 +96,7 @@ const likedSlice = createSlice({
     builder.addCase(getAllLikedRecipes.fulfilled, (state, action: any) => {
       state.recipes = action.payload.map((recipe) => ({
         ...recipe,
-        type: RECIPES_BY_TYPE.OTHER,
+        type: RECIPES_BY_TYPE.LIKED,
       }));
     });
     builder.addCase(getMoreLikedRecipes.fulfilled, (state, action: any) => {
@@ -105,7 +105,7 @@ const likedSlice = createSlice({
           ...state.recipes,
           ...action.payload.map((recipe) => ({
             ...recipe,
-            type: RECIPES_BY_TYPE.OTHER,
+            type: RECIPES_BY_TYPE.LIKED,
           })),
         ];
       }

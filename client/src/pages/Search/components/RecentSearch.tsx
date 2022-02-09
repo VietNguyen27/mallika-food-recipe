@@ -5,7 +5,7 @@ const recentSearch = ['Sayur', 'Ayum', 'Ayam', 'Ayam'];
 const RecentSearch = () => {
   return (
     <>
-      <h1 className='text-xl font-medium py-4 px-layout'>Recent Search</h1>
+      <h1 className='text-xl font-medium pb-4 px-layout'>Recent Search</h1>
       <ul>
         {recentSearch.map((val, key) => (
           <li

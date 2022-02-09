@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  clearCurrentRecipe,
   decreaseLikedCount,
   getRecipeById,
   increaseLikedCount,
@@ -35,10 +36,11 @@ import RoundedButton, {
   RoundedButtonTypes,
   RoundedButtonVariants,
 } from '@components/Button/RoundedButton';
-import { DIFFICULTY_NAME } from '@config/recipe';
+import { DIFFICULTY_NAME, RECIPES_BY_TYPE } from '@config/recipe';
 import { Tab, Tabs } from '@components/Tabs/Tabs';
 import { uiActions } from '@features/ui-slice';
 import { getAllReviews } from '@features/review-slice';
+import { addLastSeenRecipe } from '@features/lastseen-slice';
 
 const RecipeDetail = () => {
   const { id: recipeId } = useParams();
@@ -57,6 +59,22 @@ const RecipeDetail = () => {
       dispatch(getRecipeById(recipeId));
     }
   }, [recipeId]);
+
+  useEffect(() => {
+    if (recipe && !loading) {
+      const { title, time, image, serve, difficulty } = recipe;
+      const lastSeenRecipe = {
+        _id: recipeId,
+        title,
+        time,
+        image,
+        serve,
+        difficulty,
+        type: RECIPES_BY_TYPE.OTHER,
+      };
+      dispatch(addLastSeenRecipe(lastSeenRecipe));
+    }
+  }, [recipe]);
 
   if (loading) return <RecipeDetailSkeleton />;
   if (!recipe) return null;
@@ -110,7 +128,10 @@ const RecipeDetail = () => {
           type={RoundedButtonTypes.BUTTON}
           className='absolute top-4 left-4 w-11 h-11'
           variant={RoundedButtonVariants.SECONDARY}
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            dispatch(clearCurrentRecipe());
+            navigate(-1);
+          }}
         >
           <ChevronLeft24Regular />
         </RoundedButton>
@@ -215,7 +236,7 @@ const RecipeDetail = () => {
             </button>
           </div>
           <div className='pt-3'>
-            {numReviews > 0 && reviews[0] ? (
+            {numReviews > 0 && reviews && reviews[0] ? (
               <div className='flex gap-2'>
                 <div className='relative w-8 h-8 flex-shrink-0 mt-1 rounded-full overflow-hidden'>
                   <img
