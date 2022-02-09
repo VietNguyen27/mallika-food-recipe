@@ -19,7 +19,11 @@ import {
 } from '@features/review-slice';
 import { Spinner } from '@components/Loading/Loading';
 
-const ReviewDrawer = () => {
+interface ReviewDrawerProps {
+  recipeId: string;
+}
+
+const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
   const [rating, setRating] = useState<number>(5);
   const [showRating, setShowRating] = useState<boolean>(false);
   const [isUpdateReview, setIsUpdateReview] = useState<boolean>(false);
@@ -28,7 +32,6 @@ const ReviewDrawer = () => {
   const formRef = useRef(null);
   const { register, handleSubmit, setValue, setFocus } = useForm();
   const active = useSelector(({ ui }: RootState) => ui.reviewsDrawerShowing);
-  const { recipe } = useSelector(({ recipe }: RootState) => recipe);
   const {
     loading,
     outOfReview,
@@ -59,7 +62,7 @@ const ReviewDrawer = () => {
     if (isUpdateReview) {
       dispatch(
         updateReview({
-          recipeId: recipe._id,
+          recipeId,
           reviewId: selectedReview,
           rating,
           comment,
@@ -68,7 +71,7 @@ const ReviewDrawer = () => {
     } else {
       dispatch(
         createNewReview({
-          recipeId: recipe._id,
+          recipeId,
           rating,
           comment,
         })
@@ -102,14 +105,14 @@ const ReviewDrawer = () => {
       e.target.scrollHeight - e.target.scrollTop - 1 <= e.target.clientHeight;
 
     if (isBottom && !moreLoading && !outOfReview) {
-      dispatch(getMoreReviews(recipe._id));
+      dispatch(getMoreReviews(recipeId));
     }
   };
 
   return (
     <Drawer title='Reviews' open={active} onClose={() => onCloseDrawer()}>
       <>
-        {reviews && reviews.length ? (
+        {reviews[recipeId] && reviews[recipeId].length ? (
           <div
             className='h-full overflow-auto scrollbar-none pb-7'
             onScroll={handleScroll}
@@ -120,11 +123,11 @@ const ReviewDrawer = () => {
                   ? [...Array(5).keys()].map((_, index) => {
                       return <ReviewSkeleton key={index} />;
                     })
-                  : reviews &&
-                    reviews.map((review: any) => (
+                  : reviews[recipeId] &&
+                    reviews[recipeId].map((review: any) => (
                       <Review
                         key={review._id}
-                        recipeId={recipe?._id}
+                        recipeId={recipeId}
                         handleUpdateReview={handleUpdateReview}
                         {...review}
                       />

@@ -20,8 +20,10 @@ import {
 import { Spinner } from '@components/Loading/Loading';
 import NoFound from '@img/no-found.png';
 import cx from 'clsx';
+import { useLocation } from 'react-router-dom';
 
 const CommunityDrawer = () => {
+  const location = useLocation();
   const [category, setCategory] = useState<number>(-1);
   const [sort, setSort] = useState<number>(RECIPES_BY_SORT.RECENTLY);
   const [categorySelected, setCategorySelected] = useState<number>(-1);
@@ -45,6 +47,7 @@ const CommunityDrawer = () => {
     if (active && !recipes.length) {
       dispatch(getAllRecipes());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, active]);
 
   const handleScroll = (e) => {
@@ -73,6 +76,7 @@ const CommunityDrawer = () => {
       <Drawer
         title='Community'
         open={active}
+        hide={location.pathname !== '/home'}
         onClose={() => dispatch(uiActions.setCommunityDrawerShowing(false))}
       >
         <div className='flex items-stretch border-b border-gray-400'>

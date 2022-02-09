@@ -86,6 +86,32 @@ export const getMyRecipes = async (
   }
 };
 
+export const getOtherUserRecipes = async (
+  req: IGetUserAuthInfoRequest,
+  res: Response
+): Promise<void> => {
+  try {
+    const recipes = await RecipeModel.find({
+      user: req.params.id,
+    })
+      .populate('user', 'name avatar')
+      .sort({ _id: -1 });
+
+    if (!recipes) {
+      res.status(400).json({
+        error: 'Something went wrong while getting featured recipes!',
+      });
+      return;
+    }
+
+    res.status(200).json(recipes);
+    return;
+  } catch (error) {
+    res.status(400).json({ error });
+    return;
+  }
+};
+
 export const getAllRecipes = async (
   req: IGetUserAuthInfoRequest,
   res: Response

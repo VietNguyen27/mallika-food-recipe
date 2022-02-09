@@ -112,6 +112,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
+
     builder.addCase(loginUser.pending, (state) => {
       state.loading = true;
     });
@@ -123,12 +124,14 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
+
     builder.addCase(fetchUser.pending, (state) => {
       state.user = null;
     });
     builder.addCase(fetchUser.fulfilled, (state, action: any) => {
       state.user = action.payload;
     });
+
     builder.addCase(updateUser.pending, (state) => {
       state.loading = true;
     });

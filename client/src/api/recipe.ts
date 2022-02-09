@@ -3,6 +3,7 @@ import {
   CREATE_RECIPE_URL,
   GET_FEATURED_RECIPES_URL,
   GET_MY_RECIPES_URL,
+  GET_OTHER_RECIPES_URL,
   GET_ALL_RECIPES_URL,
   GET_MORE_RECIPES_URL,
   UPDATE_RECIPE_URL,
@@ -30,6 +31,9 @@ export const recipeApi = {
   },
   getMine() {
     return request.get(GET_MY_RECIPES_URL);
+  },
+  getOther(id) {
+    return request.get(`${GET_OTHER_RECIPES_URL}/${id}`);
   },
   getAll() {
     return request.get(GET_ALL_RECIPES_URL);

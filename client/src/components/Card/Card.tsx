@@ -113,13 +113,17 @@ export const Card: React.FC<CardProps> = ({
         {title}
       </Link>
       <div className='flex items-center mt-1 relative'>
-        <img
-          src={generateBase64Image(user.avatar)}
-          alt={`avatar of ${user.name}`}
-          className='w-10 h-10 object-cover rounded-full mr-3'
-        />
+        <Link to={`/user/${user._id}`}>
+          <img
+            src={generateBase64Image(user.avatar)}
+            alt={`avatar of ${user.name}`}
+            className='w-10 h-10 object-cover rounded-full mr-3'
+          />
+        </Link>
         <div>
-          <p className='text-md line-clamp-1'>{user.name}</p>
+          <Link to={`/user/${user._id}`} className='text-md line-clamp-1'>
+            {user.name}
+          </Link>
           <div className='text-xs flex items-center text-gray-800'>
             <p className='flex items-center'>
               <Heart20Filled className='mr-1 text-orange inline-block' />
@@ -198,13 +202,17 @@ export const CardSmall: React.FC<CardSmallProps> = ({
         {title}
       </Link>
       <div className='flex items-center mt-1 relative'>
-        <img
-          src={generateBase64Image(user.avatar)}
-          alt={`avatar of ${user.name}`}
-          className='w-8 h-8 object-cover rounded-full mr-1.5'
-        />
+        <Link to={`/user/${user._id}`}>
+          <img
+            src={generateBase64Image(user.avatar)}
+            alt={`avatar of ${user.name}`}
+            className='w-8 h-8 object-cover rounded-full mr-1.5'
+          />
+        </Link>
         <div className='relative flex-1'>
-          <p className='text-xs line-clamp-1'>{user.name}</p>
+          <Link to={`/user/${user._id}`} className='text-xs line-clamp-1'>
+            {user.name}
+          </Link>
           <div className='w-full flex justify-between items-center'>
             <p className='text-xs text-gray-800 mr-1'>
               <span className='mr-1'>{numReviews}</span>

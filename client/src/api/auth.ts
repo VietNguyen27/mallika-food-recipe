@@ -3,6 +3,7 @@ import {
   AUTH_REGISTER_URL,
   AUTH_LOGIN_URL,
   GET_USER_URL,
+  GET_OTHER_USER_URL,
   UPDATE_USER_URL,
 } from '@config/constants';
 import { LoginData } from '@pages/Auth/Login';
@@ -18,6 +19,9 @@ export const authApi = {
   },
   fetch() {
     return request.get(GET_USER_URL);
+  },
+  fetchById(id) {
+    return request.get(`${GET_OTHER_USER_URL}/${id}`);
   },
   update(id: string, body: UpdateUserData) {
     return request.patch(`${UPDATE_USER_URL}/${id}`, body);

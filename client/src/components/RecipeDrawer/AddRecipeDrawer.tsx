@@ -53,7 +53,7 @@ const AddRecipeDrawer = () => {
       open={active}
       onClose={() => onCloseDrawer()}
     >
-      <Tabs className='pt-3'>
+      <Tabs className='h-full pt-3'>
         {tabs.map((tab) => {
           const { name, label, component: Component } = tab;
 

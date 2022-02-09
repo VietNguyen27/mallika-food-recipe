@@ -11,6 +11,7 @@ import {
   getFeaturedRecipes,
   getMoreRecipes,
   getMyRecipes,
+  getOtherUserRecipes,
   getRecipeById,
 } from './recipe-slice';
 import { getAllLikedRecipes, getMoreLikedRecipes } from './liked-slice';
@@ -18,7 +19,7 @@ import { getMoreReviews } from './review-slice';
 
 const initialState = {
   featuredRecipesLoading: false,
-  myRecipesLoading: false,
+  ownRecipesLoading: false,
   allRecipesLoading: false,
   moreRecipesLoading: false,
   allLikedRecipesLoading: false,
@@ -37,17 +38,20 @@ const isFeaturedRecipesReject = isSomeAsyncActionsRejected([
   getFeaturedRecipes,
 ]);
 
-const isMyRecipesPending = isSomeAsyncActionsPending([
+const isOwnRecipesPending = isSomeAsyncActionsPending([
   createRecipe,
   getMyRecipes,
+  getOtherUserRecipes,
 ]);
-const isMyRecipesFulfilled = isSomeAsyncActionsFulfilled([
+const isOwnRecipesFulfilled = isSomeAsyncActionsFulfilled([
   createRecipe,
   getMyRecipes,
+  getOtherUserRecipes,
 ]);
-const isMyRecipesReject = isSomeAsyncActionsRejected([
+const isOwnRecipesReject = isSomeAsyncActionsRejected([
   createRecipe,
   getMyRecipes,
+  getOtherUserRecipes,
 ]);
 
 const isAllRecipesPending = isSomeAsyncActionsPending([getAllRecipes]);
@@ -119,14 +123,14 @@ const loadingSlice = createSlice({
       state.featuredRecipesLoading = false;
     });
 
-    builder.addMatcher(isMyRecipesPending, (state) => {
-      state.myRecipesLoading = true;
+    builder.addMatcher(isOwnRecipesPending, (state) => {
+      state.ownRecipesLoading = true;
     });
-    builder.addMatcher(isMyRecipesFulfilled, (state) => {
-      state.myRecipesLoading = false;
+    builder.addMatcher(isOwnRecipesFulfilled, (state) => {
+      state.ownRecipesLoading = false;
     });
-    builder.addMatcher(isMyRecipesReject, (state) => {
-      state.myRecipesLoading = false;
+    builder.addMatcher(isOwnRecipesReject, (state) => {
+      state.ownRecipesLoading = false;
     });
 
     builder.addMatcher(isAllRecipesPending, (state) => {

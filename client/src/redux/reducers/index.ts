@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import authReducer from '@features/auth-slice';
+import userReducer from '@features/user-slice';
 import uiReducer from '@features/ui-slice';
 import toastReducer from '@features/toast-slice';
 import recipeReducer from '@features/recipe-slice';
@@ -11,6 +12,7 @@ import lastSeenReducer from '@features/lastseen-slice';
 
 export const appReducer = combineReducers({
   auth: authReducer,
+  user: userReducer,
   ui: uiReducer,
   toast: toastReducer,
   loading: loadingReducer,

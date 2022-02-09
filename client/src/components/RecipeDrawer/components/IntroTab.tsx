@@ -47,7 +47,7 @@ const IntroTab = () => {
     ({ recipe }: RootState) => recipe
   );
   const loading = useSelector(
-    ({ loading }: RootState) => loading.myRecipesLoading
+    ({ loading }: RootState) => loading.ownRecipesLoading
   );
   const user = useSelector(selectorUser);
   const recipeError = getErrorFromJoiMessage(error);
