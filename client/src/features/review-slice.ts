@@ -5,14 +5,14 @@ import { isSomeAsyncActionsFulfilled } from '@helpers/action-slice';
 import { updateReviews } from './recipe-slice';
 
 interface ReviewState {
-  reviews: object[] | null;
+  reviews: any;
   error: any;
   loading: boolean;
   outOfReview: boolean;
 }
 
 const initialState: ReviewState = {
-  reviews: null,
+  reviews: {},
   error: null,
   loading: false,
   outOfReview: false,
@@ -33,7 +33,9 @@ export const getAllReviews = createAsyncThunk(
         };
       });
 
-      return reviewList;
+      return {
+        [recipeId]: reviewList,
+      };
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -47,8 +49,8 @@ export const getMoreReviews = createAsyncThunk(
       await slowLoading();
       const state: any = getState();
       const currentUser = state.auth.user;
-      const totalReviews = state.review.reviews
-        ? state.review.reviews.length
+      const totalReviews = state.review.reviews[recipeId]
+        ? state.review.reviews[recipeId].length
         : 0;
       const response = await reviewApi.getMore(recipeId, totalReviews);
       const reviewList = response.data.map((review) => {
@@ -59,7 +61,9 @@ export const getMoreReviews = createAsyncThunk(
         };
       });
 
-      return reviewList;
+      return {
+        [recipeId]: reviewList,
+      };
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -166,15 +170,18 @@ const reviewSlice = createSlice({
       state.error = action.payload.error;
     });
     builder.addCase(getMoreReviews.fulfilled, (state, action: any) => {
-      if (action.payload.length && state.reviews) {
-        state.reviews = [...state.reviews, ...action.payload];
+      if (Object.values(action.payload as object)[0].length) {
+        const [key, value]: any = Object.entries(action.payload)[0];
+        state.reviews[key] = [...state.reviews[key], ...value];
       } else {
         state.outOfReview = true;
       }
     });
     builder.addMatcher(isReviewFulfilled, (state, action: any) => {
+      const [key, value]: any = Object.entries(action.payload)[0];
+
       state.loading = false;
-      state.reviews = action.payload;
+      state.reviews[key] = value;
     });
   },
 });

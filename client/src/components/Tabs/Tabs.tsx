@@ -12,6 +12,8 @@ import { Info20Filled } from '@fluentui/react-icons';
 interface TabsProps {
   children: ReactChild | ReactChildren | ReactChild[] | ReactChildren[];
   className?: string;
+  labelContainerClassName?: string;
+  labelClassName?: string;
   onTrigger?: () => void;
 }
 
@@ -27,6 +29,7 @@ interface TabProps {
 interface TabLabelProps {
   children: ReactChild | ReactChildren;
   isActive: boolean;
+  className?: string;
   error?: string;
   onClick: () => void;
 }
@@ -34,6 +37,7 @@ interface TabLabelProps {
 const TabLabel: React.FC<TabLabelProps> = ({
   children,
   isActive,
+  className,
   error,
   ...rest
 }) => {
@@ -64,25 +68,34 @@ const TabLabel: React.FC<TabLabelProps> = ({
 export const Tabs: React.FC<TabsProps> = ({
   children,
   className,
+  labelContainerClassName,
+  labelClassName,
   onTrigger,
   ...rest
 }) => {
   const [activeTab, setActiveTab] = useState(children[0].props.label);
-  const defaultClassName = 'flex flex-col items-stretch h-full';
-  const allClassNames = cx(defaultClassName, className);
+  const defaultTabsClassName = 'flex flex-col items-stretch';
+  const tabsClassNames = cx(defaultTabsClassName, className);
+  const defaultTabLabelContainerClassName =
+    'flex gap-3 border-b border-gray-400 px-layout pb-2';
+  const tabLabelContainerClassNames = cx(
+    defaultTabLabelContainerClassName,
+    labelContainerClassName
+  );
 
   const changeTab = (tab) => {
     setActiveTab(tab);
   };
 
   return (
-    <div className={allClassNames} {...rest}>
-      <ul className='flex gap-3 border-b border-gray-400 px-layout pb-2'>
+    <div className={tabsClassNames} {...rest}>
+      <ul className={tabLabelContainerClassNames}>
         {children instanceof Array &&
           children.map((child, index) => (
             <TabLabel
               key={index}
               isActive={child.props.label === activeTab}
+              className={labelClassName}
               onClick={() => {
                 onTrigger && onTrigger();
                 changeTab(child.props.label);

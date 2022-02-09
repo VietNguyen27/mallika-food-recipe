@@ -11,7 +11,7 @@ import Battery from '@img/battery.svg';
 import { getTime } from '@helpers/helpers';
 import { useRect } from '@hooks/useRect';
 import Wrapper from '@layout/Wrapper/Wrapper';
-import ReviewDrawer from '@components/ReviewDrawer/ReviewDrawer';
+import CommunityDrawer from '@pages/Home/components/CommunityDrawer';
 
 interface PhoneProps {
   children: ReactChild | ReactChildren;
@@ -68,7 +68,7 @@ const Phone = ({ children }: PhoneProps) => {
               {children}
             </main>
           </div>
-          <ReviewDrawer />
+          <CommunityDrawer />
         </>
       </Wrapper>
     </PhoneRectContext.Provider>

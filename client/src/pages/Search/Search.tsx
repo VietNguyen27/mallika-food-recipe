@@ -93,15 +93,18 @@ const Search = () => {
         />
       </div>
       <div className='relative h-9/10 mt-4 overflow-auto scrollbar-none'>
-        <RecentSearch />
-        <LastSeen />
-        {searchable && (
+        {searchable ? (
           <SearchResults
             searchTerm={searchTerm}
             searchRecipesOrUsers={searchRecipesOrUsers}
             setSearchLabel={setSearchLabel}
             handleScroll={handleScroll}
           />
+        ) : (
+          <>
+            <RecentSearch />
+            <LastSeen />
+          </>
         )}
       </div>
     </div>

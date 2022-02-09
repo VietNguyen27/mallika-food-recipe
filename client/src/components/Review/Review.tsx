@@ -4,7 +4,6 @@ import {
   Copy20Regular,
   Delete20Regular,
   Edit20Regular,
-  Heart24Regular,
   MoreVertical24Filled,
   Star12Filled,
 } from '@fluentui/react-icons';
@@ -13,13 +12,8 @@ import { generateBase64Image, getFullDateTime } from '@helpers/helpers';
 import { Dropdown, DropdownItem } from '@components/Dropdown/Dropdown';
 import useToggle from '@hooks/useToggle';
 import { useDispatch } from 'react-redux';
-import { deleteReview, updateReview } from '@features/review-slice';
+import { deleteReview } from '@features/review-slice';
 import CollapseText from '@components/CollapseText/CollapseText';
-
-interface RecipeType {
-  image: string;
-  title: string;
-}
 
 interface ReviewUserType {
   avatar: object;
@@ -47,12 +41,6 @@ interface ReviewProps {
   _id: string;
   isOwner: boolean;
   handleUpdateReview: (review: ReviewDataUpdateType) => void;
-}
-
-interface MyReviewProps {
-  className?: string;
-  recipe: RecipeType;
-  comment: string;
 }
 
 export const ReviewList: React.FC<ReviewListProps> = ({
@@ -170,42 +158,5 @@ export const Review: React.FC<ReviewProps> = ({
         </Dropdown>
       )}
     </>
-  );
-};
-
-export const MyReview: React.FC<MyReviewProps> = ({
-  className,
-  recipe,
-  comment,
-}) => {
-  const defaultClassName = 'px-layout py-3 border-b border-gray-400';
-  const allClassNames = cx(defaultClassName, className);
-
-  return (
-    <li className={allClassNames}>
-      <div className='flex gap-2'>
-        <div className='relative w-12 h-12 flex-shrink-0 mt-1 rounded-lg overflow-hidden'>
-          <img
-            src={recipe.image}
-            className='absolute w-full h-full object-cover'
-            alt={recipe.title}
-          />
-        </div>
-        <div className='w-full'>
-          <div className='flex justify-between items-center pb-1'>
-            <h3 className='text-gray-800 text-xs pr-2'>{recipe.title}</h3>
-            <div className='flex gap-1 w-14 flex-shrink-0'>
-              <button className='text-gray-600'>
-                <Heart24Regular />
-              </button>
-              <button className='text-gray-600'>
-                <MoreVertical24Filled />
-              </button>
-            </div>
-          </div>
-          <p className='leading-5'>{comment}</p>
-        </div>
-      </div>
-    </li>
   );
 };

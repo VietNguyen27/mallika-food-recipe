@@ -5,12 +5,19 @@ import cx from 'clsx';
 
 interface DrawerProps {
   open: boolean;
+  hide?: boolean;
   title: string;
   children: ReactChild | ReactChildren | ReactChild[] | ReactChildren[];
   onClose: () => void;
 }
 
-const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children }) => {
+const Drawer: React.FC<DrawerProps> = ({
+  open,
+  hide = false,
+  onClose,
+  title,
+  children,
+}) => {
   const [active, setActive] = useState<boolean>(true);
   const defaultClassName =
     'w-full h-full bg-white pt-5 flex flex-col items-stretch';
@@ -29,7 +36,12 @@ const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children }) => {
 
   return open
     ? ReactDOM.createPortal(
-        <div className='py-6 absolute z-40 inset-0 w-full h-full'>
+        <div
+          className={cx(
+            'py-6 absolute  inset-0 w-full h-full',
+            hide ? '-z-10' : 'z-40'
+          )}
+        >
           <div className={allClassNames}>
             <div className='px-layout pb-3 border-b border-gray-400'>
               <div className='relative flex items-center'>

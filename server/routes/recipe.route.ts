@@ -6,6 +6,7 @@ import {
   getFeaturedRecipes,
   getMoreRecipes,
   getMyRecipes,
+  getOtherUserRecipes,
   getRecipeById,
   likeRecipe,
   unlikeRecipe,
@@ -41,6 +42,10 @@ router.route('/all').get(auth, getAllRecipes);
 // @routes GET api/recipes/more
 // @desc Get more recipes
 router.route('/more').get(auth, getMoreRecipes);
+
+// @routes GET api/recipes/user
+// @desc Get recipes by userId
+router.route('/user/:id').get(auth, getOtherUserRecipes);
 
 // @routes PATCH api/recipes/me
 // @desc PATCH my recipes

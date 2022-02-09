@@ -25,6 +25,9 @@ const DetailCookbookPage = lazyImportWithDelay(
 const RecipeDetailPage = lazyImportWithDelay(
   import('@pages/RecipeDetail/RecipeDetail')
 );
+const OtherProfilePage = lazyImportWithDelay(
+  import('@pages/Profile/OtherProfile')
+);
 
 const App = () => {
   const dispatch = useDispatch();
@@ -67,6 +70,7 @@ const App = () => {
             <Route element={<Content />}>
               <Route path='/detail-cookbook' element={<DetailCookbookPage />} />
               <Route path='/recipe/:id' element={<RecipeDetailPage />} />
+              <Route path='/user/:id' element={<OtherProfilePage />} />
             </Route>
           </Route>
         </Routes>

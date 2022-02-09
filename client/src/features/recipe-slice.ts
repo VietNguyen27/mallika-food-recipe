@@ -39,6 +39,7 @@ interface RecipeState {
   recipes: object[];
   featuredRecipes: object[];
   myRecipes: object[] | null;
+  otherRecipes: any;
 }
 
 const initialState: RecipeState = {
@@ -48,10 +49,11 @@ const initialState: RecipeState = {
   ingredients: [],
   steps: [],
   error: [],
-  recipe: null,
+  recipe: {},
   recipes: [],
   featuredRecipes: [],
   myRecipes: null,
+  otherRecipes: {},
 };
 
 export const createRecipe = createAsyncThunk(
@@ -141,6 +143,22 @@ export const getMyRecipes = createAsyncThunk(
       const response = await recipeApi.getMine();
 
       return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getOtherUserRecipes = createAsyncThunk(
+  'recipes/user',
+  async (userId: any, { rejectWithValue }) => {
+    try {
+      await slowLoading();
+      const response = await recipeApi.getOther(userId);
+
+      return {
+        [userId]: response.data,
+      };
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -363,6 +381,12 @@ const recipeSlice = createSlice({
       state.myRecipes = action.payload;
     });
 
+    builder.addCase(getOtherUserRecipes.fulfilled, (state, action: any) => {
+      const [key, value]: any = Object.entries(action.payload)[0];
+
+      state.otherRecipes[key] = value;
+    });
+
     builder.addCase(getAllRecipes.fulfilled, (state, action: any) => {
       state.recipes = action.payload;
     });
@@ -376,7 +400,7 @@ const recipeSlice = createSlice({
     });
 
     builder.addCase(getRecipeById.fulfilled, (state, action: any) => {
-      state.recipe = action.payload;
+      state.recipe[action.payload._id] = action.payload;
     });
   },
 });
@@ -407,6 +431,8 @@ export const selectorFeaturedRecipes = (state: { recipe: RecipeState }) =>
   state.recipe.featuredRecipes;
 export const selectorMyRecipes = (state: { recipe: RecipeState }) =>
   state.recipe.myRecipes;
+export const selectorOtherRecipes = (state: { recipe: RecipeState }) =>
+  state.recipe.otherRecipes;
 export const selectorRecipe = (state: { recipe: RecipeState }) =>
   state.recipe.recipe;
 export default recipeSlice.reducer;

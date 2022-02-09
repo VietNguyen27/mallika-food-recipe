@@ -4,7 +4,6 @@ import { generateBase64Image } from '@helpers/helpers';
 import Cookbooks from './components/Cookbooks';
 import FeaturedRecipes from './components/FeaturedRecipes';
 import Categories from './components/Categories';
-import CommunityDrawer from './components/CommunityDrawer';
 import { Alert24Regular } from '@fluentui/react-icons';
 import { Loading } from '@components/Loading/Loading';
 import { Link } from 'react-router-dom';
@@ -37,7 +36,6 @@ const Home = () => {
       <Cookbooks />
       <FeaturedRecipes />
       <Categories />
-      <CommunityDrawer />
     </div>
   );
 };
