@@ -84,7 +84,7 @@ const Search = () => {
           suffix={
             <button
               type='submit'
-              className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 text-gray-800'
+              className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 text-gray-800 pointer-events-none'
               tabIndex={-1}
             >
               <Search24Regular />
@@ -92,10 +92,9 @@ const Search = () => {
           }
         />
       </div>
-      <div className='relative h-9/10'>
+      <div className='relative h-9/10 mt-4 overflow-auto scrollbar-none'>
         <RecentSearch />
-        {/* Uncomment after completing RecipeDetail */}
-        {/* <LastSeen /> */}
+        <LastSeen />
         {searchable && (
           <SearchResults
             searchTerm={searchTerm}

@@ -69,17 +69,19 @@ export const Recipe: React.FC<RecipeProps> = ({
           />
         </Link>
         <div className='w-full'>
-          <div className='flex justify-between items-start pb-1'>
+          <div className='flex justify-between items-center pb-1'>
             <Link to={`/recipe/${_id}`} className='pr-2 leading-5 line-clamp-2'>
               {title}
             </Link>
-            <div className='flex-shrink-0'>
-              <button className='text-gray-600'>
-                <MoreVertical24Filled />
-              </button>
-            </div>
+            {type === LIKED && (
+              <div className='flex-shrink-0 leading-3'>
+                <button className='text-gray-600'>
+                  <MoreVertical24Filled />
+                </button>
+              </div>
+            )}
           </div>
-          {type === OTHER || (type === ME && !isPublished) ? (
+          {type === OTHER || type === LIKED ? (
             <div className='flex gap-3'>
               <div className='inline-flex items-center'>
                 <span className='text-gray-600 pr-1'>
