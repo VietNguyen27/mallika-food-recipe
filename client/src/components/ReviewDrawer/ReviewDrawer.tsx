@@ -6,7 +6,11 @@ import { uiActions } from '@features/ui-slice';
 import TextInput, { InputVariants } from '@components/Input/TextInput';
 import { Review, ReviewList } from '@components/Review/Review';
 import { useForm } from 'react-hook-form';
-import { Star20Filled, Star20Regular } from '@fluentui/react-icons';
+import {
+  Send24Filled,
+  Star20Filled,
+  Star20Regular,
+} from '@fluentui/react-icons';
 import useOnClickOutside from '@hooks/useOnClickOutside';
 import NoFound from '@img/no-found.png';
 import cx from 'clsx';
@@ -167,7 +171,7 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
             })}
           </div>
         </div>
-        <div className='relative z-10 flex px-3 gap-3 pb-5 -mb-3 bg-white'>
+        <div className='relative z-10 flex items-end px-3 gap-3 pb-5 -mb-3 bg-white'>
           <TextInput
             className='w-full'
             variant={InputVariants.TERTIARY}
@@ -184,9 +188,9 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
           />
           <button
             type='submit'
-            className='flex-shrink-0 text-orange text-sm font-semibold uppercase'
+            className='flex-shrink-0 text-orange m-0.5 p-1 text-sm font-semibold uppercase'
           >
-            Submit
+            <Send24Filled />
           </button>
         </div>
       </form>

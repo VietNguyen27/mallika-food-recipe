@@ -5,6 +5,8 @@ export const AUTH_LOGIN_URL = `${SERVER_BASE_URL}/auth/login`;
 export const GET_USER_URL = `${SERVER_BASE_URL}/users/me`;
 export const GET_OTHER_USER_URL = `${SERVER_BASE_URL}/users`;
 export const UPDATE_USER_URL = `${SERVER_BASE_URL}/users`;
+export const FOLLOW_USER_URL = `${SERVER_BASE_URL}/users`;
+export const UNFOLLOW_USER_URL = `${SERVER_BASE_URL}/users`;
 
 export const CREATE_RECIPE_URL = `${SERVER_BASE_URL}/recipes`;
 export const UPDATE_RECIPE_URL = `${SERVER_BASE_URL}/recipes`;

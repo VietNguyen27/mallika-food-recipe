@@ -3,7 +3,7 @@ import Drawer from '@components/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
-import { selectorUser, updateUser } from '@features/auth-slice';
+import { selectorUser, updateUser } from '@features/user-slice';
 import TextInput, {
   InputTypes,
   InputVariants,

@@ -23,7 +23,7 @@ export const getAllReviews = createAsyncThunk(
   async (recipeId: string, { rejectWithValue, getState }) => {
     try {
       const state: any = getState();
-      const currentUser = state.auth.user;
+      const currentUser = state.user.user;
       const response = await reviewApi.getAll(recipeId);
       const reviewList = response.data.map((review) => {
         const isOwner = review.user._id === currentUser._id;
@@ -48,7 +48,7 @@ export const getMoreReviews = createAsyncThunk(
     try {
       await slowLoading();
       const state: any = getState();
-      const currentUser = state.auth.user;
+      const currentUser = state.user.user;
       const totalReviews = state.review.reviews[recipeId]
         ? state.review.reviews[recipeId].length
         : 0;
@@ -76,11 +76,11 @@ export const createNewReview = createAsyncThunk(
     try {
       const { recipeId, ...rest } = body;
       const state: any = getState();
-      const currentUser = state.auth.user;
+      const currentUser = state.user.user;
       const response = await reviewApi.create(recipeId, rest);
       const { rating, numReviews } = response.data;
 
-      await dispatch(updateReviews({ rating, numReviews }));
+      await dispatch(updateReviews({ recipeId, rating, numReviews }));
 
       const reviewList = response.data.reviews.map((review) => {
         const isOwner = review.user._id === currentUser._id;
@@ -90,7 +90,9 @@ export const createNewReview = createAsyncThunk(
         };
       });
 
-      return reviewList;
+      return {
+        [recipeId]: reviewList,
+      };
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -103,11 +105,11 @@ export const updateReview = createAsyncThunk(
     try {
       const { recipeId, reviewId, ...rest } = body;
       const state: any = getState();
-      const currentUser = state.auth.user;
+      const currentUser = state.user.user;
       const response = await reviewApi.update(recipeId, reviewId, rest);
       const { rating, numReviews } = response.data;
 
-      await dispatch(updateReviews({ rating, numReviews }));
+      await dispatch(updateReviews({ recipeId, rating, numReviews }));
 
       const reviewList = response.data.reviews.map((review) => {
         const isOwner = review.user._id === currentUser._id;
@@ -117,7 +119,9 @@ export const updateReview = createAsyncThunk(
         };
       });
 
-      return reviewList;
+      return {
+        [recipeId]: reviewList,
+      };
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -132,9 +136,11 @@ export const deleteReview = createAsyncThunk(
       const response = await reviewApi.delete(recipeId, reviewId);
       const { rating, numReviews } = response.data;
 
-      await dispatch(updateReviews({ rating, numReviews }));
+      await dispatch(updateReviews({ recipeId, rating, numReviews }));
 
-      return response.data.reviews;
+      return {
+        [recipeId]: response.data.reviews,
+      };
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }

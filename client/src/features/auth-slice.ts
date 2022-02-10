@@ -3,18 +3,17 @@ import { RegisterData } from '@pages/Auth/Register';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authApi } from '@api/auth';
 import { slowLoading } from '@helpers/helpers';
+import { fetchUser } from './user-slice';
 
 interface AuthState {
-  user: any;
-  loading: boolean;
   error: object[];
+  loading: boolean;
   isLoggedIn: boolean;
 }
 
 const initialState: AuthState = {
-  user: null,
-  loading: false,
   error: [],
+  loading: false,
   isLoggedIn: false,
 };
 
@@ -52,34 +51,6 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const fetchUser = createAsyncThunk(
-  'users/me',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await authApi.fetch();
-
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const updateUser = createAsyncThunk(
-  'users/:id',
-  async (body: any, { rejectWithValue }) => {
-    try {
-      await slowLoading();
-      const { _id, ...rest } = body;
-      const response = await authApi.update(_id, rest);
-
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -87,10 +58,6 @@ const authSlice = createSlice({
     logout: (state) => {
       localStorage.removeItem('token');
       state.isLoggedIn = false;
-      state.user = null;
-    },
-    finishSplash: (state) => {
-      state.user.firstLogin = false;
     },
     clearError: (state, action) => {
       state.error = state.error.filter(
@@ -124,33 +91,10 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
-
-    builder.addCase(fetchUser.pending, (state) => {
-      state.user = null;
-    });
-    builder.addCase(fetchUser.fulfilled, (state, action: any) => {
-      state.user = action.payload;
-    });
-
-    builder.addCase(updateUser.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(updateUser.fulfilled, (state, action: any) => {
-      state.loading = false;
-      state.user = {
-        ...state.user,
-        ...action.payload,
-      };
-    });
-    builder.addCase(updateUser.rejected, (state) => {
-      state.loading = false;
-    });
   },
 });
 
-export const { logout, finishSplash, clearError, clearErrors } =
-  authSlice.actions;
+export const { logout, clearError, clearErrors } = authSlice.actions;
 export const selectorAuthError = (state: { auth: AuthState }) =>
   state.auth.error;
-export const selectorUser = (state: { auth: AuthState }) => state.auth.user;
 export default authSlice.reducer;

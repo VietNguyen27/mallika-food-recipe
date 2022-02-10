@@ -11,11 +11,14 @@ import cx from 'clsx';
 import { generateBase64Image, getFullDateTime } from '@helpers/helpers';
 import { Dropdown, DropdownItem } from '@components/Dropdown/Dropdown';
 import useToggle from '@hooks/useToggle';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteReview } from '@features/review-slice';
 import CollapseText from '@components/CollapseText/CollapseText';
+import { selectorUser } from '@features/user-slice';
+import { Link } from 'react-router-dom';
 
 interface ReviewUserType {
+  _id: string;
   avatar: object;
   name: string;
 }
@@ -68,6 +71,7 @@ export const Review: React.FC<ReviewProps> = ({
   const allClassNames = cx(defaultClassName, className);
   const { isShowing, toggle } = useToggle();
   const dispatch = useDispatch();
+  const currentUser = useSelector(selectorUser);
 
   const handleCopyText = () => {
     let tempText = document.createElement('textarea');
@@ -92,16 +96,37 @@ export const Review: React.FC<ReviewProps> = ({
     <>
       <li className={allClassNames}>
         <div className='flex gap-2'>
-          <div className='relative w-8 h-8 flex-shrink-0 mt-1 rounded-full overflow-hidden'>
-            <img
-              src={generateBase64Image(user.avatar)}
-              className='absolute w-full h-full object-cover'
-              alt={user.name}
-            />
-          </div>
+          {currentUser._id === user._id ? (
+            <div className='relative w-8 h-8 flex-shrink-0 mt-1 rounded-full overflow-hidden'>
+              <img
+                src={generateBase64Image(user.avatar)}
+                className='absolute w-full h-full object-cover'
+                alt={user.name}
+              />
+            </div>
+          ) : (
+            <Link to={`/user/${user._id}`}>
+              <div className='relative w-8 h-8 flex-shrink-0 mt-1 rounded-full overflow-hidden'>
+                <img
+                  src={generateBase64Image(user.avatar)}
+                  className='absolute w-full h-full object-cover'
+                  alt={user.name}
+                />
+              </div>
+            </Link>
+          )}
           <div className='w-full'>
             <div className='flex justify-between items-center pb-1'>
-              <h3 className='text-sm font-semibold'>{user.name}</h3>
+              {currentUser._id === user._id ? (
+                <h3 className='text-sm font-semibold'>{user.name}</h3>
+              ) : (
+                <Link
+                  to={`/user/${user._id}`}
+                  className='text-sm font-semibold'
+                >
+                  {user.name}
+                </Link>
+              )}
               <button
                 className='flex-shrink-0 text-gray-600 -mr-2'
                 onClick={toggle}

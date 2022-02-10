@@ -22,7 +22,7 @@ import {
   clearError,
   createRecipe,
 } from '@features/recipe-slice';
-import { selectorUser } from '@features/auth-slice';
+import { selectorUser } from '@features/user-slice';
 import {
   convertBase64,
   getErrorFromJoiMessage,

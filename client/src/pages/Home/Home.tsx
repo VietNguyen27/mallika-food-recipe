@@ -1,4 +1,4 @@
-import { selectorUser } from '@features/auth-slice';
+import { selectorUser } from '@features/user-slice';
 import { useSelector } from 'react-redux';
 import { generateBase64Image } from '@helpers/helpers';
 import Cookbooks from './components/Cookbooks';

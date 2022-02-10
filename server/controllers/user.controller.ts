@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import UserModel from '../models/user.model';
+import { IGetUserAuthInfoRequest } from '../utils/interfaces';
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   if (req.headers && req.headers.authorization) {
@@ -16,7 +17,7 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
     }
 
     const _id = decoded.id;
-    const user = await UserModel.findById({ _id }).select('-password');
+    const user = await UserModel.findById(_id).select('-password');
 
     res.status(200).json(user);
     return;
@@ -31,17 +32,17 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const getUserById = async (
-  req: Request,
+  req: IGetUserAuthInfoRequest,
   res: Response
 ): Promise<void> => {
-  const { id: _id } = req.params;
+  const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(_id)) {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
     res.status(400).json({ error: 'Cannot find this user. Please try again!' });
     return;
   }
 
-  const user = await UserModel.findById({ _id }).select('-password');
+  const user = await UserModel.findById(id).select('-password');
 
   if (!user) {
     res.status(400).json({ error: 'Cannot find this user. Please try again!' });

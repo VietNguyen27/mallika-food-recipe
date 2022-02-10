@@ -3,7 +3,8 @@ import Drawer from '@components/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
-import { logout, selectorUser } from '@features/auth-slice';
+import { logout } from '@features/auth-slice';
+import { selectorUser } from '@features/user-slice';
 import { generateBase64Image } from '@helpers/helpers';
 import {
   Heart24Regular,

@@ -3,6 +3,7 @@ import cx from 'clsx';
 
 interface LoadingProps {
   className?: string;
+  fitContent?: boolean;
 }
 
 interface SpinnerProps {
@@ -10,10 +11,13 @@ interface SpinnerProps {
   color?: string;
 }
 
-export const Loading: React.FC<LoadingProps> = ({ className }) => {
-  const defaultClassName =
-    'absolute z-50 top-0 bottom-0 w-full flex justify-center items-center';
-  const allClassNames = cx(defaultClassName, className);
+export const Loading: React.FC<LoadingProps> = ({ className, fitContent }) => {
+  const defaultClassName = 'flex justify-center items-center';
+  const allClassNames = cx(
+    defaultClassName,
+    className,
+    fitContent ? 'w-full h-full' : 'absolute z-50 top-0 bottom-0 w-full'
+  );
 
   return (
     <div className={allClassNames}>

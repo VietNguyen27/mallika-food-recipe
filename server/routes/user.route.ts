@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { followUser, unfollowUser } from '../controllers/follow.controller';
 import {
   getUser,
   getUserById,
@@ -24,5 +25,13 @@ router.route('/:id').get(auth, getUserById);
 // @routes PATCH api/users/:id
 // @desc Update user
 router.route('/:id').patch(auth, updateUser);
+
+// @routes POST api/users/:id/follow
+// @desc Follow specified user
+router.route('/:id/follow').post(auth, followUser);
+
+// @routes DELETE api/users/:id/unfollow
+// @desc Unfollow specified user
+router.route('/:id/unfollow').delete(auth, unfollowUser);
 
 export default router;

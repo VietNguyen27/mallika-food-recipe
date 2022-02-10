@@ -117,7 +117,7 @@ export const getFeaturedRecipes = createAsyncThunk(
     try {
       await slowLoading();
       const state: any = getState();
-      const userId = state.auth.user._id;
+      const userId = state.user.user._id;
       const response = await recipeApi.getFeatured();
       const recipes = response.data.map((recipe) => {
         const isLiked = recipe.likes.includes(userId);
@@ -171,7 +171,7 @@ export const getAllRecipes = createAsyncThunk(
     try {
       await slowLoading();
       const state: any = getState();
-      const userId = state.auth.user._id;
+      const userId = state.user.user._id;
       const response = await recipeApi.getAll();
       const recipes = response.data.map((recipe) => {
         const isLiked = recipe.likes.includes(userId);
@@ -195,7 +195,7 @@ export const getMoreRecipes = createAsyncThunk(
     try {
       await slowLoading();
       const state: any = getState();
-      const userId = state.auth.user._id;
+      const userId = state.user.user._id;
       const totalRecipes = state.recipe.recipes.length;
       const response = await recipeApi.getMore(totalRecipes);
       const recipes = response.data.map((recipe) => {
@@ -220,7 +220,7 @@ export const getRecipeById = createAsyncThunk(
     try {
       await slowLoading();
       const state: any = getState();
-      const userId = state.auth.user._id;
+      const userId = state.user.user._id;
       const response = await recipeApi.getById(id);
       const isLiked = response.data.likes.includes(userId);
 
@@ -289,12 +289,9 @@ const recipeSlice = createSlice({
       state.success = !state.success;
     },
     updateReviews: (state, action) => {
-      const { rating, numReviews } = action.payload;
-      state.recipe.rating = rating;
-      state.recipe.numReviews = numReviews;
-    },
-    clearCurrentRecipe: (state) => {
-      state.recipe = null;
+      const { recipeId, rating, numReviews } = action.payload;
+      state.recipe[recipeId].rating = rating;
+      state.recipe[recipeId].numReviews = numReviews;
     },
   },
   extraReducers: (builder) => {
@@ -335,8 +332,8 @@ const recipeSlice = createSlice({
         };
       }
 
-      if (state.recipe) {
-        state.recipe = {
+      if (state.recipe[action.payload._id]) {
+        state.recipe[action.payload._id] = {
           ...action.payload,
           isLiked: true,
         };
@@ -365,8 +362,8 @@ const recipeSlice = createSlice({
         };
       }
 
-      if (state.recipe) {
-        state.recipe = {
+      if (state.recipe[action.payload._id]) {
+        state.recipe[action.payload._id] = {
           ...action.payload,
           isLiked: false,
         };
@@ -415,7 +412,6 @@ export const {
   clearRecipeWidgets,
   changeStatusSuccess,
   updateReviews,
-  clearCurrentRecipe,
 } = recipeSlice.actions;
 export const selectorRecipeIntro = (state: { recipe: RecipeState }) =>
   state.recipe.intro;

@@ -41,10 +41,12 @@ const TabLabel: React.FC<TabLabelProps> = ({
   error,
   ...rest
 }) => {
+  const isSameSize = className && className.includes('flex-1');
   const defaultClassName =
-    'relative flex-auto text-center cursor-pointer py-1.5 px-2 rounded-3xl transition-all duration-200';
+    'relative text-center cursor-pointer py-1.5 px-2 rounded-3xl transition-all duration-200';
   const allClassNames = cx(
     defaultClassName,
+    isSameSize ? 'flex-1' : 'flex-auto',
     isActive
       ? 'bg-orange text-white'
       : 'bg-transparent text-gray-800 hover:bg-gray-100'
