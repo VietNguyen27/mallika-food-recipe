@@ -54,6 +54,8 @@ const CommunityDrawer = () => {
     const isBottom =
       e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight;
 
+    if (loading) return;
+
     if (isBottom && !moreLoading && !outOfRecipe) {
       dispatch(getMoreRecipes());
     }

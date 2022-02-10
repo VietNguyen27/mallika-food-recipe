@@ -7,7 +7,7 @@ import {
   increaseLikedCount,
 } from '@features/recipe-slice';
 import { addLikedRecipe, removeLikedRecipe } from '@features/liked-slice';
-import { selectorUser } from '@features/auth-slice';
+import { selectorUser } from '@features/user-slice';
 import { RootState } from '@redux/reducers';
 import { RecipeDetailSkeleton } from '@components/Skeleton/Skeleton';
 import ReviewDrawer from '@components/ReviewDrawer/ReviewDrawer';
@@ -166,9 +166,13 @@ const RecipeDetail = () => {
             <h1 className='text-2xl font-semibold'>{title}</h1>
             <p className='text-xs pb-3'>
               By
-              <Link className='text-orange px-1' to='/#'>
-                {user.name}
-              </Link>
+              {currentUser._id === user._id ? (
+                <span className='text-orange px-1'>{user.name}</span>
+              ) : (
+                <Link to={`/user/${user._id}`} className='text-orange px-1'>
+                  {user.name}
+                </Link>
+              )}
               on {getFullDate(createdAt)}
             </p>
             <div className='flex items-center text-sm text-gray-800 mb-2'>

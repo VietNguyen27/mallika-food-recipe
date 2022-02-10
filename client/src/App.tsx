@@ -5,11 +5,12 @@ import Main from '@layout/Main/Main';
 import Content from '@layout/Content/Content';
 import { Loading } from '@components/Loading/Loading';
 import { lazyImportWithDelay } from '@helpers/helpers';
-import { clearErrors, fetchUser, selectorUser } from '@features/auth-slice';
+import { clearErrors } from '@features/auth-slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { PrivateRoute } from '@routes/PrivateRoute';
 import { PublicRoute } from '@routes/PubliceRoute';
 import AuthVerify from '@common/AuthVerify';
+import { fetchUser, selectorUser } from '@features/user-slice';
 
 const LandingPage = lazyImportWithDelay(import('@pages/Landing/Landing'));
 const LoginPage = lazyImportWithDelay(import('@pages/Auth/Login'));

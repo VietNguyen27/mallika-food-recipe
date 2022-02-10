@@ -90,3 +90,30 @@ export const ReviewSkeleton = () => {
     </li>
   );
 };
+
+export const ProfileSkeleton = () => {
+  return (
+    <div className='h-full overflow-scroll scrollbar-none'>
+      <div className='h-[150%]'>
+        <div className='px-layout'>
+          <div className='h-6 bg-gray-200 animate-pulse rounded'></div>
+          <div className='pt-4'>
+            <div className='flex justify-between items-center gap-4'>
+              <div className='w-[72px] h-[72px] flex-shrink-0 bg-gray-200 animate-pulse rounded-full'></div>
+              <div className='w-[180px] h-12 bg-gray-200 animate-pulse rounded'></div>
+            </div>
+          </div>
+          <div className='flex flex-col items-start pt-2'>
+            <div className='w-2/3 h-6 bg-gray-200 animate-pulse rounded'></div>
+            <div className='w-full h-4 bg-gray-200 animate-pulse rounded mt-2'></div>
+            <div className='w-1/3 h-4 bg-gray-200 animate-pulse rounded mt-2'></div>
+          </div>
+          <div className='flex gap-3 pb-2 pt-4'>
+            <div className='relative h-9 py-1.5 px-2 rounded-3xl flex-1 bg-gray-200 animate-pulse'></div>
+            <div className='relative h-9 py-1.5 px-2 rounded-3xl flex-1 bg-gray-200 animate-pulse'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

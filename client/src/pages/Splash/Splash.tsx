@@ -10,7 +10,7 @@ import Button, {
   ButtonVariants,
 } from '@components/Button/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { finishSplash, selectorUser, updateUser } from '@features/auth-slice';
+import { finishSplash, selectorUser, updateUser } from '@features/user-slice';
 
 interface SplashItemTypes {
   title: string;
