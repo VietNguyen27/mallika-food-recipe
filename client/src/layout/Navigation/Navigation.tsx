@@ -35,7 +35,7 @@ const Navigation = () => {
         <RoundedButton
           className='absolute -translate-y-2 hover:opacity-100'
           size={RoundedButtonSizes.LARGE}
-          onClick={() => dispatch(uiActions.setAddRecipeDrawerShowing(true))}
+          onClick={() => dispatch(uiActions.setCreateRecipeDrawerShowing(true))}
         >
           <Add20Filled />
         </RoundedButton>

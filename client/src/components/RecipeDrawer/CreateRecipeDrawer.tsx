@@ -32,8 +32,10 @@ const tabs = [
   },
 ];
 
-const AddRecipeDrawer = () => {
-  const active = useSelector(({ ui }: RootState) => ui.addRecipeDrawerShowing);
+const CreateRecipeDrawer = () => {
+  const active = useSelector(
+    ({ ui }: RootState) => ui.createRecipeDrawerShowing
+  );
   const dispatch = useDispatch();
   const error = useSelector(selectorRecipeError);
   const recipeError: any = getErrorFromJoiMessage(error);
@@ -42,14 +44,14 @@ const AddRecipeDrawer = () => {
     Object.keys(intro).length > 0 ? 'There is some error' : null;
 
   const onCloseDrawer = (): void => {
-    dispatch(uiActions.setAddRecipeDrawerShowing(false));
+    dispatch(uiActions.setCreateRecipeDrawerShowing(false));
     dispatch(clearErrors());
     dispatch(clearRecipeWidgets());
   };
 
   return (
     <Drawer
-      title='Add new recipe'
+      title='Create new recipe'
       open={active}
       onClose={() => onCloseDrawer()}
     >
@@ -75,4 +77,4 @@ const AddRecipeDrawer = () => {
   );
 };
 
-export default AddRecipeDrawer;
+export default CreateRecipeDrawer;

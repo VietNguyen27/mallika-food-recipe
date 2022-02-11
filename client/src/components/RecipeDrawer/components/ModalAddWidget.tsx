@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { uuid } from '@helpers/helpers';
 import {
-  addRecipeWidget,
+  createRecipeWidget,
   clearError,
   editRecipeWidget,
 } from '@features/recipe-slice';
@@ -67,7 +67,7 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
         _id,
         isHeader: isHeader || false,
       };
-      dispatch(addRecipeWidget(newWidget));
+      dispatch(createRecipeWidget(newWidget));
     }
 
     dispatch(clearError(type));

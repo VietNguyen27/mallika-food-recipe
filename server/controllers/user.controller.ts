@@ -6,6 +6,9 @@ import { IGetUserAuthInfoRequest } from '../utils/interfaces';
 
 const MAX_USERS_FOLLOW_PER_REQUEST = 8;
 
+// @desc    Get user
+// @route   GET /api/users/me
+// @access  Private
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   if (req.headers && req.headers.authorization) {
     let authorization = req.headers.authorization.split(' ')[1];
@@ -26,6 +29,9 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+// @desc    Get users
+// @route   GET /api/users/all
+// @access  Private
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
   const users = await UserModel.find().select('-password');
 
@@ -33,6 +39,9 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
   return;
 };
 
+// @desc    Get user by id
+// @route   GET /api/users/:id
+// @access  Private
 export const getUserById = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -55,6 +64,9 @@ export const getUserById = async (
   return;
 };
 
+// @desc    Update user
+// @route   PATCH /api/users/:id
+// @access  Private
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const user = await UserModel.findByIdAndUpdate(req.params.id, req.body);
@@ -74,7 +86,10 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 };
 
-export const fetchFollowersByUserId = async (
+// @desc    Get followers
+// @route   GET /api/users/:id/followers
+// @access  Private
+export const getFollowersByUserId = async (
   req: Request,
   res: Response
 ): Promise<void> => {
@@ -106,7 +121,10 @@ export const fetchFollowersByUserId = async (
   return;
 };
 
-export const fetchFollowingByUserId = async (
+// @desc    Get following
+// @route   GET /api/users/:id/following
+// @access  Private
+export const getFollowingByUserId = async (
   req: Request,
   res: Response
 ): Promise<void> => {

@@ -2,7 +2,10 @@ import { Request, Response } from 'express';
 import LikedModel from '../models/liked.model';
 import { IGetUserAuthInfoRequest } from '../utils/interfaces';
 
-export const addLikedRecipe = async (
+// @desc    Add new liked recipe
+// @route   POST /api/liked
+// @access  Private
+export const setLikedRecipe = async (
   req: Request,
   res: Response
 ): Promise<void> => {
@@ -30,7 +33,10 @@ export const addLikedRecipe = async (
   }
 };
 
-export const removeLikedRecipe = async (
+// @desc    Delete liked recipe
+// @route   DELETE /api/liked/:id
+// @access  Private
+export const deleteLikedRecipe = async (
   req: IGetUserAuthInfoRequest,
   res: Response
 ): Promise<void> => {
@@ -42,7 +48,7 @@ export const removeLikedRecipe = async (
     if (!recipe) {
       res
         .status(400)
-        .json({ error: 'Something went wrong while remove this recipe!' });
+        .json({ error: 'Something went wrong while delete this recipe!' });
       return;
     }
 
@@ -54,6 +60,9 @@ export const removeLikedRecipe = async (
   }
 };
 
+// @desc    Get all liked recipes
+// @route   GET /api/liked/all
+// @access  Private
 export const getAllLikedRecipes = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -79,6 +88,9 @@ export const getAllLikedRecipes = async (
   }
 };
 
+// @desc    Get more liked recipes
+// @route   GET /api/liked/more
+// @access  Private
 export const getMoreLikedRecipes = async (
   req: IGetUserAuthInfoRequest,
   res: Response

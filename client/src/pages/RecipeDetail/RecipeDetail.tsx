@@ -6,7 +6,7 @@ import {
   getRecipeById,
   increaseLikedCount,
 } from '@features/recipe-slice';
-import { addLikedRecipe, removeLikedRecipe } from '@features/liked-slice';
+import { setLikedRecipe, deleteLikedRecipe } from '@features/liked-slice';
 import { selectorUser } from '@features/user-slice';
 import { RootState } from '@redux/reducers';
 import { RecipeDetailSkeleton } from '@components/Skeleton/Skeleton';
@@ -105,12 +105,12 @@ const RecipeDetail = () => {
       user: currentUser._id,
     };
 
-    await dispatch(addLikedRecipe(likedRecipe));
+    await dispatch(setLikedRecipe(likedRecipe));
     dispatch(increaseLikedCount(_id));
   };
 
   const handleUnlikeRecipe = async () => {
-    await dispatch(removeLikedRecipe(_id));
+    await dispatch(deleteLikedRecipe(_id));
     dispatch(decreaseLikedCount(_id));
   };
 

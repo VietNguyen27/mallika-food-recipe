@@ -5,10 +5,10 @@ import { SERVER_BASE_URL } from '@config/constants';
 const USER_BASE_URL = `${SERVER_BASE_URL}/users`;
 
 export const userApi = {
-  fetch() {
+  getMe() {
     return request.get(`${USER_BASE_URL}/me`);
   },
-  fetchById(id: string) {
+  getById(id: string) {
     return request.get(`${USER_BASE_URL}/${id}`);
   },
   update(id: string, body: UpdateUserData) {

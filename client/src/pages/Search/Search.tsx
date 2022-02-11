@@ -7,9 +7,9 @@ import SearchResults from './components/SearchResults';
 import useDebounce from '@hooks/useDebounce';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  searchRecipesByTitle,
-  searchRecipesByIngredient,
-  searchUsersByNameOrEmail,
+  findRecipesByTitle,
+  findRecipesByIngredient,
+  findUsersByNameOrEmail,
   searchCookbooksByName,
   clearSearchResults,
 } from '@features/search-slice';
@@ -27,9 +27,9 @@ const Search = () => {
     ({ search }: RootState) => search
   );
   const searchTypes = {
-    recipe: searchRecipesByTitle,
-    user: searchUsersByNameOrEmail,
-    ingredient: searchRecipesByIngredient,
+    recipe: findRecipesByTitle,
+    user: findUsersByNameOrEmail,
+    ingredient: findRecipesByIngredient,
     cookbook: searchCookbooksByName,
   };
   const debouncedSearchTerm: string = useDebounce<string>(searchTerm.trim());
@@ -37,11 +37,11 @@ const Search = () => {
   useEffect(() => {
     dispatch(clearSearchResults());
     if (debouncedSearchTerm) {
-      searchRecipesOrUsers(searchLabel, debouncedSearchTerm);
+      findRecipesOrUsers(searchLabel, debouncedSearchTerm);
     }
   }, [debouncedSearchTerm]);
 
-  const searchRecipesOrUsers = (label, value) => {
+  const findRecipesOrUsers = (label, value) => {
     if (cancelToken.current) {
       cancelToken.current.cancel('Operation canceled due to new request.');
     }
@@ -106,7 +106,7 @@ const Search = () => {
         {searchable ? (
           <SearchResults
             searchTerm={searchTerm}
-            searchRecipesOrUsers={searchRecipesOrUsers}
+            findRecipesOrUsers={findRecipesOrUsers}
             setSearchLabel={setSearchLabel}
             handleScroll={handleScroll}
           />
