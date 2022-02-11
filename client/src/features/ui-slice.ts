@@ -1,11 +1,11 @@
 import { capitalizeFirstLetter } from '@helpers/helpers';
 import { createSlice } from '@reduxjs/toolkit';
 
-interface UiState {
+interface IUiState {
   [uiName: string]: boolean;
 }
 
-const initialState: UiState = {
+const initialState: IUiState = {
   accountDrawerShowing: false,
   likedRecipeDrawerShowing: false,
   notificationDrawerShowing: false,
@@ -13,9 +13,11 @@ const initialState: UiState = {
   addRecipeDrawerShowing: false,
   communityDrawerShowing: false,
   reviewsDrawerShowing: false,
+  followersDrawerShowing: false,
+  followingDrawerShowing: false,
 };
 
-const reducersCreator = (initialState: UiState): any => {
+const reducersCreator = (initialState: IUiState): any => {
   const reducersObj = {};
 
   Object.keys(initialState).forEach((key) => {

@@ -16,6 +16,7 @@ import {
 } from './recipe-slice';
 import { getAllLikedRecipes, getMoreLikedRecipes } from './liked-slice';
 import { getMoreReviews } from './review-slice';
+import { fetchFollowersById, fetchFollowingById } from './follow-slice';
 
 const initialState = {
   featuredRecipesLoading: false,
@@ -26,6 +27,7 @@ const initialState = {
   moreLikedRecipesLoading: false,
   recipeDetailLoading: false,
   moreReviewsLoading: false,
+  fetchFollowLoading: false,
 };
 
 const isFeaturedRecipesPending = isSomeAsyncActionsPending([
@@ -89,6 +91,19 @@ const isRecipeDetailReject = isSomeAsyncActionsRejected([getRecipeById]);
 const isMoreReviewsPending = isSomeAsyncActionsPending([getMoreReviews]);
 const isMoreReviewsFulfilled = isSomeAsyncActionsFulfilled([getMoreReviews]);
 const isMoreReviewsReject = isSomeAsyncActionsRejected([getMoreReviews]);
+
+const isFetchFollowPending = isSomeAsyncActionsPending([
+  fetchFollowersById,
+  fetchFollowingById,
+]);
+const isFetchFollowFulfilled = isSomeAsyncActionsFulfilled([
+  fetchFollowersById,
+  fetchFollowingById,
+]);
+const isFetchFollowReject = isSomeAsyncActionsRejected([
+  fetchFollowersById,
+  fetchFollowingById,
+]);
 
 const reducersCreator = (initialState) => {
   const reducersObj = {};
@@ -191,6 +206,16 @@ const loadingSlice = createSlice({
     });
     builder.addMatcher(isMoreReviewsReject, (state) => {
       state.moreReviewsLoading = false;
+    });
+
+    builder.addMatcher(isFetchFollowPending, (state) => {
+      state.fetchFollowLoading = true;
+    });
+    builder.addMatcher(isFetchFollowFulfilled, (state) => {
+      state.fetchFollowLoading = false;
+    });
+    builder.addMatcher(isFetchFollowReject, (state) => {
+      state.fetchFollowLoading = false;
     });
   },
 });

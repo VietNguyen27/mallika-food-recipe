@@ -117,3 +117,17 @@ export const ProfileSkeleton = () => {
     </div>
   );
 };
+
+export const UserCardSkeleton = () => {
+  return (
+    <div className='py-3 px-layout'>
+      <div className='flex items-center gap-3'>
+        <div className='w-12 h-12 flex-shrink-0 rounded-full bg-gray-200 animate-pulse'></div>
+        <div className='w-full flex flex-col gap-1'>
+          <div className='w-4/5 h-3 bg-gray-200 animate-pulse rounded-sm'></div>
+          <div className='w-1/2 h-4 bg-gray-200 animate-pulse rounded-sm'></div>
+        </div>
+      </div>
+    </div>
+  );
+};

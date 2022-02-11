@@ -8,11 +8,11 @@ export interface LikedRecipeData {
   user: string;
 }
 
-interface LikedState {
+interface ILikedState {
   recipes: object[] | null;
 }
 
-const initialState: LikedState = {
+const initialState: ILikedState = {
   recipes: null,
 };
 
@@ -113,6 +113,6 @@ const likedSlice = createSlice({
   },
 });
 
-export const selectorLikedRecipes = (state: { liked: LikedState }) =>
+export const selectorLikedRecipes = (state: { liked: ILikedState }) =>
   state.liked.recipes;
 export default likedSlice.reducer;

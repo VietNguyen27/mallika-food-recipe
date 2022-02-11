@@ -28,7 +28,7 @@ export interface RecipeData {
   reviews: object[];
 }
 
-interface RecipeState {
+interface IRecipeState {
   success: boolean;
   outOfRecipe: boolean;
   intro: object;
@@ -42,7 +42,7 @@ interface RecipeState {
   otherRecipes: any;
 }
 
-const initialState: RecipeState = {
+const initialState: IRecipeState = {
   success: false,
   outOfRecipe: false,
   intro: {},
@@ -413,22 +413,22 @@ export const {
   changeStatusSuccess,
   updateReviews,
 } = recipeSlice.actions;
-export const selectorRecipeIntro = (state: { recipe: RecipeState }) =>
+export const selectorRecipeIntro = (state: { recipe: IRecipeState }) =>
   state.recipe.intro;
-export const selectorRecipeIngredients = (state: { recipe: RecipeState }) =>
+export const selectorRecipeIngredients = (state: { recipe: IRecipeState }) =>
   state.recipe.ingredients;
-export const selectorRecipeSteps = (state: { recipe: RecipeState }) =>
+export const selectorRecipeSteps = (state: { recipe: IRecipeState }) =>
   state.recipe.steps;
-export const selectorRecipeError = (state: { recipe: RecipeState }) =>
+export const selectorRecipeError = (state: { recipe: IRecipeState }) =>
   state.recipe.error;
-export const selectorRecipes = (state: { recipe: RecipeState }) =>
+export const selectorRecipes = (state: { recipe: IRecipeState }) =>
   state.recipe.recipes;
-export const selectorFeaturedRecipes = (state: { recipe: RecipeState }) =>
+export const selectorFeaturedRecipes = (state: { recipe: IRecipeState }) =>
   state.recipe.featuredRecipes;
-export const selectorMyRecipes = (state: { recipe: RecipeState }) =>
+export const selectorMyRecipes = (state: { recipe: IRecipeState }) =>
   state.recipe.myRecipes;
-export const selectorOtherRecipes = (state: { recipe: RecipeState }) =>
+export const selectorOtherRecipes = (state: { recipe: IRecipeState }) =>
   state.recipe.otherRecipes;
-export const selectorRecipe = (state: { recipe: RecipeState }) =>
+export const selectorRecipe = (state: { recipe: IRecipeState }) =>
   state.recipe.recipe;
 export default recipeSlice.reducer;

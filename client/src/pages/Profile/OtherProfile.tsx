@@ -17,6 +17,9 @@ import BoxEmpty from '@img/box-empty.png';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchUserById, followUser, unfollowUser } from '@features/user-slice';
 import Button, { ButtonSizes, ButtonVariants } from '@components/Button/Button';
+import FollowingDrawer from './components/FollowingDrawer';
+import FollowersDrawer from './components/FollowersDrawer';
+import { uiActions } from '@features/ui-slice';
 
 const OtherProfile = () => {
   const { id: userId } = useParams();
@@ -36,7 +39,7 @@ const OtherProfile = () => {
       dispatch(getOtherUserRecipes(userId));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, [userId, dispatch]);
 
   const renderProfileHeader = () => {
     const {
@@ -75,13 +78,23 @@ const OtherProfile = () => {
                   </span>
                   Recipes
                 </div>
-                <div className='flex-1'>
+                <div
+                  className='flex-1 cursor-pointer'
+                  onClick={() =>
+                    dispatch(uiActions.setFollowersDrawerShowing(true))
+                  }
+                >
                   <span className='block text-black text-lg leading-4 font-semibold'>
                     {convertNumber(numFollowers)}
                   </span>
                   Followers
                 </div>
-                <div className='flex-1'>
+                <div
+                  className='flex-1 cursor-pointer'
+                  onClick={() =>
+                    dispatch(uiActions.setFollowingDrawerShowing(true))
+                  }
+                >
                   <span className='block text-black text-lg leading-4 font-semibold'>
                     {convertNumber(numFollowing)}
                   </span>
@@ -157,6 +170,8 @@ const OtherProfile = () => {
           </div>
         </Tab>
       </Tabs>
+      <FollowersDrawer userId={userId as string} />
+      <FollowingDrawer userId={userId as string} />
     </div>
   );
 };

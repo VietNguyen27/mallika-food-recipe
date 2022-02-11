@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserList, User } from '@components/User/User';
+import { UserCardList, UserCard } from '@components/UserCard/UserCard';
 import { useSelector } from 'react-redux';
 import { RootState } from '@redux/reducers';
 
@@ -7,11 +7,11 @@ const SearchUser = () => {
   const { results } = useSelector(({ search }: RootState) => search);
 
   return (
-    <UserList>
+    <UserCardList>
       {results.map((user) => (
-        <User key={user._id} {...user} />
+        <UserCard key={user._id} {...user} />
       ))}
-    </UserList>
+    </UserCardList>
   );
 };
 

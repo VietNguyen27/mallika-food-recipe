@@ -5,13 +5,13 @@ import { authApi } from '@api/auth';
 import { slowLoading } from '@helpers/helpers';
 import { fetchUser } from './user-slice';
 
-interface AuthState {
+interface IAuthState {
   error: object[];
   loading: boolean;
   isLoggedIn: boolean;
 }
 
-const initialState: AuthState = {
+const initialState: IAuthState = {
   error: [],
   loading: false,
   isLoggedIn: false,
@@ -95,6 +95,6 @@ const authSlice = createSlice({
 });
 
 export const { logout, clearError, clearErrors } = authSlice.actions;
-export const selectorAuthError = (state: { auth: AuthState }) =>
+export const selectorAuthError = (state: { auth: IAuthState }) =>
   state.auth.error;
 export default authSlice.reducer;

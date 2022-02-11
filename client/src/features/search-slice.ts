@@ -9,13 +9,13 @@ import {
 import { RECIPES_BY_TYPE } from '@config/recipe';
 import { MINIMUM_SEARCH_DELAY } from '@config/constants';
 
-interface SearchState {
+interface ISearchState {
   results: any;
   loading: boolean;
   outOfResults: boolean;
 }
 
-const initialState: SearchState = {
+const initialState: ISearchState = {
   results: [],
   loading: false,
   outOfResults: false,

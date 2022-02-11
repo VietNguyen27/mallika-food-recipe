@@ -3,13 +3,13 @@ import { userApi } from '@api/user';
 import { slowLoading } from '@helpers/helpers';
 import { isSomeAsyncActionsFulfilled } from '@helpers/action-slice';
 
-interface UserState {
+interface IUserState {
   user: any;
   users: any;
   loading: boolean;
 }
 
-const initialState: UserState = {
+const initialState: IUserState = {
   user: null,
   users: {},
   loading: false,
@@ -35,6 +35,7 @@ export const fetchUserById = createAsyncThunk(
       await slowLoading();
       const state: any = getState();
       const userId = state.user.user._id;
+
       const response = await userApi.fetchById(id);
       const isFollowing = response.data.followers.includes(userId);
 
@@ -143,5 +144,5 @@ const userSlice = createSlice({
 });
 
 export const { finishSplash } = userSlice.actions;
-export const selectorUser = (state: { user: UserState }) => state.user.user;
+export const selectorUser = (state: { user: IUserState }) => state.user.user;
 export default userSlice.reducer;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import cx from 'clsx';
-import { selectorToast, ToastProps } from '@features/toast-slice';
+import { selectorToast, IToastState } from '@features/toast-slice';
 import { useSelector } from 'react-redux';
 import {
   CheckmarkCircle20Filled,
@@ -68,7 +68,7 @@ export const ToastList: React.FC<ToastListProps> = ({ className }) => {
     : null;
 };
 
-export const Toast: React.FC<ToastProps> = ({ message, type }) => {
+export const Toast: React.FC<IToastState> = ({ message, type }) => {
   const [isVisible, setIsVisible] = useState(true);
   const defaultClassName =
     'relative py-2 pr-2 pl-8 rounded-md mb-2 text-xs max-w-[200px] overflow-hidden animate-slide-in after:absolute after:inset-y-0 after:left-0 after:w-1';
