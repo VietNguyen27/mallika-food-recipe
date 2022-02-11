@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken';
 import UserModel from '../models/user.model';
 import { IGetUserAuthInfoRequest } from '../utils/interfaces';
 
+const MAX_USERS_FOLLOW_PER_REQUEST = 8;
+
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   if (req.headers && req.headers.authorization) {
     let authorization = req.headers.authorization.split(' ')[1];
@@ -56,6 +58,7 @@ export const getUserById = async (
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const user = await UserModel.findByIdAndUpdate(req.params.id, req.body);
+
     if (!user) {
       res
         .status(400)
@@ -69,4 +72,68 @@ export const updateUser = async (req: Request, res: Response) => {
     res.status(400).json({ error });
     return;
   }
+};
+
+export const fetchFollowersByUserId = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const skip = req.query.skip ? Number(req.query.skip) : 0;
+  const user = await UserModel.findOne(
+    { _id: req.params.id },
+    {
+      followers: { $slice: [skip, MAX_USERS_FOLLOW_PER_REQUEST] },
+    }
+  ).populate({
+    path: 'followers',
+    model: 'User',
+    select: 'avatar email name',
+  });
+
+  if (!user) {
+    res.status(400).json({
+      error: 'Cannot find followers from this user. Please try again!',
+    });
+    return;
+  }
+
+  const { _id, followers } = user;
+
+  res.status(200).json({
+    _id,
+    followers,
+  });
+  return;
+};
+
+export const fetchFollowingByUserId = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const skip = req.query.skip ? Number(req.query.skip) : 0;
+  const user = await UserModel.findOne(
+    { _id: req.params.id },
+    {
+      following: { $slice: [skip, MAX_USERS_FOLLOW_PER_REQUEST] },
+    }
+  ).populate({
+    path: 'following',
+    model: 'User',
+    select: 'avatar email name',
+  });
+
+  if (!user) {
+    res.status(400).json({
+      error: 'Cannot find following from this user. Please try again!',
+    });
+    return;
+  }
+
+  const { _id, following } = user;
+
+  res.status(200).json({
+    _id,
+    following,
+  });
+  return;
 };

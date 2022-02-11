@@ -4,14 +4,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isSomeAsyncActionsFulfilled } from '@helpers/action-slice';
 import { updateReviews } from './recipe-slice';
 
-interface ReviewState {
+interface IReviewState {
   reviews: any;
   error: any;
   loading: boolean;
   outOfReview: boolean;
 }
 
-const initialState: ReviewState = {
+const initialState: IReviewState = {
   reviews: {},
   error: null,
   loading: false,

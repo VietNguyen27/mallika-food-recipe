@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface LastSeenState {
+interface ILastSeenState {
   recipes: any;
 }
 
-const initialState: LastSeenState = {
+const initialState: ILastSeenState = {
   recipes: [],
 };
 
@@ -42,6 +42,6 @@ export const getLastSeenRecipesFromSessionStorage = () => {
 };
 
 export const { hydrate, addLastSeenRecipe } = lastSeenSlice.actions;
-export const selectorLastSeen = (state: { lastSeen: LastSeenState }) =>
+export const selectorLastSeen = (state: { lastSeen: ILastSeenState }) =>
   state.lastSeen.recipes;
 export default lastSeenSlice.reducer;

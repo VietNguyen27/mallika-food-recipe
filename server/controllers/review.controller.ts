@@ -2,6 +2,8 @@ import { Response } from 'express';
 import RecipeModel from '../models/recipe.model';
 import { IGetUserAuthInfoRequest } from '../utils/interfaces';
 
+const MAX_REVIEWS_PER_REQUEST = 6;
+
 export const addNewReview = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -53,7 +55,7 @@ export const getAllReviews = async (
     const recipe = await RecipeModel.findOne(
       { _id: req.params.recipeId },
       {
-        reviews: { $slice: [0, 6] },
+        reviews: { $slice: [0, MAX_REVIEWS_PER_REQUEST] },
       }
     ).populate('reviews.user', 'name avatar');
 
@@ -81,7 +83,7 @@ export const getMoreReviews = async (
     const recipe = await RecipeModel.findOne(
       { _id: req.params.recipeId },
       {
-        reviews: { $slice: [skip, 6] },
+        reviews: { $slice: [skip, MAX_REVIEWS_PER_REQUEST] },
       }
     ).populate('reviews.user', 'name avatar');
 

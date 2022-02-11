@@ -11,6 +11,8 @@ import AccountDrawer from './components/AccountDrawer';
 import LikedRecipeDrawer from './components/LikedRecipeDrawer';
 import NotificationDrawer from './components/NotificationDrawer';
 import EditProfileDrawer from './components/EditProfileDrawer';
+import FollowingDrawer from './components/FollowingDrawer';
+import FollowersDrawer from './components/FollowersDrawer';
 import { getMyRecipes, selectorMyRecipes } from '@features/recipe-slice';
 import { RootState } from '@redux/reducers';
 import BoxEmpty from '@img/box-empty.png';
@@ -60,13 +62,23 @@ const Profile = () => {
                 </span>
                 Recipes
               </div>
-              <div className='flex-1'>
+              <div
+                className='flex-1 cursor-pointer'
+                onClick={() =>
+                  dispatch(uiActions.setFollowersDrawerShowing(true))
+                }
+              >
                 <span className='block text-black text-lg leading-4 font-semibold'>
                   {convertNumber(numFollowers)}
                 </span>
                 Followers
               </div>
-              <div className='flex-1'>
+              <div
+                className='flex-1 cursor-pointer'
+                onClick={() =>
+                  dispatch(uiActions.setFollowingDrawerShowing(true))
+                }
+              >
                 <span className='block text-black text-lg leading-4 font-semibold'>
                   {convertNumber(numFollowing)}
                 </span>
@@ -118,6 +130,8 @@ const Profile = () => {
       <LikedRecipeDrawer />
       <NotificationDrawer />
       <EditProfileDrawer />
+      <FollowersDrawer userId={user._id} />
+      <FollowingDrawer userId={user._id} />
     </div>
   );
 };
