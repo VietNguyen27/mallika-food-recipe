@@ -28,11 +28,9 @@ export const registerValidation = (body: RegisterData) => {
         'any.required': 'Email is required. Please enter a valid value!',
       }),
     name: Joi.string()
-      .min(MIN_LENGTH_6)
       .max(MAX_LENGTH_255)
       .required()
       .messages({
-        'string.min': `Username must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
         'string.max': `Username must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
         'string.empty': 'Username is not allowed to be empty',
         'any.required': 'Username is required. Please enter a valid value!',

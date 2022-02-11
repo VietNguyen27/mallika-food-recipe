@@ -26,7 +26,7 @@ interface RecieWidgetProps {
   isHeader: boolean;
   index?: number;
   setEditable?: (editable: boolean) => void;
-  setInputValue?: (value: object) => void;
+  setInputValue?: (value: any) => void;
 }
 
 const RecipeWidget: React.FC<RecieWidgetProps> = ({
@@ -50,6 +50,7 @@ const RecipeWidget: React.FC<RecieWidgetProps> = ({
       setEditable(true);
       setInputValue({
         title,
+        isHeader,
         index,
       });
     }

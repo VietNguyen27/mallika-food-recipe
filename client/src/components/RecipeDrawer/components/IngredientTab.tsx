@@ -11,7 +11,11 @@ import ListEmpty from '@img/list-empty.png';
 import ModalAddWidget from './ModalAddWidget';
 
 const IngredientTab = () => {
-  const [inputValue, setInputValue] = useState({});
+  const initialInputValue = {
+    title: '',
+    isHeader: false,
+  };
+  const [inputValue, setInputValue] = useState(initialInputValue);
   const [editable, setEditable] = useState(false);
   const { isShowing, toggle } = useToggle();
   const ingredients = useSelector(selectorRecipeIngredients);
@@ -52,6 +56,7 @@ const IngredientTab = () => {
         toggle={toggle}
         editable={editable}
         inputValue={inputValue}
+        setInputValue={setInputValue}
         setEditable={setEditable}
       />
     </>
