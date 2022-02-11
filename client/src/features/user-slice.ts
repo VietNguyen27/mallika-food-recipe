@@ -19,7 +19,7 @@ export const fetchUser = createAsyncThunk(
   'users/fetchByToken',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await userApi.fetch();
+      const response = await userApi.getMe();
 
       return response.data;
     } catch (error: any) {
@@ -36,7 +36,7 @@ export const fetchUserById = createAsyncThunk(
       const state: any = getState();
       const userId = state.user.user._id;
 
-      const response = await userApi.fetchById(id);
+      const response = await userApi.getById(id);
       const isFollowing = response.data.followers.includes(userId);
 
       return {

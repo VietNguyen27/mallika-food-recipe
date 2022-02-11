@@ -12,18 +12,18 @@ export const recipeApi = {
     return request.patch(`${RECIPES_BASE_URL}/${id}`, body);
   },
   like(id: string) {
-    return request.patch(`${RECIPES_BASE_URL}/like/${id}`);
+    return request.patch(`${RECIPES_BASE_URL}/${id}/like`);
   },
   unlike(id: string) {
-    return request.patch(`${RECIPES_BASE_URL}/unlike/${id}`);
+    return request.patch(`${RECIPES_BASE_URL}/${id}/unlike`);
   },
   getFeatured() {
     return request.get(`${RECIPES_BASE_URL}/featured`);
   },
-  getMine() {
+  getMe() {
     return request.get(`${RECIPES_BASE_URL}/me`);
   },
-  getOther(id) {
+  getByUserId(id) {
     return request.get(`${RECIPES_BASE_URL}/user/${id}`);
   },
   getAll() {

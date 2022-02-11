@@ -56,7 +56,7 @@ const IntroTab = () => {
     if (success) {
       dispatch(
         createToast({
-          message: 'Add new recipe successful!',
+          message: 'Create new recipe successful!',
           type: ToastTypes.SUCCESS,
         })
       );

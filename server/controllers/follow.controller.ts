@@ -2,6 +2,9 @@ import { Response } from 'express';
 import UserModel from '../models/user.model';
 import { IGetUserAuthInfoRequest } from '../utils/interfaces';
 
+// @desc    Follow user
+// @route   POST /api/users/:id/follow
+// @access  Private
 export const followUser = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -49,6 +52,9 @@ export const followUser = async (
   }
 };
 
+// @desc    Unfollow user
+// @route   POST /api/users/:id/unfollow
+// @access  Private
 export const unfollowUser = async (
   req: IGetUserAuthInfoRequest,
   res: Response

@@ -8,7 +8,7 @@ import {
 import { generateBase64Image } from '@helpers/helpers';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectorUser } from '@features/user-slice';
-import { addLikedRecipe, removeLikedRecipe } from '@features/liked-slice';
+import { setLikedRecipe, deleteLikedRecipe } from '@features/liked-slice';
 import { decreaseLikedCount, increaseLikedCount } from '@features/recipe-slice';
 import { Link } from 'react-router-dom';
 import cx from 'clsx';
@@ -85,12 +85,12 @@ export const Card: React.FC<CardProps> = ({
       user: currentUser._id,
     };
 
-    await dispatch(addLikedRecipe(likedRecipe));
+    await dispatch(setLikedRecipe(likedRecipe));
     dispatch(increaseLikedCount(_id));
   };
 
   const handleUnlikeRecipe = async () => {
-    await dispatch(removeLikedRecipe(_id));
+    await dispatch(deleteLikedRecipe(_id));
     dispatch(decreaseLikedCount(_id));
   };
 
@@ -186,12 +186,12 @@ export const CardSmall: React.FC<CardSmallProps> = ({
       user: currentUser._id,
     };
 
-    await dispatch(addLikedRecipe(likedRecipe));
+    await dispatch(setLikedRecipe(likedRecipe));
     dispatch(increaseLikedCount(_id));
   };
 
   const handleUnlikeRecipe = async () => {
-    await dispatch(removeLikedRecipe(_id));
+    await dispatch(deleteLikedRecipe(_id));
     dispatch(decreaseLikedCount(_id));
   };
 

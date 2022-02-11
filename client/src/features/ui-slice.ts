@@ -10,7 +10,7 @@ const initialState: IUiState = {
   likedRecipeDrawerShowing: false,
   notificationDrawerShowing: false,
   editProfileDrawerShowing: false,
-  addRecipeDrawerShowing: false,
+  createRecipeDrawerShowing: false,
   communityDrawerShowing: false,
   reviewsDrawerShowing: false,
   followersDrawerShowing: false,

@@ -21,14 +21,14 @@ const initialState: ISearchState = {
   outOfResults: false,
 };
 
-export const searchRecipesByTitle = createAsyncThunk(
-  'search/getRecipesByTitle',
+export const findRecipesByTitle = createAsyncThunk(
+  'search/findRecipesByTitle',
   async ({ value, token }: any, { rejectWithValue, getState }) => {
     try {
       await slowLoading(MINIMUM_SEARCH_DELAY);
       const state: any = getState();
       const totalSearchResults = state.search.results.length;
-      const response = await searchApi.getRecipesByTitle(
+      const response = await searchApi.findRecipesByTitle(
         value,
         totalSearchResults,
         { cancelToken: token }
@@ -41,14 +41,14 @@ export const searchRecipesByTitle = createAsyncThunk(
   }
 );
 
-export const searchRecipesByIngredient = createAsyncThunk(
-  'search/getRecipesByIngredient',
+export const findRecipesByIngredient = createAsyncThunk(
+  'search/findRecipesByIngredient',
   async ({ value, token }: any, { rejectWithValue, getState }) => {
     try {
       await slowLoading(MINIMUM_SEARCH_DELAY);
       const state: any = getState();
       const totalSearchResults = state.search.results.length;
-      const response = await searchApi.getRecipesByIngredient(
+      const response = await searchApi.findRecipesByIngredient(
         value,
         totalSearchResults,
         { cancelToken: token }
@@ -61,14 +61,14 @@ export const searchRecipesByIngredient = createAsyncThunk(
   }
 );
 
-export const searchUsersByNameOrEmail = createAsyncThunk(
-  'search/getUsersByNameOrEmail',
+export const findUsersByNameOrEmail = createAsyncThunk(
+  'search/findUsersByNameOrEmail',
   async ({ value, token }: any, { rejectWithValue, getState }) => {
     try {
       await slowLoading(MINIMUM_SEARCH_DELAY);
       const state: any = getState();
       const totalSearchResults = state.search.results.length;
-      const response = await searchApi.getUsersByNameOrEmail(
+      const response = await searchApi.findUsersByNameOrEmail(
         value,
         totalSearchResults,
         { cancelToken: token }
@@ -93,21 +93,21 @@ export const searchCookbooksByName = createAsyncThunk(
 );
 
 const isSearchPending = isSomeAsyncActionsPending([
-  searchRecipesByTitle,
-  searchRecipesByIngredient,
-  searchUsersByNameOrEmail,
+  findRecipesByTitle,
+  findRecipesByIngredient,
+  findUsersByNameOrEmail,
   searchCookbooksByName,
 ]);
 const isSearchFulfilled = isSomeAsyncActionsFulfilled([
-  searchRecipesByTitle,
-  searchRecipesByIngredient,
-  searchUsersByNameOrEmail,
+  findRecipesByTitle,
+  findRecipesByIngredient,
+  findUsersByNameOrEmail,
   searchCookbooksByName,
 ]);
 const isSearchReject = isSomeAsyncActionsRejected([
-  searchRecipesByTitle,
-  searchRecipesByIngredient,
-  searchUsersByNameOrEmail,
+  findRecipesByTitle,
+  findRecipesByIngredient,
+  findUsersByNameOrEmail,
   searchCookbooksByName,
 ]);
 

@@ -4,7 +4,10 @@ import RecipeModel from '../models/recipe.model';
 import UserModel from '../models/user.model';
 import { iLikeVietnamese } from 'vietnamese-query';
 
-export const searchRecipesByTitle = async (
+// @desc    Find recipes by title
+// @route   GET /api/search
+// @access  Private
+export const findRecipesByTitle = async (
   req: IGetUserAuthInfoRequest,
   res: Response,
   next: NextFunction
@@ -39,7 +42,10 @@ export const searchRecipesByTitle = async (
   return;
 };
 
-export const searchUsers = async (
+// @desc    Find users by username or email
+// @route   GET /api/search
+// @access  Private
+export const findUsers = async (
   req: IGetUserAuthInfoRequest,
   res: Response,
   next: NextFunction
@@ -81,7 +87,10 @@ export const searchUsers = async (
   return;
 };
 
-export const searchRecipesByIngredient = async (
+// @desc    Find recipes by ingredient
+// @route   GET /api/search
+// @access  Private
+export const findRecipesByIngredient = async (
   req: IGetUserAuthInfoRequest,
   res: Response,
   next: NextFunction

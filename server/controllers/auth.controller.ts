@@ -12,6 +12,9 @@ import {
   getRandomNumber,
 } from '../utils/utils';
 
+// @desc    Register new user
+// @route   POST /api/auth/register
+// @access  Public
 export const register = async (req: Request, res: Response): Promise<void> => {
   const { email, password }: IUser = req.body;
   const { error } = registerValidation(req.body);
@@ -69,6 +72,9 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+// @desc    Authenticate user
+// @route   POST /api/auth/login
+// @access  Public
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password }: IUser = req.body;
   const { error } = loginValidation(req.body);

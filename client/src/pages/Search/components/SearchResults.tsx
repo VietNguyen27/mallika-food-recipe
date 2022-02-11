@@ -9,7 +9,7 @@ import { clearSearchResults } from '@features/search-slice';
 
 interface SearchResultsProps {
   searchTerm: string;
-  searchRecipesOrUsers: (label: string, value: string) => void;
+  findRecipesOrUsers: (label: string, value: string) => void;
   setSearchLabel: (label: string) => void;
   handleScroll: (e: any) => void;
 }
@@ -35,7 +35,7 @@ const searchTabs = [
 
 const SearchResults: React.FC<SearchResultsProps> = ({
   searchTerm,
-  searchRecipesOrUsers,
+  findRecipesOrUsers,
   setSearchLabel,
   handleScroll,
 }) => {
@@ -51,7 +51,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
     setCurrentTab(index);
 
     if (searchTerm) {
-      searchRecipesOrUsers(label, searchTerm);
+      findRecipesOrUsers(label, searchTerm);
     }
   };
 

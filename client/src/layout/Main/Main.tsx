@@ -1,7 +1,7 @@
 import Navigation from '@layout/Navigation/Navigation';
 import { Outlet } from 'react-router-dom';
 import { ToastList } from '@components/Toast/Toast';
-import AddRecipeDrawer from '@components/RecipeDrawer/AddRecipeDrawer';
+import CreateRecipeDrawer from '@components/RecipeDrawer/CreateRecipeDrawer';
 
 const Main = () => {
   return (
@@ -9,7 +9,7 @@ const Main = () => {
       <Outlet />
       <Navigation />
       <ToastList />
-      <AddRecipeDrawer />
+      <CreateRecipeDrawer />
     </div>
   );
 };

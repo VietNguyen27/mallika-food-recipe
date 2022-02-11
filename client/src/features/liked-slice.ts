@@ -16,7 +16,7 @@ const initialState: ILikedState = {
   recipes: null,
 };
 
-export const addLikedRecipe = createAsyncThunk(
+export const setLikedRecipe = createAsyncThunk(
   'liked/addNew',
   async (body: LikedRecipeData, { rejectWithValue }) => {
     try {
@@ -29,7 +29,7 @@ export const addLikedRecipe = createAsyncThunk(
   }
 );
 
-export const removeLikedRecipe = createAsyncThunk(
+export const deleteLikedRecipe = createAsyncThunk(
   'liked/remove',
   async (id: string, { rejectWithValue }) => {
     try {
@@ -77,7 +77,7 @@ const likedSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(addLikedRecipe.fulfilled, (state, action) => {
+    builder.addCase(setLikedRecipe.fulfilled, (state, action) => {
       const likedRecipe = { ...action.payload, type: RECIPES_BY_TYPE.OTHER };
 
       if (state.recipes) {
@@ -86,7 +86,7 @@ const likedSlice = createSlice({
         state.recipes = [likedRecipe];
       }
     });
-    builder.addCase(removeLikedRecipe.fulfilled, (state, action) => {
+    builder.addCase(deleteLikedRecipe.fulfilled, (state, action) => {
       state.recipes =
         state.recipes &&
         state.recipes.filter(

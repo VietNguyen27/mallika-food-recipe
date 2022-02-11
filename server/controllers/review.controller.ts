@@ -4,7 +4,10 @@ import { IGetUserAuthInfoRequest } from '../utils/interfaces';
 
 const MAX_REVIEWS_PER_REQUEST = 6;
 
-export const addNewReview = async (
+// @desc    Create new review
+// @route   POST /api/recipes/:recipeId/reviews
+// @access  Private
+export const createNewReview = async (
   req: IGetUserAuthInfoRequest,
   res: Response
 ): Promise<void> => {
@@ -47,6 +50,9 @@ export const addNewReview = async (
   }
 };
 
+// @desc    Get all reviews
+// @route   GET /api/recipes/:recipeId/reviews/all
+// @access  Private
 export const getAllReviews = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -74,6 +80,9 @@ export const getAllReviews = async (
   }
 };
 
+// @desc    Get more reviews
+// @route   GET /api/recipes/:recipeId/reviews/more
+// @access  Private
 export const getMoreReviews = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -102,6 +111,9 @@ export const getMoreReviews = async (
   }
 };
 
+// @desc    Update review
+// @route   PATCH /api/recipes/:recipeId/reviews/:reviewId
+// @access  Private
 export const updateReview = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -144,6 +156,9 @@ export const updateReview = async (
   }
 };
 
+// @desc    Delete review
+// @route   DELETE /api/recipes/:recipeId/reviews/:reviewId
+// @access  Private
 export const deleteReview = async (
   req: IGetUserAuthInfoRequest,
   res: Response

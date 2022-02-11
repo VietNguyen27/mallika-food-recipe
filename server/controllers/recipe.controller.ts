@@ -3,7 +3,13 @@ import RecipeModel from '../models/recipe.model';
 import { IGetUserAuthInfoRequest } from '../utils/interfaces';
 import { recipeValidation } from '../validations/recipe.validation';
 
-export const addRecipe = async (req: Request, res: Response): Promise<void> => {
+// @desc    Create new recipe
+// @route   POST /api/recipes
+// @access  Private
+export const createRecipe = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { error } = recipeValidation(req.body);
 
   if (error) {
@@ -32,6 +38,9 @@ export const addRecipe = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+// @desc    Get featured recipes
+// @route   GET /api/recipes/featured
+// @access  Private
 export const getFeaturedRecipes = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -60,6 +69,9 @@ export const getFeaturedRecipes = async (
   }
 };
 
+// @desc    Get user recipes
+// @route   GET /api/recipes/me
+// @access  Private
 export const getMyRecipes = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -86,6 +98,9 @@ export const getMyRecipes = async (
   }
 };
 
+// @desc    Get recipes by userId
+// @route   GET /api/recipes/user/:id
+// @access  Private
 export const getOtherUserRecipes = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -112,6 +127,9 @@ export const getOtherUserRecipes = async (
   }
 };
 
+// @desc    Get all recipes
+// @route   GET /api/recipes/all
+// @access  Private
 export const getAllRecipes = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -140,6 +158,9 @@ export const getAllRecipes = async (
   }
 };
 
+// @desc    Get more recipes
+// @route   GET /api/recipes/more
+// @access  Private
 export const getMoreRecipes = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -173,6 +194,9 @@ export const getMoreRecipes = async (
   }
 };
 
+// @desc    Get recipe by id
+// @route   GET /api/recipes/:id
+// @access  Private
 export const getRecipeById = async (
   req: Request,
   res: Response
@@ -196,6 +220,9 @@ export const getRecipeById = async (
   }
 };
 
+// @desc    Update recipe
+// @route   PATCH /api/recipes/:id
+// @access  Private
 export const updateRecipe = async (
   req: Request,
   res: Response
@@ -217,6 +244,33 @@ export const updateRecipe = async (
   }
 };
 
+// @desc    Delete recipe
+// @route   DELETE /api/recipes/:id
+// @access  Private
+export const deleteRecipe = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const recipe = await RecipeModel.findByIdAndDelete(req.params.id);
+    if (!recipe) {
+      res
+        .status(400)
+        .json({ error: 'Something went wrong while updating this recipe!' });
+      return;
+    }
+
+    res.status(200).json({ message: 'Deleted this recipe successfully!' });
+    return;
+  } catch (error) {
+    res.status(400).json({ error });
+    return;
+  }
+};
+
+// @desc    Like recipe
+// @route   PATCH /api/recipes/:id/like
+// @access  Private
 export const likeRecipe = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -247,6 +301,9 @@ export const likeRecipe = async (
   }
 };
 
+// @desc    Unlike recipe
+// @route   PATCH /api/recipes/:id/unlike
+// @access  Private
 export const unlikeRecipe = async (
   req: IGetUserAuthInfoRequest,
   res: Response
@@ -270,27 +327,6 @@ export const unlikeRecipe = async (
     }
 
     res.status(200).json(recipe);
-    return;
-  } catch (error) {
-    res.status(400).json({ error });
-    return;
-  }
-};
-
-export const deleteRecipe = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const recipe = await RecipeModel.findByIdAndDelete(req.params.id);
-    if (!recipe) {
-      res
-        .status(400)
-        .json({ error: 'Something went wrong while updating this recipe!' });
-      return;
-    }
-
-    res.status(200).json({ message: 'Deleted this recipe successfully!' });
     return;
   } catch (error) {
     res.status(400).json({ error });

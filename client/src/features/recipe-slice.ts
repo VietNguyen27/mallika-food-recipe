@@ -140,7 +140,7 @@ export const getMyRecipes = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       await slowLoading();
-      const response = await recipeApi.getMine();
+      const response = await recipeApi.getMe();
 
       return response.data;
     } catch (error: any) {
@@ -154,7 +154,7 @@ export const getOtherUserRecipes = createAsyncThunk(
   async (userId: any, { rejectWithValue }) => {
     try {
       await slowLoading();
-      const response = await recipeApi.getOther(userId);
+      const response = await recipeApi.getByUserId(userId);
 
       return {
         [userId]: response.data,
@@ -238,7 +238,7 @@ const recipeSlice = createSlice({
   name: 'recipe',
   initialState,
   reducers: {
-    addRecipeWidget: (state, action) => {
+    createRecipeWidget: (state, action) => {
       const { type, ...rest } = action.payload;
       state[type] = [...state[type], rest];
     },
@@ -403,7 +403,7 @@ const recipeSlice = createSlice({
 });
 
 export const {
-  addRecipeWidget,
+  createRecipeWidget,
   editRecipeWidget,
   changePositionRecipeWidget,
   removeRecipeWidget,
