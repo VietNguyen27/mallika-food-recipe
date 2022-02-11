@@ -24,48 +24,33 @@ const SwitchToggleSize = Object.freeze({
 });
 
 interface SwitchProps {
-  name: string;
+  active: boolean;
   size?: SwitchSizes;
   className?: string;
-  triggerReset?: boolean;
-  onChange: UseFormSetValue<FieldValues>;
+  toggle: () => void;
 }
 
 const Switch: React.FC<SwitchProps> = ({
-  name,
+  active = false,
   size = SwitchSizes.MEDIUM,
   className,
-  triggerReset,
-  onChange,
+  toggle,
 }) => {
-  const [isActive, setIsActive] = useState(false);
   const defaultClassName = 'relative rounded-full cursor-pointer';
   const allClassNames = cx(
     defaultClassName,
     SwitchContainerSize[size],
-    isActive ? 'bg-orange' : 'bg-gray-800',
+    active ? 'bg-orange' : 'bg-gray-800',
     className
   );
 
-  useEffect(() => {
-    if (triggerReset) {
-      setIsActive(false);
-      onChange(name, false);
-    }
-  }, [triggerReset]);
-
-  const onClick = () => {
-    setIsActive((prevState) => !prevState);
-    onChange(name, !isActive);
-  };
-
   return (
-    <div className={allClassNames} onClick={onClick}>
+    <div className={allClassNames} onClick={toggle}>
       <span
         className={cx(
           'absolute inset-0.5 bg-white rounded-full transition-transform',
           SwitchToggleSize[size],
-          isActive && 'translate-x-full'
+          active && 'translate-x-full'
         )}
       ></span>
     </div>

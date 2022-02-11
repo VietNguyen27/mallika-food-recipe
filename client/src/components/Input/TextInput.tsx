@@ -29,6 +29,7 @@ interface TextInputProps {
   readOnly?: boolean;
   suffix?: ReactNode;
   onlyNumber?: boolean;
+  maxLength?: number;
   autoFocus?: boolean;
   onFocus?: () => void;
   onChange?: ChangeHandler;
@@ -50,6 +51,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       className,
       inputClassName,
       readOnly,
+      maxLength,
       onlyNumber,
       suffix,
       ...otherProps
@@ -66,6 +68,10 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     );
 
     const onKeyPress = (e) => {
+      if (maxLength && e.target.value.length >= maxLength) {
+        e.preventDefault();
+      }
+
       if (onlyNumber && !isNumberValid(e.key)) {
         e.preventDefault();
       }

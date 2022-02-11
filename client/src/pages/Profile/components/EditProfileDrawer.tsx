@@ -40,6 +40,7 @@ const EditProfileDrawer = () => {
 
   const onCloseDrawer = (): void => {
     dispatch(uiActions.setEditProfileDrawerShowing(false));
+    setAvatar(null);
     setIsEdited(false);
     reset(user);
   };

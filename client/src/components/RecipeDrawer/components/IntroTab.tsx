@@ -36,6 +36,7 @@ import { TagList, Tag } from '@components/Tag/Tag';
 
 const IntroTab = () => {
   const [thumbnail, setThumbnail] = useState<null | string>(null);
+  const [isPublished, setIsPublished] = useState<boolean>(false);
   const [categorySelected, setCategorySelected] = useState<number>(
     RECIPES_BY_CATEGORY.BREAKFAST
   );
@@ -65,6 +66,7 @@ const IntroTab = () => {
       setThumbnail(null);
       setCategorySelected(RECIPES_BY_CATEGORY.BREAKFAST);
       setTriggerReset(true);
+      setIsPublished(false);
       setTimeout(() => setTriggerReset(false), 100);
     }
   }, [success]);
@@ -104,6 +106,7 @@ const IntroTab = () => {
       ingredients,
       steps,
       image: {},
+      isPublished,
       ...data,
     };
 
@@ -135,6 +138,7 @@ const IntroTab = () => {
             placeholder='Recipe hours'
             defaultValue={0}
             onlyNumber={true}
+            maxLength={3}
             error={recipeError['time.hour']}
             {...register('time.hour', {
               valueAsNumber: true,
@@ -148,6 +152,7 @@ const IntroTab = () => {
             placeholder='Recipe minutes'
             defaultValue={30}
             onlyNumber={true}
+            maxLength={2}
             error={recipeError['time.minute']}
             {...register('time.minute', {
               valueAsNumber: true,
@@ -240,9 +245,8 @@ const IntroTab = () => {
       <div className='flex justify-between items-center'>
         <span className='text-sm text-gray-800'>Publish to Community?</span>
         <Switch
-          name='isPublished'
-          triggerReset={triggerReset}
-          onChange={setValue}
+          active={isPublished}
+          toggle={() => setIsPublished(!isPublished)}
         />
       </div>
       <Button

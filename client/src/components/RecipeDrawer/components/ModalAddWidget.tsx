@@ -18,6 +18,7 @@ interface ModalAddWidgetProps {
   isShowing: boolean;
   editable?: boolean;
   inputValue?: any;
+  setInputValue: (inputValue: any) => void;
   setEditable?: (editable: boolean) => void;
   toggle: () => void;
 }
@@ -27,6 +28,7 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
   isShowing,
   editable,
   inputValue,
+  setInputValue,
   setEditable,
   toggle,
 }) => {
@@ -47,7 +49,7 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
   }, [editable]);
 
   const onSubmit = handleSubmit((data) => {
-    const { title, isHeader } = data;
+    const { title } = data;
 
     if (title.trim().length === 0) {
       return setError(`${typeTitle} is not allowed to be empty`);
@@ -56,8 +58,14 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
     if (editable) {
       const { _id } = recipe[type][inputValue.index];
 
-      dispatch(editRecipeWidget({ type, _id, title }));
+      dispatch(
+        editRecipeWidget({ type, _id, title, isHeader: inputValue.isHeader })
+      );
       setEditable && setEditable(false);
+      setInputValue({
+        title: '',
+        isHeader: false,
+      });
       toggle();
     } else {
       const _id = uuid();
@@ -65,7 +73,7 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
         ...data,
         type,
         _id,
-        isHeader: isHeader || false,
+        isHeader: inputValue.isHeader || false,
       };
       dispatch(createRecipeWidget(newWidget));
     }
@@ -77,7 +85,11 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
 
   const onClose = () => {
     setValue('title', '');
-    setValue('isHeader', false);
+    setEditable && setEditable(false);
+    setInputValue({
+      title: '',
+      isHeader: false,
+    });
     setError('');
     toggle();
   };
@@ -99,9 +111,14 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
         <div className='flex justify-between items-center pb-4'>
           <span className='text-sm text-gray-800'>Set it item?</span>
           <Switch
-            name='isHeader'
+            active={inputValue.isHeader}
             size={SwitchSizes.EXTRA_SMALL}
-            onChange={setValue}
+            toggle={() =>
+              setInputValue({
+                ...inputValue,
+                isHeader: !inputValue.isHeader,
+              })
+            }
           />
         </div>
         <Button
