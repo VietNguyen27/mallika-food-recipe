@@ -1,22 +1,19 @@
 import request from './axios';
-import {
-  ADD_LIKED_RECIPE_URL,
-  GET_ALL_LIKED_RECIPE_URL,
-  GET_MORE_LIKED_RECIPE_URL,
-  REMOVE_LIKED_RECIPE_URL,
-} from '@config/constants';
+import { SERVER_BASE_URL } from '@config/constants';
+
+const LIKED_BASE_URL = `${SERVER_BASE_URL}/liked`;
 
 export const likedApi = {
   create(body) {
-    return request.post(ADD_LIKED_RECIPE_URL, body);
+    return request.post(LIKED_BASE_URL, body);
   },
   remove(id) {
-    return request.delete(`${REMOVE_LIKED_RECIPE_URL}/${id}`);
+    return request.delete(`${LIKED_BASE_URL}/${id}`);
   },
   getAll() {
-    return request.get(GET_ALL_LIKED_RECIPE_URL);
+    return request.get(`${LIKED_BASE_URL}/all`);
   },
   getMore(skip) {
-    return request.get(`${GET_MORE_LIKED_RECIPE_URL}?skip=${skip}`);
+    return request.get(`${LIKED_BASE_URL}/more?skip=${skip}`);
   },
 };

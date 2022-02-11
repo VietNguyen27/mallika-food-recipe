@@ -57,7 +57,7 @@ const initialState: RecipeState = {
 };
 
 export const createRecipe = createAsyncThunk(
-  'recipes/create',
+  'recipes/createNew',
   async (body: RecipeData, { rejectWithValue }) => {
     try {
       await slowLoading();
@@ -71,7 +71,7 @@ export const createRecipe = createAsyncThunk(
 );
 
 export const updateRecipe = createAsyncThunk(
-  'recipes/update',
+  'recipes/updateSpecified',
   async (body: any, { rejectWithValue }) => {
     try {
       await slowLoading();
@@ -86,7 +86,7 @@ export const updateRecipe = createAsyncThunk(
 );
 
 export const increaseLikedCount = createAsyncThunk(
-  'recipes/like',
+  'recipes/increaseLikedCount',
   async (_id: string, { rejectWithValue }) => {
     try {
       const response = await recipeApi.like(_id);
@@ -99,7 +99,7 @@ export const increaseLikedCount = createAsyncThunk(
 );
 
 export const decreaseLikedCount = createAsyncThunk(
-  'recipes/unlike',
+  'recipes/decreaseLikedCount',
   async (_id: string, { rejectWithValue }) => {
     try {
       const response = await recipeApi.unlike(_id);
@@ -112,7 +112,7 @@ export const decreaseLikedCount = createAsyncThunk(
 );
 
 export const getFeaturedRecipes = createAsyncThunk(
-  'recipes/featured',
+  'recipes/getFeatured',
   async (_, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
@@ -136,7 +136,7 @@ export const getFeaturedRecipes = createAsyncThunk(
 );
 
 export const getMyRecipes = createAsyncThunk(
-  'recipes/me',
+  'recipes/getMine',
   async (_, { rejectWithValue }) => {
     try {
       await slowLoading();
@@ -150,7 +150,7 @@ export const getMyRecipes = createAsyncThunk(
 );
 
 export const getOtherUserRecipes = createAsyncThunk(
-  'recipes/user',
+  'recipes/getByUserId',
   async (userId: any, { rejectWithValue }) => {
     try {
       await slowLoading();
@@ -166,7 +166,7 @@ export const getOtherUserRecipes = createAsyncThunk(
 );
 
 export const getAllRecipes = createAsyncThunk(
-  'recipes/all',
+  'recipes/getAll',
   async (_, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
@@ -190,7 +190,7 @@ export const getAllRecipes = createAsyncThunk(
 );
 
 export const getMoreRecipes = createAsyncThunk(
-  'recipes/more',
+  'recipes/getMore',
   async (_, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
@@ -215,7 +215,7 @@ export const getMoreRecipes = createAsyncThunk(
 );
 
 export const getRecipeById = createAsyncThunk(
-  'recipes/id',
+  'recipes/getById',
   async (id: string, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
@@ -295,7 +295,7 @@ const recipeSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(createRecipe.fulfilled, (state, action: any) => {
+    builder.addCase(createRecipe.fulfilled, (state, action) => {
       state.success = true;
       state.ingredients = [];
       state.steps = [];
@@ -310,7 +310,7 @@ const recipeSlice = createSlice({
       state.error = action.payload;
     });
 
-    builder.addCase(increaseLikedCount.fulfilled, (state: any, action: any) => {
+    builder.addCase(increaseLikedCount.fulfilled, (state: any, action) => {
       const index = state.recipes.findIndex(
         ({ _id }) => _id === action.payload._id
       );
@@ -340,7 +340,7 @@ const recipeSlice = createSlice({
       }
     });
 
-    builder.addCase(decreaseLikedCount.fulfilled, (state: any, action: any) => {
+    builder.addCase(decreaseLikedCount.fulfilled, (state: any, action) => {
       const index = state.recipes.findIndex(
         ({ _id }) => _id === action.payload._id
       );
@@ -370,25 +370,25 @@ const recipeSlice = createSlice({
       }
     });
 
-    builder.addCase(getFeaturedRecipes.fulfilled, (state, action: any) => {
+    builder.addCase(getFeaturedRecipes.fulfilled, (state, action) => {
       state.featuredRecipes = action.payload;
     });
 
-    builder.addCase(getMyRecipes.fulfilled, (state, action: any) => {
+    builder.addCase(getMyRecipes.fulfilled, (state, action) => {
       state.myRecipes = action.payload;
     });
 
-    builder.addCase(getOtherUserRecipes.fulfilled, (state, action: any) => {
+    builder.addCase(getOtherUserRecipes.fulfilled, (state, action) => {
       const [key, value]: any = Object.entries(action.payload)[0];
 
       state.otherRecipes[key] = value;
     });
 
-    builder.addCase(getAllRecipes.fulfilled, (state, action: any) => {
+    builder.addCase(getAllRecipes.fulfilled, (state, action) => {
       state.recipes = action.payload;
     });
 
-    builder.addCase(getMoreRecipes.fulfilled, (state, action: any) => {
+    builder.addCase(getMoreRecipes.fulfilled, (state, action) => {
       if (action.payload.length) {
         state.recipes = [...state.recipes, ...action.payload];
       } else {
@@ -396,7 +396,7 @@ const recipeSlice = createSlice({
       }
     });
 
-    builder.addCase(getRecipeById.fulfilled, (state, action: any) => {
+    builder.addCase(getRecipeById.fulfilled, (state, action) => {
       state.recipe[action.payload._id] = action.payload;
     });
   },

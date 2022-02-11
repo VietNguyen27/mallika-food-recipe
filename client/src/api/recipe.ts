@@ -1,47 +1,38 @@
 import request from './axios';
-import {
-  CREATE_RECIPE_URL,
-  GET_FEATURED_RECIPES_URL,
-  GET_MY_RECIPES_URL,
-  GET_OTHER_RECIPES_URL,
-  GET_ALL_RECIPES_URL,
-  GET_MORE_RECIPES_URL,
-  UPDATE_RECIPE_URL,
-  LIKE_RECIPE_URL,
-  UNLIKE_RECIPE_URL,
-  GET_RECIPE_BY_ID_URL,
-} from '@config/constants';
+import { SERVER_BASE_URL } from '@config/constants';
 import { RecipeData } from '@features/recipe-slice';
+
+const RECIPES_BASE_URL = `${SERVER_BASE_URL}/recipes`;
 
 export const recipeApi = {
   create(body: RecipeData) {
-    return request.post(CREATE_RECIPE_URL, body);
+    return request.post(RECIPES_BASE_URL, body);
   },
   update(id: string, body) {
-    return request.patch(`${UPDATE_RECIPE_URL}/${id}`, body);
+    return request.patch(`${RECIPES_BASE_URL}/${id}`, body);
   },
   like(id: string) {
-    return request.patch(`${LIKE_RECIPE_URL}/${id}`);
+    return request.patch(`${RECIPES_BASE_URL}/like/${id}`);
   },
   unlike(id: string) {
-    return request.patch(`${UNLIKE_RECIPE_URL}/${id}`);
+    return request.patch(`${RECIPES_BASE_URL}/unlike/${id}`);
   },
   getFeatured() {
-    return request.get(GET_FEATURED_RECIPES_URL);
+    return request.get(`${RECIPES_BASE_URL}/featured`);
   },
   getMine() {
-    return request.get(GET_MY_RECIPES_URL);
+    return request.get(`${RECIPES_BASE_URL}/me`);
   },
   getOther(id) {
-    return request.get(`${GET_OTHER_RECIPES_URL}/${id}`);
+    return request.get(`${RECIPES_BASE_URL}/user/${id}`);
   },
   getAll() {
-    return request.get(GET_ALL_RECIPES_URL);
+    return request.get(`${RECIPES_BASE_URL}/all`);
   },
   getMore(skip) {
-    return request.get(`${GET_MORE_RECIPES_URL}?skip=${skip}`);
+    return request.get(`${RECIPES_BASE_URL}/more?skip=${skip}`);
   },
   getById(id) {
-    return request.get(`${GET_RECIPE_BY_ID_URL}/${id}`);
+    return request.get(`${RECIPES_BASE_URL}/${id}`);
   },
 };

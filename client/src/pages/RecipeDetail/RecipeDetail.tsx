@@ -241,7 +241,7 @@ const RecipeDetail = () => {
                 Read all
               </button>
             </div>
-            <div className='pt-3'>
+            <div className='pt-3' onClick={() => handleOpenReviewsDrawer()}>
               {numReviews > 0 &&
               recipeId &&
               reviews[recipeId] &&

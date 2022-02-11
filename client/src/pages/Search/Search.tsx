@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState, useRef } from 'react';
 import LastSeen from './components/LastSeen';
 import RecentSearch from './components/RecentSearch';
 import SearchInput from '@components/Input/SearchInput';
@@ -10,15 +10,18 @@ import {
   searchRecipesByTitle,
   searchRecipesByIngredient,
   searchUsersByNameOrEmail,
+  searchCookbooksByName,
   clearSearchResults,
 } from '@features/search-slice';
 import { RootState } from '@redux/reducers';
+import axios from 'axios';
 
 const Search = () => {
   const initialLabel = 'recipe';
   const [searchLabel, setSearchLabel] = useState<string>(initialLabel);
   const [searchable, setSearchable] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const cancelToken = useRef<any>(null);
   const dispatch = useDispatch();
   const { loading, outOfResults } = useSelector(
     ({ search }: RootState) => search
@@ -27,6 +30,7 @@ const Search = () => {
     recipe: searchRecipesByTitle,
     user: searchUsersByNameOrEmail,
     ingredient: searchRecipesByIngredient,
+    cookbook: searchCookbooksByName,
   };
   const debouncedSearchTerm: string = useDebounce<string>(searchTerm.trim());
 
@@ -38,8 +42,12 @@ const Search = () => {
   }, [debouncedSearchTerm]);
 
   const searchRecipesOrUsers = (label, value) => {
+    if (cancelToken.current) {
+      cancelToken.current.cancel('Operation canceled due to new request.');
+    }
+    cancelToken.current = axios.CancelToken.source();
     const searchFn = searchTypes[label];
-    dispatch(searchFn(value));
+    dispatch(searchFn({ value, token: cancelToken.current.token }));
   };
 
   const handleScroll = (e) => {
@@ -48,7 +56,9 @@ const Search = () => {
       e.target.scrollHeight - e.target.scrollTop - 1 <= e.target.clientHeight;
 
     if (isBottom && !loading && !outOfResults) {
-      dispatch(searchFn(searchTerm.trim()));
+      dispatch(
+        searchFn({ value: searchTerm.trim(), token: cancelToken.current.token })
+      );
     }
   };
 

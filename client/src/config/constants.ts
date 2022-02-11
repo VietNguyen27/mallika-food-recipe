@@ -1,35 +1,4 @@
 export const SERVER_BASE_URL = 'http://localhost:5000/api';
-export const AUTH_REGISTER_URL = `${SERVER_BASE_URL}/auth/register`;
-export const AUTH_LOGIN_URL = `${SERVER_BASE_URL}/auth/login`;
-
-export const GET_USER_URL = `${SERVER_BASE_URL}/users/me`;
-export const GET_OTHER_USER_URL = `${SERVER_BASE_URL}/users`;
-export const UPDATE_USER_URL = `${SERVER_BASE_URL}/users`;
-export const FOLLOW_USER_URL = `${SERVER_BASE_URL}/users`;
-export const UNFOLLOW_USER_URL = `${SERVER_BASE_URL}/users`;
-
-export const CREATE_RECIPE_URL = `${SERVER_BASE_URL}/recipes`;
-export const UPDATE_RECIPE_URL = `${SERVER_BASE_URL}/recipes`;
-export const LIKE_RECIPE_URL = `${SERVER_BASE_URL}/recipes/like`;
-export const UNLIKE_RECIPE_URL = `${SERVER_BASE_URL}/recipes/unlike`;
-export const GET_FEATURED_RECIPES_URL = `${SERVER_BASE_URL}/recipes/featured`;
-export const GET_MY_RECIPES_URL = `${SERVER_BASE_URL}/recipes/me`;
-export const GET_OTHER_RECIPES_URL = `${SERVER_BASE_URL}/recipes/user`;
-export const GET_ALL_RECIPES_URL = `${SERVER_BASE_URL}/recipes/all`;
-export const GET_MORE_RECIPES_URL = `${SERVER_BASE_URL}/recipes/more`;
-export const GET_RECIPE_BY_ID_URL = `${SERVER_BASE_URL}/recipes`;
-
-export const ADD_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked`;
-export const REMOVE_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked`;
-export const GET_ALL_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked/all`;
-export const GET_MORE_LIKED_RECIPE_URL = `${SERVER_BASE_URL}/liked/more`;
-
-export const GET_ALL_REVIEWS_URL = `${SERVER_BASE_URL}/recipes`;
-export const ADD_NEW_REVIEW_URL = `${SERVER_BASE_URL}/recipes`;
-export const UPDATE_REVIEW_URL = `${SERVER_BASE_URL}/recipes`;
-export const DELETE_REVIEW_URL = `${SERVER_BASE_URL}/recipes`;
-
-export const SEARCH_URL = `${SERVER_BASE_URL}/search`;
 
 export const MINIMUM_SEARCH_DELAY = 500;
 export const MINIMUM_LOADER_DELAY = 500;

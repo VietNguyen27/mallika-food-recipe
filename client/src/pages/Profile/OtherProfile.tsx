@@ -14,7 +14,7 @@ import {
 } from '@features/recipe-slice';
 import { RootState } from '@redux/reducers';
 import BoxEmpty from '@img/box-empty.png';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchUserById, followUser, unfollowUser } from '@features/user-slice';
 import Button, { ButtonSizes, ButtonVariants } from '@components/Button/Button';
 
@@ -22,7 +22,6 @@ const OtherProfile = () => {
   const { id: userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation();
   const { users } = useSelector(({ user }: RootState) => user);
   const otherRecipes: any = useSelector(selectorOtherRecipes);
   const loading = useSelector(
@@ -114,8 +113,8 @@ const OtherProfile = () => {
             </div>
           </div>
           <div className='flex flex-col items-start pt-1'>
-            <h3 className='text-lg font-semibold'>{name}</h3>
-            <p className='text-gray-800 text-sm'>{bio}</p>
+            <h3 className='text-lg font-semibold line-clamp-2'>{name}</h3>
+            <p className='text-gray-800 text-sm line-clamp-2'>{bio}</p>
           </div>
         </div>
       </>

@@ -16,7 +16,7 @@ const initialState: UserState = {
 };
 
 export const fetchUser = createAsyncThunk(
-  'users/me',
+  'users/fetchByToken',
   async (_, { rejectWithValue }) => {
     try {
       const response = await userApi.fetch();
@@ -29,7 +29,7 @@ export const fetchUser = createAsyncThunk(
 );
 
 export const fetchUserById = createAsyncThunk(
-  'users/user',
+  'users/fetchById',
   async (id: any, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
@@ -49,7 +49,7 @@ export const fetchUserById = createAsyncThunk(
 );
 
 export const updateUser = createAsyncThunk(
-  'users/:id',
+  'users/updateById',
   async (body: any, { rejectWithValue }) => {
     try {
       await slowLoading();
@@ -64,7 +64,7 @@ export const updateUser = createAsyncThunk(
 );
 
 export const followUser = createAsyncThunk(
-  'users/:id/follow',
+  'users/followById',
   async (followedUserId: any, { rejectWithValue }) => {
     try {
       const response = await userApi.follow(followedUserId);
@@ -78,7 +78,7 @@ export const followUser = createAsyncThunk(
 );
 
 export const unfollowUser = createAsyncThunk(
-  'users/:id/follow',
+  'users/unfollowById',
   async (followedUserId: any, { rejectWithValue }) => {
     try {
       const response = await userApi.unfollow(followedUserId);
@@ -100,23 +100,23 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    finishSplash: (state, action: any) => {
+    finishSplash: (state, action) => {
       state.user.firstLogin = false;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchUser.fulfilled, (state, action: any) => {
+    builder.addCase(fetchUser.fulfilled, (state, action) => {
       state.user = action.payload;
     });
 
-    builder.addCase(fetchUserById.fulfilled, (state, action: any) => {
+    builder.addCase(fetchUserById.fulfilled, (state, action) => {
       state.users[action.payload._id] = action.payload;
     });
 
     builder.addCase(updateUser.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(updateUser.fulfilled, (state, action: any) => {
+    builder.addCase(updateUser.fulfilled, (state, action) => {
       state.loading = false;
       state.user = {
         ...state.user,
@@ -127,7 +127,7 @@ const userSlice = createSlice({
       state.loading = false;
     });
 
-    builder.addMatcher(isFollowUserFulfilled, (state, action: any) => {
+    builder.addMatcher(isFollowUserFulfilled, (state, action) => {
       const { user, followedUser } = action.payload;
 
       state.user = {

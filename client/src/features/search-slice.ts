@@ -22,15 +22,16 @@ const initialState: SearchState = {
 };
 
 export const searchRecipesByTitle = createAsyncThunk(
-  'search/recipes/title',
-  async (title, { rejectWithValue, getState }) => {
+  'search/getRecipesByTitle',
+  async ({ value, token }: any, { rejectWithValue, getState }) => {
     try {
       await slowLoading(MINIMUM_SEARCH_DELAY);
       const state: any = getState();
       const totalSearchResults = state.search.results.length;
       const response = await searchApi.getRecipesByTitle(
-        title,
-        totalSearchResults
+        value,
+        totalSearchResults,
+        { cancelToken: token }
       );
 
       return response.data;
@@ -41,15 +42,16 @@ export const searchRecipesByTitle = createAsyncThunk(
 );
 
 export const searchRecipesByIngredient = createAsyncThunk(
-  'search/recipes/ingredient',
-  async (ingredient, { rejectWithValue, getState }) => {
+  'search/getRecipesByIngredient',
+  async ({ value, token }: any, { rejectWithValue, getState }) => {
     try {
       await slowLoading(MINIMUM_SEARCH_DELAY);
       const state: any = getState();
       const totalSearchResults = state.search.results.length;
       const response = await searchApi.getRecipesByIngredient(
-        ingredient,
-        totalSearchResults
+        value,
+        totalSearchResults,
+        { cancelToken: token }
       );
 
       return response.data;
@@ -60,18 +62,30 @@ export const searchRecipesByIngredient = createAsyncThunk(
 );
 
 export const searchUsersByNameOrEmail = createAsyncThunk(
-  'search/users',
-  async (user, { rejectWithValue, getState }) => {
+  'search/getUsersByNameOrEmail',
+  async ({ value, token }: any, { rejectWithValue, getState }) => {
     try {
       await slowLoading(MINIMUM_SEARCH_DELAY);
       const state: any = getState();
       const totalSearchResults = state.search.results.length;
       const response = await searchApi.getUsersByNameOrEmail(
-        user,
-        totalSearchResults
+        value,
+        totalSearchResults,
+        { cancelToken: token }
       );
 
       return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const searchCookbooksByName = createAsyncThunk(
+  'search/getCookbooksByName',
+  async (cookbook, { rejectWithValue, getState }) => {
+    try {
+      return [];
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -82,16 +96,19 @@ const isSearchPending = isSomeAsyncActionsPending([
   searchRecipesByTitle,
   searchRecipesByIngredient,
   searchUsersByNameOrEmail,
+  searchCookbooksByName,
 ]);
 const isSearchFulfilled = isSomeAsyncActionsFulfilled([
   searchRecipesByTitle,
   searchRecipesByIngredient,
   searchUsersByNameOrEmail,
+  searchCookbooksByName,
 ]);
 const isSearchReject = isSomeAsyncActionsRejected([
   searchRecipesByTitle,
   searchRecipesByIngredient,
   searchUsersByNameOrEmail,
+  searchCookbooksByName,
 ]);
 
 const searchSlice = createSlice({
