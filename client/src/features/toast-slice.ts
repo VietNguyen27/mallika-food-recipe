@@ -17,7 +17,7 @@ const initialState: ToastListState = {
 };
 
 export const createToast = createAsyncThunk(
-  'toast/create',
+  'toast/createNew',
   async (body: ToastProps, { dispatch }) => {
     const _id = uuid();
     const toast = {

@@ -75,8 +75,8 @@ const Profile = () => {
             </div>
           </div>
           <div className='flex flex-col pt-1'>
-            <h3 className='text-lg font-semibold'>{name}</h3>
-            <p className='text-gray-800 text-sm'>{bio}</p>
+            <h3 className='text-lg font-semibold line-clamp-2'>{name}</h3>
+            <p className='text-gray-800 text-sm line-clamp-2'>{bio}</p>
           </div>
         </div>
         <Tabs

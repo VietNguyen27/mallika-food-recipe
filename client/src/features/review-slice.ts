@@ -71,7 +71,7 @@ export const getMoreReviews = createAsyncThunk(
 );
 
 export const createNewReview = createAsyncThunk(
-  'review/create',
+  'review/createNew',
   async (body: any, { rejectWithValue, dispatch, getState }) => {
     try {
       const { recipeId, ...rest } = body;
@@ -100,7 +100,7 @@ export const createNewReview = createAsyncThunk(
 );
 
 export const updateReview = createAsyncThunk(
-  'review/update',
+  'review/updateSpecified',
   async (body: any, { rejectWithValue, dispatch, getState }) => {
     try {
       const { recipeId, reviewId, ...rest } = body;
@@ -129,7 +129,7 @@ export const updateReview = createAsyncThunk(
 );
 
 export const deleteReview = createAsyncThunk(
-  'review/delete',
+  'review/deleteSpecified',
   async (body: any, { rejectWithValue, dispatch }) => {
     try {
       const { recipeId, reviewId } = body;
@@ -169,13 +169,13 @@ const reviewSlice = createSlice({
     builder.addCase(getAllReviews.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(getAllReviews.rejected, (state, action: any) => {
+    builder.addCase(getAllReviews.rejected, (state, action) => {
       state.loading = false;
     });
     builder.addCase(createNewReview.rejected, (state, action: any) => {
       state.error = action.payload.error;
     });
-    builder.addCase(getMoreReviews.fulfilled, (state, action: any) => {
+    builder.addCase(getMoreReviews.fulfilled, (state, action) => {
       if (Object.values(action.payload as object)[0].length) {
         const [key, value]: any = Object.entries(action.payload)[0];
         state.reviews[key] = [...state.reviews[key], ...value];
@@ -183,7 +183,7 @@ const reviewSlice = createSlice({
         state.outOfReview = true;
       }
     });
-    builder.addMatcher(isReviewFulfilled, (state, action: any) => {
+    builder.addMatcher(isReviewFulfilled, (state, action) => {
       const [key, value]: any = Object.entries(action.payload)[0];
 
       state.loading = false;
