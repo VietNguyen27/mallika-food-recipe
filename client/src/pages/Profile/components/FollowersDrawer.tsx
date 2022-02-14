@@ -3,7 +3,7 @@ import Drawer from '@components/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
-import { fetchFollowersById } from '@features/follow-slice';
+import { getFollowersById, selectorFollowers } from '@features/follow-slice';
 import { UserCardList, UserCard } from '@components/UserCard/UserCard';
 import { UserCardSkeleton } from '@components/Skeleton/Skeleton';
 import { Spinner } from '@components/Loading/Loading';
@@ -16,14 +16,14 @@ interface IFollowersDrawerProps {
 const FollowersDrawer: React.FC<IFollowersDrawerProps> = ({ userId }) => {
   const dispatch = useDispatch();
   const active = useSelector(({ ui }: RootState) => ui.followersDrawerShowing);
-  const { followers } = useSelector(({ follow }: RootState) => follow);
+  const followers = useSelector(selectorFollowers);
   const loading = useSelector(
-    ({ loading }: RootState) => loading.fetchFollowLoading
+    ({ loading }: RootState) => loading.getFollowLoading
   );
 
   useEffect(() => {
     if (active && userId && !followers[userId]) {
-      dispatch(fetchFollowersById(userId));
+      dispatch(getFollowersById(userId));
     }
   }, [active, userId]);
 
@@ -32,7 +32,7 @@ const FollowersDrawer: React.FC<IFollowersDrawerProps> = ({ userId }) => {
       e.target.scrollHeight - e.target.scrollTop - 1 <= e.target.clientHeight;
 
     if (isBottom && !loading && !followers[userId].outOfFollowers) {
-      dispatch(fetchFollowersById(userId));
+      dispatch(getFollowersById(userId));
     }
   };
 

@@ -23,8 +23,9 @@ const Search = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const cancelToken = useRef<any>(null);
   const dispatch = useDispatch();
-  const { loading, outOfResults } = useSelector(
-    ({ search }: RootState) => search
+  const { outOfResults } = useSelector(({ search }: RootState) => search);
+  const loading = useSelector(
+    ({ loading }: RootState) => loading.searchLoading
   );
   const searchTypes = {
     recipe: findRecipesByTitle,
@@ -112,7 +113,7 @@ const Search = () => {
           />
         ) : (
           <>
-            <RecentSearch />
+            {/* <RecentSearch /> */}
             <LastSeen />
           </>
         )}

@@ -6,16 +6,14 @@ import { isSomeAsyncActionsFulfilled } from '@helpers/action-slice';
 interface IUserState {
   user: any;
   users: any;
-  loading: boolean;
 }
 
 const initialState: IUserState = {
   user: null,
   users: {},
-  loading: false,
 };
 
-export const fetchUser = createAsyncThunk(
+export const getUser = createAsyncThunk(
   'users/fetchByToken',
   async (_, { rejectWithValue }) => {
     try {
@@ -28,7 +26,7 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
-export const fetchUserById = createAsyncThunk(
+export const getUserById = createAsyncThunk(
   'users/fetchById',
   async (id: any, { rejectWithValue, getState }) => {
     try {
@@ -101,33 +99,25 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    finishSplash: (state, action) => {
+    finishSplash: (state) => {
       state.user.firstLogin = false;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchUser.fulfilled, (state, action) => {
+    builder.addCase(getUser.fulfilled, (state, action) => {
       state.user = action.payload;
     });
 
-    builder.addCase(fetchUserById.fulfilled, (state, action) => {
+    builder.addCase(getUserById.fulfilled, (state, action) => {
       state.users[action.payload._id] = action.payload;
     });
 
-    builder.addCase(updateUser.pending, (state) => {
-      state.loading = true;
-    });
     builder.addCase(updateUser.fulfilled, (state, action) => {
-      state.loading = false;
       state.user = {
         ...state.user,
         ...action.payload,
       };
     });
-    builder.addCase(updateUser.rejected, (state) => {
-      state.loading = false;
-    });
-
     builder.addMatcher(isFollowUserFulfilled, (state, action) => {
       const { user, followedUser } = action.payload;
 

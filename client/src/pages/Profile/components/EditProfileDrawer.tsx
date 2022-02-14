@@ -33,7 +33,7 @@ const EditProfileDrawer = () => {
   const dispatch = useDispatch();
   const { register, reset, handleSubmit, setValue } = useForm();
   const user = useSelector(selectorUser);
-  const { loading } = useSelector(({ auth }: RootState) => auth);
+  const loading = useSelector(({ loading }: RootState) => loading.authLoading);
   const active = useSelector(
     ({ ui }: RootState) => ui.editProfileDrawerShowing
   );

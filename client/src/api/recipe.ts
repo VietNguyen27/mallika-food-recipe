@@ -26,11 +26,8 @@ export const recipeApi = {
   getByUserId(id) {
     return request.get(`${RECIPES_BASE_URL}/user/${id}`);
   },
-  getAll() {
-    return request.get(`${RECIPES_BASE_URL}/all`);
-  },
-  getMore(skip) {
-    return request.get(`${RECIPES_BASE_URL}/more?skip=${skip}`);
+  getAll(skip) {
+    return request.get(`${RECIPES_BASE_URL}/all?skip=${skip}`);
   },
   getById(id) {
     return request.get(`${RECIPES_BASE_URL}/${id}`);

@@ -10,10 +10,12 @@ export interface LikedRecipeData {
 
 interface ILikedState {
   recipes: object[] | null;
+  outOfRecipe: boolean;
 }
 
 const initialState: ILikedState = {
   recipes: null,
+  outOfRecipe: false,
 };
 
 export const setLikedRecipe = createAsyncThunk(
@@ -44,26 +46,14 @@ export const deleteLikedRecipe = createAsyncThunk(
 
 export const getAllLikedRecipes = createAsyncThunk(
   'liked/getAll',
-  async (_, { rejectWithValue }) => {
-    try {
-      await slowLoading();
-      const response = await likedApi.getAll();
-
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const getMoreLikedRecipes = createAsyncThunk(
-  'liked/getMore',
   async (_, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
       const state: any = getState();
-      const totalLikedRecipes = state.liked.recipes.length;
-      const response = await likedApi.getMore(totalLikedRecipes);
+      const totalLikedRecipes = state.liked.recipes
+        ? state.liked.recipes.length
+        : 0;
+      const response = await likedApi.getAll(totalLikedRecipes);
 
       return response.data;
     } catch (error: any) {
@@ -94,13 +84,12 @@ const likedSlice = createSlice({
         );
     });
     builder.addCase(getAllLikedRecipes.fulfilled, (state, action) => {
-      state.recipes = action.payload.map((recipe) => ({
-        ...recipe,
-        type: RECIPES_BY_TYPE.LIKED,
-      }));
-    });
-    builder.addCase(getMoreLikedRecipes.fulfilled, (state, action) => {
-      if (state.recipes) {
+      if (!state.recipes) {
+        state.recipes = action.payload.map((recipe) => ({
+          ...recipe,
+          type: RECIPES_BY_TYPE.LIKED,
+        }));
+      } else {
         state.recipes = [
           ...state.recipes,
           ...action.payload.map((recipe) => ({
@@ -109,10 +98,12 @@ const likedSlice = createSlice({
           })),
         ];
       }
+
+      if (state.recipes && !action.payload.length) {
+        state.outOfRecipe = true;
+      }
     });
   },
 });
 
-export const selectorLikedRecipes = (state: { liked: ILikedState }) =>
-  state.liked.recipes;
 export default likedSlice.reducer;

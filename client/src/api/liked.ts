@@ -10,10 +10,7 @@ export const likedApi = {
   remove(id) {
     return request.delete(`${LIKED_BASE_URL}/${id}`);
   },
-  getAll() {
-    return request.get(`${LIKED_BASE_URL}/all`);
-  },
-  getMore(skip) {
-    return request.get(`${LIKED_BASE_URL}/more?skip=${skip}`);
+  getAll(skip) {
+    return request.get(`${LIKED_BASE_URL}/all?skip=${skip}`);
   },
 };
