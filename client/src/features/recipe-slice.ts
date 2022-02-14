@@ -172,32 +172,8 @@ export const getAllRecipes = createAsyncThunk(
       await slowLoading();
       const state: any = getState();
       const userId = state.user.user._id;
-      const response = await recipeApi.getAll();
-      const recipes = response.data.map((recipe) => {
-        const isLiked = recipe.likes.includes(userId);
-
-        return {
-          ...recipe,
-          isLiked,
-        };
-      });
-
-      return recipes;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const getMoreRecipes = createAsyncThunk(
-  'recipes/getMore',
-  async (_, { rejectWithValue, getState }) => {
-    try {
-      await slowLoading();
-      const state: any = getState();
-      const userId = state.user.user._id;
       const totalRecipes = state.recipe.recipes.length;
-      const response = await recipeApi.getMore(totalRecipes);
+      const response = await recipeApi.getAll(totalRecipes);
       const recipes = response.data.map((recipe) => {
         const isLiked = recipe.likes.includes(userId);
 
@@ -385,13 +361,9 @@ const recipeSlice = createSlice({
     });
 
     builder.addCase(getAllRecipes.fulfilled, (state, action) => {
-      state.recipes = action.payload;
-    });
+      state.recipes = [...state.recipes, ...action.payload];
 
-    builder.addCase(getMoreRecipes.fulfilled, (state, action) => {
-      if (action.payload.length) {
-        state.recipes = [...state.recipes, ...action.payload];
-      } else {
+      if (state.recipes && !action.payload.length) {
         state.outOfRecipe = true;
       }
     });

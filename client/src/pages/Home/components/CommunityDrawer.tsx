@@ -3,7 +3,7 @@ import Drawer from '@components/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
-import { getAllRecipes, getMoreRecipes } from '@features/recipe-slice';
+import { getAllRecipes } from '@features/recipe-slice';
 import { CardSmallSkeleton } from '@components/Skeleton/Skeleton';
 import { Options20Regular } from '@fluentui/react-icons';
 import useToggle from '@hooks/useToggle';
@@ -36,9 +36,6 @@ const CommunityDrawer = () => {
   const loading = useSelector(
     ({ loading }: RootState) => loading.allRecipesLoading
   );
-  const moreLoading = useSelector(
-    ({ loading }: RootState) => loading.moreRecipesLoading
-  );
   const { recipes, outOfRecipe } = useSelector(
     ({ recipe }: RootState) => recipe
   );
@@ -56,8 +53,8 @@ const CommunityDrawer = () => {
 
     if (loading) return;
 
-    if (isBottom && !moreLoading && !outOfRecipe) {
-      dispatch(getMoreRecipes());
+    if (isBottom && !loading && !outOfRecipe) {
+      dispatch(getAllRecipes());
     }
   };
 
@@ -112,7 +109,7 @@ const CommunityDrawer = () => {
           onScroll={handleScroll}
         >
           <CardList className='flex-row flex-wrap -mx-1'>
-            {loading
+            {loading && !recipes.length
               ? [...Array(8).keys()].map((_, index) => (
                   <CardSmallSkeleton key={index} />
                 ))
@@ -121,7 +118,9 @@ const CommunityDrawer = () => {
                 ))}
           </CardList>
           <div className='flex justify-center h-7'>
-            {moreLoading && <Spinner color='var(--color-orange)' />}
+            {loading && recipes.length && (
+              <Spinner color='var(--color-orange)' />
+            )}
           </div>
           <div className='flex flex-col items-center -mt-7'>
             {outOfRecipe && (

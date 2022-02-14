@@ -22,9 +22,8 @@ const Login = () => {
   const { register, handleSubmit, setValue } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, isLoggedIn, error } = useSelector(
-    ({ auth }: RootState) => auth
-  );
+  const { isLoggedIn, error } = useSelector(({ auth }: RootState) => auth);
+  const loading = useSelector(({ loading }: RootState) => loading.authLoading);
   const authError = getErrorFromJoiMessage(error);
 
   useEffect(() => {

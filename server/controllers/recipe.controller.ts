@@ -135,37 +135,6 @@ export const getAllRecipes = async (
   res: Response
 ): Promise<void> => {
   try {
-    const recipes = await RecipeModel.find({
-      user: { $nin: req.user._id },
-      isPublished: true,
-    })
-      .populate('user', 'name avatar')
-      .sort({ _id: -1 })
-      .limit(6);
-
-    if (!recipes) {
-      res
-        .status(400)
-        .json({ error: 'Something went wrong while getting all recipes!' });
-      return;
-    }
-
-    res.status(200).json(recipes);
-    return;
-  } catch (error) {
-    res.status(400).json({ error });
-    return;
-  }
-};
-
-// @desc    Get more recipes
-// @route   GET /api/recipes/more
-// @access  Private
-export const getMoreRecipes = async (
-  req: IGetUserAuthInfoRequest,
-  res: Response
-): Promise<void> => {
-  try {
     const skip = req.query.skip ? Number(req.query.skip) : 0;
     const recipes = await RecipeModel.find(
       {

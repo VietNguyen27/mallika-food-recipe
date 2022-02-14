@@ -41,8 +41,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({
 }) => {
   const [currentTab, setCurrentTab] = useState<number>(0);
   const dispatch = useDispatch();
-  const { loading, outOfResults } = useSelector(
-    ({ search }: RootState) => search
+  const { outOfResults } = useSelector(({ search }: RootState) => search);
+  const loading = useSelector(
+    ({ loading }: RootState) => loading.searchLoading
   );
 
   const onChangeTab = (label, index) => {

@@ -1,23 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { searchApi } from '@api/search';
 import { slowLoading } from '@helpers/helpers';
-import {
-  isSomeAsyncActionsFulfilled,
-  isSomeAsyncActionsPending,
-  isSomeAsyncActionsRejected,
-} from '@helpers/action-slice';
+import { isSomeAsyncActionsFulfilled } from '@helpers/action-slice';
 import { RECIPES_BY_TYPE } from '@config/recipe';
 import { MINIMUM_SEARCH_DELAY } from '@config/constants';
 
 interface ISearchState {
   results: any;
-  loading: boolean;
   outOfResults: boolean;
 }
 
 const initialState: ISearchState = {
   results: [],
-  loading: false,
   outOfResults: false,
 };
 
@@ -92,19 +86,7 @@ export const searchCookbooksByName = createAsyncThunk(
   }
 );
 
-const isSearchPending = isSomeAsyncActionsPending([
-  findRecipesByTitle,
-  findRecipesByIngredient,
-  findUsersByNameOrEmail,
-  searchCookbooksByName,
-]);
 const isSearchFulfilled = isSomeAsyncActionsFulfilled([
-  findRecipesByTitle,
-  findRecipesByIngredient,
-  findUsersByNameOrEmail,
-  searchCookbooksByName,
-]);
-const isSearchReject = isSomeAsyncActionsRejected([
   findRecipesByTitle,
   findRecipesByIngredient,
   findUsersByNameOrEmail,
@@ -121,9 +103,6 @@ const searchSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(isSearchPending, (state) => {
-      state.loading = true;
-    });
     builder.addMatcher(isSearchFulfilled, (state, action) => {
       const searchResults = action.payload.map((result) => ({
         ...result,
@@ -135,10 +114,6 @@ const searchSlice = createSlice({
       } else {
         state.outOfResults = true;
       }
-      state.loading = false;
-    });
-    builder.addMatcher(isSearchReject, (state) => {
-      state.loading = false;
     });
   },
 });

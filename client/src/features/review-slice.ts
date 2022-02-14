@@ -7,43 +7,17 @@ import { updateReviews } from './recipe-slice';
 interface IReviewState {
   reviews: any;
   error: any;
-  loading: boolean;
   outOfReview: boolean;
 }
 
 const initialState: IReviewState = {
   reviews: {},
   error: null,
-  loading: false,
   outOfReview: false,
 };
 
 export const getAllReviews = createAsyncThunk(
   'review/getAll',
-  async (recipeId: string, { rejectWithValue, getState }) => {
-    try {
-      const state: any = getState();
-      const currentUser = state.user.user;
-      const response = await reviewApi.getAll(recipeId);
-      const reviewList = response.data.map((review) => {
-        const isOwner = review.user._id === currentUser._id;
-        return {
-          ...review,
-          isOwner,
-        };
-      });
-
-      return {
-        [recipeId]: reviewList,
-      };
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const getMoreReviews = createAsyncThunk(
-  'review/getMore',
   async (recipeId: string, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
@@ -166,28 +140,22 @@ const reviewSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getAllReviews.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(getAllReviews.rejected, (state, action) => {
-      state.loading = false;
-    });
     builder.addCase(createNewReview.rejected, (state, action: any) => {
       state.error = action.payload.error;
     });
-    builder.addCase(getMoreReviews.fulfilled, (state, action) => {
-      if (Object.values(action.payload as object)[0].length) {
-        const [key, value]: any = Object.entries(action.payload)[0];
-        state.reviews[key] = [...state.reviews[key], ...value];
-      } else {
-        state.outOfReview = true;
-      }
-    });
+
     builder.addMatcher(isReviewFulfilled, (state, action) => {
       const [key, value]: any = Object.entries(action.payload)[0];
 
-      state.loading = false;
-      state.reviews[key] = value;
+      if (state.reviews[key]) {
+        state.reviews[key] = [...state.reviews[key], ...value];
+      } else {
+        state.reviews[key] = value;
+      }
+
+      if (!Object.values(action.payload as object)[0].length) {
+        state.outOfReview = true;
+      }
     });
   },
 });

@@ -12,8 +12,8 @@ const initialState: IFollowState = {
   following: {},
 };
 
-export const fetchFollowersById = createAsyncThunk(
-  'users/fetchFollowersById',
+export const getFollowersById = createAsyncThunk(
+  'users/getFollowersById',
   async (id: any, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
@@ -30,8 +30,8 @@ export const fetchFollowersById = createAsyncThunk(
   }
 );
 
-export const fetchFollowingById = createAsyncThunk(
-  'users/fetchFollowingById',
+export const getFollowingById = createAsyncThunk(
+  'users/getFollowingById',
   async (id: any, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
@@ -53,7 +53,7 @@ const followSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchFollowersById.fulfilled, (state, action) => {
+    builder.addCase(getFollowersById.fulfilled, (state, action) => {
       const { _id: userId, followers } = action.payload;
 
       if (state.followers[userId] && followers.length === 0) {
@@ -73,7 +73,7 @@ const followSlice = createSlice({
       }
     });
 
-    builder.addCase(fetchFollowingById.fulfilled, (state, action) => {
+    builder.addCase(getFollowingById.fulfilled, (state, action) => {
       const { _id: userId, following } = action.payload;
 
       if (state.following[userId] && following.length === 0) {
@@ -95,4 +95,8 @@ const followSlice = createSlice({
   },
 });
 
+export const selectorFollowers = (state: { follow: IFollowState }) =>
+  state.follow.followers;
+export const selectorFollowing = (state: { follow: IFollowState }) =>
+  state.follow.following;
 export default followSlice.reducer;

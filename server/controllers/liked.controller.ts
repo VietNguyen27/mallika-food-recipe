@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import LikedModel from '../models/liked.model';
 import { IGetUserAuthInfoRequest } from '../utils/interfaces';
 
+const MAX_LIKED_RECIPES_PER_REQUEST = 8;
+
 // @desc    Add new liked recipe
 // @route   POST /api/liked
 // @access  Private
@@ -68,34 +70,6 @@ export const getAllLikedRecipes = async (
   res: Response
 ): Promise<void> => {
   try {
-    const recipes = await LikedModel.find({ user: req.user._id })
-      .populate('recipe', 'title time image difficulty serve')
-      .sort({ _id: -1 })
-      .limit(6);
-
-    if (!recipes) {
-      res.status(400).json({
-        error: 'Something went wrong while getting all liked recipes!',
-      });
-      return;
-    }
-
-    res.status(200).json(recipes);
-    return;
-  } catch (error) {
-    res.status(400).json({ error });
-    return;
-  }
-};
-
-// @desc    Get more liked recipes
-// @route   GET /api/liked/more
-// @access  Private
-export const getMoreLikedRecipes = async (
-  req: IGetUserAuthInfoRequest,
-  res: Response
-): Promise<void> => {
-  try {
     const skip = req.query.skip ? Number(req.query.skip) : 0;
     const recipes = await LikedModel.find(
       {
@@ -106,7 +80,7 @@ export const getMoreLikedRecipes = async (
     )
       .populate('recipe', 'title time image difficulty serve')
       .sort({ _id: -1 })
-      .limit(6);
+      .limit(MAX_LIKED_RECIPES_PER_REQUEST);
 
     if (!recipes) {
       res.status(400).json({

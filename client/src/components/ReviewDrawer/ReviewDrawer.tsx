@@ -19,7 +19,7 @@ import {
   createNewReview,
   updateReview,
   clearError,
-  getMoreReviews,
+  getAllReviews,
 } from '@features/review-slice';
 import { Spinner } from '@components/Loading/Loading';
 
@@ -37,13 +37,12 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
   const { register, handleSubmit, setValue, setFocus } = useForm();
   const active = useSelector(({ ui }: RootState) => ui.reviewsDrawerShowing);
   const {
-    loading,
     outOfReview,
     error: reviewError,
     reviews,
   } = useSelector(({ review }: RootState) => review);
-  const moreLoading = useSelector(
-    ({ loading }: RootState) => loading.moreReviewsLoading
+  const loading = useSelector(
+    ({ loading }: RootState) => loading.allReviewsLoading
   );
   const dispatch = useDispatch();
 
@@ -108,8 +107,8 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
     const isBottom =
       e.target.scrollHeight - e.target.scrollTop - 1 <= e.target.clientHeight;
 
-    if (isBottom && !moreLoading && !outOfReview) {
-      dispatch(getMoreReviews(recipeId));
+    if (isBottom && !loading && !outOfReview) {
+      dispatch(getAllReviews(recipeId));
     }
   };
 
@@ -123,7 +122,7 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
           >
             <ReviewList>
               <>
-                {loading
+                {loading && !reviews[recipeId]
                   ? [...Array(5).keys()].map((_, index) => {
                       return <ReviewSkeleton key={index} />;
                     })
@@ -138,8 +137,10 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
                     ))}
               </>
             </ReviewList>
-            <div className='flex justify-center h-7 -mt-10'>
-              {moreLoading && <Spinner color='var(--color-orange)' />}
+            <div className='flex justify-center h-7 -mt-4'>
+              {loading && reviews[recipeId] && (
+                <Spinner color='var(--color-orange)' />
+              )}
             </div>
           </div>
         ) : (

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PrivateRoute } from '@routes/PrivateRoute';
 import { PublicRoute } from '@routes/PubliceRoute';
 import AuthVerify from '@common/AuthVerify';
-import { fetchUser, selectorUser } from '@features/user-slice';
+import { getUser, selectorUser } from '@features/user-slice';
 
 const LandingPage = lazyImportWithDelay(import('@pages/Landing/Landing'));
 const LoginPage = lazyImportWithDelay(import('@pages/Auth/Login'));
@@ -47,7 +47,7 @@ const App = () => {
     }
 
     if (token && !user) {
-      dispatch(fetchUser());
+      dispatch(getUser());
     }
   }, [dispatch, user]);
 

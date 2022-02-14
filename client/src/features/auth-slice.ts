@@ -3,17 +3,15 @@ import { RegisterData } from '@pages/Auth/Register';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authApi } from '@api/auth';
 import { slowLoading } from '@helpers/helpers';
-import { fetchUser } from './user-slice';
+import { getUser } from './user-slice';
 
 interface IAuthState {
   error: object[];
-  loading: boolean;
   isLoggedIn: boolean;
 }
 
 const initialState: IAuthState = {
   error: [],
-  loading: false,
   isLoggedIn: false,
 };
 
@@ -42,7 +40,7 @@ export const loginUser = createAsyncThunk(
       const token = response.data;
 
       localStorage.setItem('token', token);
-      dispatch(fetchUser());
+      dispatch(getUser());
 
       return token;
     } catch (error: any) {
@@ -69,26 +67,14 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(registerUser.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(registerUser.fulfilled, (state) => {
-      state.loading = false;
-    });
     builder.addCase(registerUser.rejected, (state, action: any) => {
-      state.loading = false;
       state.error = action.payload;
     });
 
-    builder.addCase(loginUser.pending, (state) => {
-      state.loading = true;
-    });
     builder.addCase(loginUser.fulfilled, (state) => {
-      state.loading = false;
       state.isLoggedIn = true;
     });
     builder.addCase(loginUser.rejected, (state, action: any) => {
-      state.loading = false;
       state.error = action.payload;
     });
   },

@@ -9,26 +9,49 @@ import {
   createRecipe,
   getAllRecipes,
   getFeaturedRecipes,
-  getMoreRecipes,
   getMyRecipes,
   getOtherUserRecipes,
   getRecipeById,
 } from './recipe-slice';
-import { getAllLikedRecipes, getMoreLikedRecipes } from './liked-slice';
-import { getMoreReviews } from './review-slice';
-import { fetchFollowersById, fetchFollowingById } from './follow-slice';
+import { getAllLikedRecipes } from './liked-slice';
+import { getAllReviews } from './review-slice';
+import { getFollowersById, getFollowingById } from './follow-slice';
+import {
+  findRecipesByIngredient,
+  findRecipesByTitle,
+  findUsersByNameOrEmail,
+  searchCookbooksByName,
+} from './search-slice';
+import { loginUser, registerUser } from './auth-slice';
+import { updateUser } from './user-slice';
 
 const initialState = {
+  authLoading: false,
   featuredRecipesLoading: false,
   ownRecipesLoading: false,
   allRecipesLoading: false,
-  moreRecipesLoading: false,
   allLikedRecipesLoading: false,
-  moreLikedRecipesLoading: false,
+  allReviewsLoading: false,
   recipeDetailLoading: false,
-  moreReviewsLoading: false,
-  fetchFollowLoading: false,
+  getFollowLoading: false,
+  searchLoading: false,
 };
+
+const isAuthPending = isSomeAsyncActionsPending([
+  registerUser,
+  loginUser,
+  updateUser,
+]);
+const isAuthFulfilled = isSomeAsyncActionsFulfilled([
+  registerUser,
+  loginUser,
+  updateUser,
+]);
+const isAuthReject = isSomeAsyncActionsRejected([
+  registerUser,
+  loginUser,
+  updateUser,
+]);
 
 const isFeaturedRecipesPending = isSomeAsyncActionsPending([
   getFeaturedRecipes,
@@ -60,10 +83,6 @@ const isAllRecipesPending = isSomeAsyncActionsPending([getAllRecipes]);
 const isAllRecipesFulfilled = isSomeAsyncActionsFulfilled([getAllRecipes]);
 const isAllRecipesReject = isSomeAsyncActionsRejected([getAllRecipes]);
 
-const isMoreRecipesPending = isSomeAsyncActionsPending([getMoreRecipes]);
-const isMoreRecipesFulfilled = isSomeAsyncActionsFulfilled([getMoreRecipes]);
-const isMoreRecipesReject = isSomeAsyncActionsRejected([getMoreRecipes]);
-
 const isAllLikedRecipesPending = isSomeAsyncActionsPending([
   getAllLikedRecipes,
 ]);
@@ -74,35 +93,44 @@ const isAllLikedRecipesReject = isSomeAsyncActionsRejected([
   getAllLikedRecipes,
 ]);
 
-const isMoreLikedRecipesPending = isSomeAsyncActionsPending([
-  getMoreLikedRecipes,
-]);
-const isMoreLikedRecipesFulfilled = isSomeAsyncActionsFulfilled([
-  getMoreLikedRecipes,
-]);
-const isMoreLikedRecipesReject = isSomeAsyncActionsRejected([
-  getMoreLikedRecipes,
-]);
-
 const isRecipeDetailPending = isSomeAsyncActionsPending([getRecipeById]);
 const isRecipeDetailFulfilled = isSomeAsyncActionsFulfilled([getRecipeById]);
 const isRecipeDetailReject = isSomeAsyncActionsRejected([getRecipeById]);
 
-const isMoreReviewsPending = isSomeAsyncActionsPending([getMoreReviews]);
-const isMoreReviewsFulfilled = isSomeAsyncActionsFulfilled([getMoreReviews]);
-const isMoreReviewsReject = isSomeAsyncActionsRejected([getMoreReviews]);
+const isAllReviewsPending = isSomeAsyncActionsPending([getAllReviews]);
+const isAllReviewsFulfilled = isSomeAsyncActionsFulfilled([getAllReviews]);
+const isAllReviewsReject = isSomeAsyncActionsRejected([getAllReviews]);
 
 const isFetchFollowPending = isSomeAsyncActionsPending([
-  fetchFollowersById,
-  fetchFollowingById,
+  getFollowersById,
+  getFollowingById,
 ]);
 const isFetchFollowFulfilled = isSomeAsyncActionsFulfilled([
-  fetchFollowersById,
-  fetchFollowingById,
+  getFollowersById,
+  getFollowingById,
 ]);
 const isFetchFollowReject = isSomeAsyncActionsRejected([
-  fetchFollowersById,
-  fetchFollowingById,
+  getFollowersById,
+  getFollowingById,
+]);
+
+const isSearchPending = isSomeAsyncActionsPending([
+  findRecipesByTitle,
+  findRecipesByIngredient,
+  findUsersByNameOrEmail,
+  searchCookbooksByName,
+]);
+const isSearchFulfilled = isSomeAsyncActionsFulfilled([
+  findRecipesByTitle,
+  findRecipesByIngredient,
+  findUsersByNameOrEmail,
+  searchCookbooksByName,
+]);
+const isSearchReject = isSomeAsyncActionsRejected([
+  findRecipesByTitle,
+  findRecipesByIngredient,
+  findUsersByNameOrEmail,
+  searchCookbooksByName,
 ]);
 
 const reducersCreator = (initialState) => {
@@ -128,6 +156,16 @@ const loadingSlice = createSlice({
   initialState,
   reducers: reducersCreator(initialState),
   extraReducers: (builder) => {
+    builder.addMatcher(isAuthPending, (state) => {
+      state.authLoading = true;
+    });
+    builder.addMatcher(isAuthFulfilled, (state) => {
+      state.authLoading = false;
+    });
+    builder.addMatcher(isAuthReject, (state) => {
+      state.authLoading = false;
+    });
+
     builder.addMatcher(isFeaturedRecipesPending, (state) => {
       state.featuredRecipesLoading = true;
     });
@@ -158,16 +196,6 @@ const loadingSlice = createSlice({
       state.allRecipesLoading = false;
     });
 
-    builder.addMatcher(isMoreRecipesPending, (state) => {
-      state.moreRecipesLoading = true;
-    });
-    builder.addMatcher(isMoreRecipesFulfilled, (state) => {
-      state.moreRecipesLoading = false;
-    });
-    builder.addMatcher(isMoreRecipesReject, (state) => {
-      state.moreRecipesLoading = false;
-    });
-
     builder.addMatcher(isAllLikedRecipesPending, (state) => {
       state.allLikedRecipesLoading = true;
     });
@@ -178,14 +206,14 @@ const loadingSlice = createSlice({
       state.allLikedRecipesLoading = false;
     });
 
-    builder.addMatcher(isMoreLikedRecipesPending, (state) => {
-      state.moreLikedRecipesLoading = true;
+    builder.addMatcher(isAllReviewsPending, (state) => {
+      state.allReviewsLoading = true;
     });
-    builder.addMatcher(isMoreLikedRecipesFulfilled, (state) => {
-      state.moreLikedRecipesLoading = false;
+    builder.addMatcher(isAllReviewsFulfilled, (state) => {
+      state.allReviewsLoading = false;
     });
-    builder.addMatcher(isMoreLikedRecipesReject, (state) => {
-      state.moreLikedRecipesLoading = false;
+    builder.addMatcher(isAllReviewsReject, (state) => {
+      state.allReviewsLoading = false;
     });
 
     builder.addMatcher(isRecipeDetailPending, (state) => {
@@ -198,24 +226,24 @@ const loadingSlice = createSlice({
       state.recipeDetailLoading = false;
     });
 
-    builder.addMatcher(isMoreReviewsPending, (state) => {
-      state.moreReviewsLoading = true;
-    });
-    builder.addMatcher(isMoreReviewsFulfilled, (state) => {
-      state.moreReviewsLoading = false;
-    });
-    builder.addMatcher(isMoreReviewsReject, (state) => {
-      state.moreReviewsLoading = false;
-    });
-
     builder.addMatcher(isFetchFollowPending, (state) => {
-      state.fetchFollowLoading = true;
+      state.getFollowLoading = true;
     });
     builder.addMatcher(isFetchFollowFulfilled, (state) => {
-      state.fetchFollowLoading = false;
+      state.getFollowLoading = false;
     });
     builder.addMatcher(isFetchFollowReject, (state) => {
-      state.fetchFollowLoading = false;
+      state.getFollowLoading = false;
+    });
+
+    builder.addMatcher(isSearchPending, (state) => {
+      state.searchLoading = true;
+    });
+    builder.addMatcher(isSearchFulfilled, (state) => {
+      state.searchLoading = false;
+    });
+    builder.addMatcher(isSearchReject, (state) => {
+      state.searchLoading = false;
     });
   },
 });

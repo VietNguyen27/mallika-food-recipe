@@ -4,7 +4,6 @@ import {
   deleteRecipe,
   getAllRecipes,
   getFeaturedRecipes,
-  getMoreRecipes,
   getMyRecipes,
   getOtherUserRecipes,
   getRecipeById,
@@ -27,7 +26,6 @@ router.route('/').post(auth, createRecipe);
 router.route('/featured').get(auth, getFeaturedRecipes);
 router.route('/me').get(auth, getMyRecipes);
 router.route('/all').get(auth, getAllRecipes);
-router.route('/more').get(auth, getMoreRecipes);
 router.route('/user/:id').get(auth, getOtherUserRecipes);
 router.route('/:id/like').patch(auth, likeRecipe);
 router.route('/:id/unlike').patch(auth, unlikeRecipe);

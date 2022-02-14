@@ -15,7 +15,7 @@ import {
 import { RootState } from '@redux/reducers';
 import BoxEmpty from '@img/box-empty.png';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchUserById, followUser, unfollowUser } from '@features/user-slice';
+import { getUserById, followUser, unfollowUser } from '@features/user-slice';
 import Button, { ButtonSizes, ButtonVariants } from '@components/Button/Button';
 import FollowingDrawer from './components/FollowingDrawer';
 import FollowersDrawer from './components/FollowersDrawer';
@@ -33,7 +33,7 @@ const OtherProfile = () => {
 
   useEffect(() => {
     if (userId && !users[userId]) {
-      dispatch(fetchUserById(userId));
+      dispatch(getUserById(userId));
     }
     if (userId && !otherRecipes[userId]) {
       dispatch(getOtherUserRecipes(userId));
