@@ -4,6 +4,8 @@ import RecipeModel from '../models/recipe.model';
 import UserModel from '../models/user.model';
 import { iLikeVietnamese } from 'vietnamese-query';
 
+const MAX_SEARCH_RESULTS_PER_REQUEST = 6;
+
 // @desc    Find recipes by title
 // @route   GET /api/search
 // @access  Private
@@ -29,7 +31,7 @@ export const findRecipesByTitle = async (
   )
     .select('title time image difficulty serve')
     .sort({ _id: -1 })
-    .limit(6);
+    .limit(MAX_SEARCH_RESULTS_PER_REQUEST);
 
   if (!recipes) {
     res
@@ -74,7 +76,7 @@ export const findUsers = async (
   )
     .select('avatar email name')
     .sort({ _id: -1 })
-    .limit(6);
+    .limit(MAX_SEARCH_RESULTS_PER_REQUEST);
 
   if (!users) {
     res
@@ -112,7 +114,7 @@ export const findRecipesByIngredient = async (
   )
     .select('title time image difficulty serve')
     .sort({ _id: -1 })
-    .limit(6);
+    .limit(MAX_SEARCH_RESULTS_PER_REQUEST);
 
   if (!recipes) {
     res

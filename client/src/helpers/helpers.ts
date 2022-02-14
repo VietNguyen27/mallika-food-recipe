@@ -177,6 +177,14 @@ export const slowLoading = async (
   });
 };
 
+export const setAsyncTimeout = (cb, timeout = 0) =>
+  new Promise<void>((resolve) => {
+    setTimeout(() => {
+      cb();
+      resolve();
+    }, timeout);
+  });
+
 export const getTextWidth = (text: string, font = 'Cera Pro') => {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');

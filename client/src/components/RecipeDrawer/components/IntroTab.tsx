@@ -21,8 +21,9 @@ import {
   changeStatusSuccess,
   clearError,
   createRecipe,
+  selectorOwnRecipes,
 } from '@features/recipe-slice';
-import { selectorUser } from '@features/user-slice';
+import { selectorUser, updateUserState } from '@features/user-slice';
 import {
   convertBase64,
   getErrorFromJoiMessage,
@@ -30,9 +31,8 @@ import {
 } from '@helpers/helpers';
 import { RootState } from '@redux/reducers';
 import { Spinner } from '@components/Loading/Loading';
-import { createToast } from '@features/toast-slice';
-import { ToastTypes } from '@components/Toast/Toast';
 import { TagList, Tag } from '@components/Tag/Tag';
+import { FlashMessageTypes, showFlash } from '@features/flash-slice';
 
 const IntroTab = () => {
   const [thumbnail, setThumbnail] = useState<null | string>(null);
@@ -52,24 +52,35 @@ const IntroTab = () => {
   );
   const user = useSelector(selectorUser);
   const recipeError = getErrorFromJoiMessage(error);
+  const myRecipes: any = useSelector(selectorOwnRecipes);
 
   useEffect(() => {
-    if (success) {
+    if (error.length) {
       dispatch(
-        createToast({
-          message: 'Create new recipe successful!',
-          type: ToastTypes.SUCCESS,
+        showFlash({
+          message: 'There was an error while creating new recipe',
+          type: FlashMessageTypes.ERROR,
         })
       );
-      dispatch(changeStatusSuccess());
+    }
+
+    if (success) {
       reset();
       setThumbnail(null);
       setCategorySelected(RECIPES_BY_CATEGORY.BREAKFAST);
-      setTriggerReset(true);
       setIsPublished(false);
+      setTriggerReset(true);
       setTimeout(() => setTriggerReset(false), 100);
+      dispatch(changeStatusSuccess());
+      dispatch(updateUserState({ numRecipes: myRecipes[user._id].length }));
+      dispatch(
+        showFlash({
+          message: 'Create new recipe successful!',
+          type: FlashMessageTypes.SUCCESS,
+        })
+      );
     }
-  }, [success]);
+  }, [success, error]);
 
   const onChangeThumbnail = (): void => {
     const input = inputFileRef.current;

@@ -8,10 +8,7 @@ import {
 import { Tab, Tabs } from '@components/Tabs/Tabs';
 import { CardSkeleton, ProfileSkeleton } from '@components/Skeleton/Skeleton';
 import { Card, CardList } from '@components/Card/Card';
-import {
-  getOtherUserRecipes,
-  selectorOtherRecipes,
-} from '@features/recipe-slice';
+import { getRecipesByUserId, selectorOwnRecipes } from '@features/recipe-slice';
 import { RootState } from '@redux/reducers';
 import BoxEmpty from '@img/box-empty.png';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -20,13 +17,14 @@ import Button, { ButtonSizes, ButtonVariants } from '@components/Button/Button';
 import FollowingDrawer from './components/FollowingDrawer';
 import FollowersDrawer from './components/FollowersDrawer';
 import { uiActions } from '@features/ui-slice';
+import { Spinner } from '@components/Loading/Loading';
 
 const OtherProfile = () => {
   const { id: userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { users } = useSelector(({ user }: RootState) => user);
-  const otherRecipes: any = useSelector(selectorOtherRecipes);
+  const ownRecipes: any = useSelector(selectorOwnRecipes);
   const loading = useSelector(
     ({ loading }: RootState) => loading.ownRecipesLoading
   );
@@ -35,11 +33,23 @@ const OtherProfile = () => {
     if (userId && !users[userId]) {
       dispatch(getUserById(userId));
     }
-    if (userId && !otherRecipes[userId]) {
-      dispatch(getOtherUserRecipes(userId));
+    if (userId && !ownRecipes[userId]) {
+      dispatch(getRecipesByUserId(userId));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId, dispatch]);
+
+  const handleScroll = (e) => {
+    if (userId) {
+      const { outOfRecipes } = ownRecipes[userId];
+      const isBottom =
+        e.target.scrollHeight - e.target.scrollTop - 1 <= e.target.clientHeight;
+
+      if (isBottom && !loading && !outOfRecipes) {
+        dispatch(getRecipesByUserId(userId));
+      }
+    }
+  };
 
   const renderProfileHeader = () => {
     const {
@@ -135,36 +145,48 @@ const OtherProfile = () => {
   };
 
   return (
-    <div className='h-full overflow-auto scrollbar-none animate-slide-in'>
+    <div
+      className='h-full overflow-auto scrollbar-none animate-slide-in'
+      onScroll={handleScroll}
+    >
       {userId && !users[userId] ? <ProfileSkeleton /> : renderProfileHeader()}
       <Tabs
         className='pt-2 bg-white'
         labelClassName='flex-1'
         labelContainerClassName='sticky z-10 top-6 bg-white pt-4'
       >
-        <Tab label='Posts' className='pt-3 px-3 pb-8'>
+        <Tab label='Posts' className='pt-3 px-3 pb-2'>
           <>
             <CardList>
-              {loading
+              {loading && userId && !ownRecipes[userId]
                 ? [...Array(3).keys()].map((_, index) => (
                     <CardSkeleton key={index} />
                   ))
                 : userId &&
-                  otherRecipes[userId] &&
-                  otherRecipes[userId].map((recipe: any) => (
+                  ownRecipes[userId] &&
+                  ownRecipes[userId].recipes.map((recipe: any) => (
                     <Card key={recipe._id} {...recipe} />
                   ))}
             </CardList>
-            {userId && otherRecipes[userId] && !otherRecipes[userId].length && (
-              <div className='flex flex-col items-center text-center px-4 pt-4'>
-                <img src={BoxEmpty} alt='no ingredients yet' width='150' />
-                <h4 className='font-semibold'>No recipes yet!</h4>
-                <p>Click the plus button to create some recipes of your own.</p>
+            {loading && userId && ownRecipes[userId] && (
+              <div className='flex justify-center h-7 pt-2'>
+                <Spinner color='var(--color-orange)' />
               </div>
             )}
+            {userId &&
+              ownRecipes[userId] &&
+              !ownRecipes[userId].recipes.length && (
+                <div className='flex flex-col items-center text-center px-4 pt-4'>
+                  <img src={BoxEmpty} alt='no ingredients yet' width='150' />
+                  <h4 className='font-semibold'>No recipes yet!</h4>
+                  <p>
+                    Click the plus button to create some recipes of your own.
+                  </p>
+                </div>
+              )}
           </>
         </Tab>
-        <Tab label='Cookbooks' className='pb-8'>
+        <Tab label='Cookbooks' className='pb-2'>
           <div className='p-layout'>
             This featured is not completed. Please try this later!
           </div>

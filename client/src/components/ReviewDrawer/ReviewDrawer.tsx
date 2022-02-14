@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Drawer from '@components/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/reducers';
@@ -22,6 +22,7 @@ import {
   getAllReviews,
 } from '@features/review-slice';
 import { Spinner } from '@components/Loading/Loading';
+import { FlashMessageTypes, showFlash } from '@features/flash-slice';
 
 interface ReviewDrawerProps {
   recipeId: string;
@@ -32,7 +33,6 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
   const [showRating, setShowRating] = useState<boolean>(false);
   const [isUpdateReview, setIsUpdateReview] = useState<boolean>(false);
   const [selectedReview, setSelectedReview] = useState<string | null>(null);
-  const [error, setError] = useState<string>('');
   const formRef = useRef(null);
   const { register, handleSubmit, setValue, setFocus } = useForm();
   const active = useSelector(({ ui }: RootState) => ui.reviewsDrawerShowing);
@@ -50,6 +50,17 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
 
   useOnClickOutside(formRef, handleClickOutside);
 
+  useEffect(() => {
+    if (reviewError) {
+      dispatch(
+        showFlash({
+          message: reviewError,
+          type: FlashMessageTypes.ERROR,
+        })
+      );
+    }
+  }, [reviewError]);
+
   const onCloseDrawer = (): void => {
     dispatch(uiActions.setReviewsDrawerShowing(false));
     dispatch(clearError());
@@ -57,8 +68,13 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
   };
 
   const onSubmit = handleSubmit(({ comment }) => {
-    if (!comment.length) {
-      setError('Comment cannot be empty!');
+    if (!comment.trim().length) {
+      dispatch(
+        showFlash({
+          message: 'Comment cannot be empty!',
+          type: FlashMessageTypes.ERROR,
+        })
+      );
       return;
     }
 
@@ -84,8 +100,11 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
     resetForm();
   });
 
+  const onKeyDown = (e) => {
+    if (e.code === 'Enter') e.preventDefault();
+  };
+
   const resetForm = () => {
-    setError('');
     setRating(5);
     setValue('comment', '');
     setIsUpdateReview(false);
@@ -95,7 +114,6 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
     const { reviewId, comment, rating } = review;
 
     dispatch(clearError());
-    setError('');
     setRating(rating);
     setValue('comment', comment);
     setFocus('comment');
@@ -131,6 +149,7 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
                       <Review
                         key={review._id}
                         recipeId={recipeId}
+                        setIsUpdateReview={setIsUpdateReview}
                         handleUpdateReview={handleUpdateReview}
                         {...review}
                       />
@@ -151,7 +170,12 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
           </div>
         )}
       </>
-      <form className='relative mt-auto' ref={formRef} onSubmit={onSubmit}>
+      <form
+        className='relative mt-auto'
+        ref={formRef}
+        onSubmit={onSubmit}
+        onKeyDown={(e) => onKeyDown(e)}
+      >
         <div
           className={cx(
             'absolute -bottom-3 w-full text-center bg-white pt-2 border-t border-gray-400 transition-transform',
@@ -178,10 +202,8 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
             variant={InputVariants.TERTIARY}
             placeholder='Your review'
             onFocus={() => setShowRating(true)}
-            error={error || reviewError}
             {...register('comment', {
               onChange: () => {
-                setError('');
                 dispatch(clearError());
               },
               onBlur: (e) => setValue('comment', e.target.value.trim()),

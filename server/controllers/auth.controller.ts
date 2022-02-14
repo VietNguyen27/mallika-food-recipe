@@ -20,20 +20,18 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   const { error } = registerValidation(req.body);
 
   if (error) {
-    res.status(400).json(error.details);
+    res.status(400).json(error.details[0]);
     return;
   }
 
   const emailExist = await UserModel.findOne({ email });
   if (emailExist) {
-    res.status(400).json([
-      {
-        context: {
-          label: 'email',
-        },
-        message: 'Email already registered!',
+    res.status(400).json({
+      context: {
+        label: 'email',
       },
-    ]);
+      message: 'Email already registered!',
+    });
     return;
   }
 
@@ -80,21 +78,19 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   const { error } = loginValidation(req.body);
 
   if (error) {
-    res.status(400).json(error.details);
+    res.status(400).json(error.details[0]);
     return;
   }
 
   const user = await UserModel.findOne({ email });
 
   if (!user) {
-    res.status(400).json([
-      {
-        context: {
-          label: 'email',
-        },
-        message: "Email doesn't exists. Please try again!",
+    res.status(400).json({
+      context: {
+        label: 'email',
       },
-    ]);
+      message: "Email doesn't exists. Please try again!",
+    });
     return;
   }
 
@@ -104,14 +100,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   );
 
   if (!isValidPassword) {
-    res.status(400).json([
-      {
-        context: {
-          label: 'password',
-        },
-        message: 'Password is incorrect!',
+    res.status(400).json({
+      context: {
+        label: 'password',
       },
-    ]);
+      message: 'Password is incorrect. Please try again!',
+    });
     return;
   }
 

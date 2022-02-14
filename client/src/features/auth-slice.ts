@@ -6,12 +6,12 @@ import { slowLoading } from '@helpers/helpers';
 import { getUser } from './user-slice';
 
 interface IAuthState {
-  error: object[];
+  error: object;
   isLoggedIn: boolean;
 }
 
 const initialState: IAuthState = {
-  error: [],
+  error: {},
   isLoggedIn: false,
 };
 
@@ -57,13 +57,8 @@ const authSlice = createSlice({
       localStorage.removeItem('token');
       state.isLoggedIn = false;
     },
-    clearError: (state, action) => {
-      state.error = state.error.filter(
-        (err: any) => err.context.label !== action.payload
-      );
-    },
-    clearErrors: (state) => {
-      state.error = [];
+    clearError: (state) => {
+      state.error = {};
     },
   },
   extraReducers: (builder) => {
@@ -80,7 +75,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, clearError, clearErrors } = authSlice.actions;
+export const { logout, clearError } = authSlice.actions;
 export const selectorAuthError = (state: { auth: IAuthState }) =>
   state.auth.error;
 export default authSlice.reducer;

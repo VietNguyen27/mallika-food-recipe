@@ -5,7 +5,7 @@ import Main from '@layout/Main/Main';
 import Content from '@layout/Content/Content';
 import { Loading } from '@components/Loading/Loading';
 import { lazyImportWithDelay } from '@helpers/helpers';
-import { clearErrors } from '@features/auth-slice';
+import { clearError } from '@features/auth-slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { PrivateRoute } from '@routes/PrivateRoute';
 import { PublicRoute } from '@routes/PubliceRoute';
@@ -38,7 +38,7 @@ const App = () => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    dispatch(clearErrors());
+    dispatch(clearError());
   }, [dispatch, location]);
 
   useEffect(() => {
@@ -56,9 +56,11 @@ const App = () => {
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route element={<PublicRoute />}>
-            <Route path='/' element={<LandingPage />} />
-            <Route path='/login' element={<LoginPage />} />
-            <Route path='/register' element={<RegisterPage />} />
+            <Route element={<Content />}>
+              <Route path='/' element={<LandingPage />} />
+              <Route path='/login' element={<LoginPage />} />
+              <Route path='/register' element={<RegisterPage />} />
+            </Route>
           </Route>
           <Route path='/splash' element={<SplashPage />} />
           <Route element={<PrivateRoute />}>

@@ -16,9 +16,8 @@ import {
   resizeImage,
 } from '@helpers/helpers';
 import { Camera28Regular } from '@fluentui/react-icons';
-import { createToast } from '@features/toast-slice';
-import { ToastTypes } from '@components/Toast/Toast';
 import { Spinner } from '@components/Loading/Loading';
+import { FlashMessageTypes, showFlash } from '@features/flash-slice';
 
 export interface UpdateUserData {
   name: string;
@@ -27,7 +26,6 @@ export interface UpdateUserData {
 
 const EditProfileDrawer = () => {
   const [avatar, setAvatar] = useState<null | string>(null);
-  const [error, setError] = useState<string>('');
   const [isEdited, setIsEdited] = useState(false);
   const inputFileRef: any = useRef(null);
   const dispatch = useDispatch();
@@ -72,7 +70,12 @@ const EditProfileDrawer = () => {
 
   const onSubmit = async (data): Promise<void> => {
     if (!data.name) {
-      setError('Username is not allowed to be empty');
+      dispatch(
+        showFlash({
+          message: 'Username is not allowed to be empty',
+          type: FlashMessageTypes.ERROR,
+        })
+      );
       return;
     }
 
@@ -83,11 +86,10 @@ const EditProfileDrawer = () => {
 
     await dispatch(updateUser(userEdited));
     setIsEdited(false);
-    setError('');
     dispatch(
-      createToast({
+      showFlash({
         message: 'Profile update successful!',
-        type: ToastTypes.SUCCESS,
+        type: FlashMessageTypes.SUCCESS,
       })
     );
   };
@@ -138,10 +140,8 @@ const EditProfileDrawer = () => {
           placeholder='Enter profile name'
           label='profile name'
           className='mb-4'
-          error={error}
           {...register('name', {
             onChange: () => {
-              setError('');
               setIsEdited(true);
             },
             onBlur: (e) => setValue('name', e.target.value.trim()),
