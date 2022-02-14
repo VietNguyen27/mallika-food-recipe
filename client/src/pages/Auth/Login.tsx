@@ -7,11 +7,11 @@ import FacebookLogo from '@img/facebook-logo.svg';
 import PasswordInput from '@components/Input/PasswordInput';
 import TextInput, { InputTypes } from '@components/Input/TextInput';
 import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
-import { getErrorFromJoiMessage } from '@helpers/helpers';
 import { clearError, loginUser } from '@features/auth-slice';
 import { Spinner } from '@components/Loading/Loading';
 import { RootState } from '@redux/reducers';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { FlashMessageTypes, showFlash } from '@features/flash-slice';
 
 export interface LoginData {
   email: string;
@@ -19,18 +19,29 @@ export interface LoginData {
 }
 
 const Login = () => {
-  const { register, handleSubmit, setValue } = useForm();
+  const [isValid, setIsValid] = useState<boolean>(false);
+  const { register, handleSubmit, setValue, getValues } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoggedIn, error } = useSelector(({ auth }: RootState) => auth);
   const loading = useSelector(({ loading }: RootState) => loading.authLoading);
-  const authError = getErrorFromJoiMessage(error);
 
   useEffect(() => {
+    if (Object.keys(error).length) {
+      const { message } = error as any;
+
+      dispatch(
+        showFlash({
+          message,
+          type: FlashMessageTypes.ERROR,
+        })
+      );
+    }
+
     if (isLoggedIn) {
       navigate('/home');
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, navigate, error]);
 
   const onSubmit = handleSubmit((data: LoginData) => {
     dispatch(loginUser(data));
@@ -55,9 +66,18 @@ const Login = () => {
                 <TextInput
                   type={InputTypes.TEXT}
                   placeholder='Email Address'
-                  error={authError['email']}
                   {...register('email', {
-                    onChange: () => dispatch(clearError('email')),
+                    onChange: (e) => {
+                      const { value: email } = e.target;
+                      const { password } = getValues();
+
+                      if (email.trim().length && password.trim().length) {
+                        setIsValid(true);
+                      } else {
+                        setIsValid(false);
+                      }
+                      dispatch(clearError());
+                    },
                     onBlur: (e) => setValue('email', e.target.value.trim()),
                   })}
                 />
@@ -65,9 +85,18 @@ const Login = () => {
               <div className='col-span-12'>
                 <PasswordInput
                   placeholder='Password'
-                  error={authError['password']}
                   {...register('password', {
-                    onChange: () => dispatch(clearError('password')),
+                    onChange: (e) => {
+                      const { value: password } = e.target;
+                      const { email } = getValues();
+
+                      if (email.trim().length && password.trim().length) {
+                        setIsValid(true);
+                      } else {
+                        setIsValid(false);
+                      }
+                      dispatch(clearError());
+                    },
                     onBlur: (e) => setValue('password', e.target.value.trim()),
                   })}
                 />
@@ -84,9 +113,12 @@ const Login = () => {
                   </Button>
                 ) : (
                   <Button
-                    variant={ButtonVariants.PRIMARY}
-                    type={ButtonTypes.SUBMIT}
+                    variant={
+                      isValid ? ButtonVariants.PRIMARY : ButtonVariants.DISABLED
+                    }
+                    type={isValid ? ButtonTypes.SUBMIT : ButtonTypes.BUTTON}
                     fluid={true}
+                    disabled={!isValid}
                   >
                     Sign in
                   </Button>

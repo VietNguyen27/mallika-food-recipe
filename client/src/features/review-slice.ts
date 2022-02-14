@@ -1,8 +1,13 @@
 import { reviewApi } from '@api/review';
 import { slowLoading } from '@helpers/helpers';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { isSomeAsyncActionsFulfilled } from '@helpers/action-slice';
+import {
+  isSomeAsyncActionsFulfilled,
+  isSomeAsyncActionsPending,
+  isSomeAsyncActionsRejected,
+} from '@helpers/action-slice';
 import { updateReviews } from './recipe-slice';
+import { FlashMessageTypes, showFlash } from './flash-slice';
 
 interface IReviewState {
   reviews: any;
@@ -55,6 +60,12 @@ export const createNewReview = createAsyncThunk(
       const { rating, numReviews } = response.data;
 
       await dispatch(updateReviews({ recipeId, rating, numReviews }));
+      dispatch(
+        showFlash({
+          message: 'Comment added successfully!',
+          type: FlashMessageTypes.SUCCESS,
+        })
+      );
 
       const reviewList = response.data.reviews.map((review) => {
         const isOwner = review.user._id === currentUser._id;
@@ -84,6 +95,12 @@ export const updateReview = createAsyncThunk(
       const { rating, numReviews } = response.data;
 
       await dispatch(updateReviews({ recipeId, rating, numReviews }));
+      dispatch(
+        showFlash({
+          message: 'Comment update successfully!',
+          type: FlashMessageTypes.SUCCESS,
+        })
+      );
 
       const reviewList = response.data.reviews.map((review) => {
         const isOwner = review.user._id === currentUser._id;
@@ -122,7 +139,6 @@ export const deleteReview = createAsyncThunk(
 );
 
 const isReviewFulfilled = isSomeAsyncActionsFulfilled([
-  getAllReviews,
   createNewReview,
   updateReview,
   deleteReview,
@@ -140,11 +156,7 @@ const reviewSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(createNewReview.rejected, (state, action: any) => {
-      state.error = action.payload.error;
-    });
-
-    builder.addMatcher(isReviewFulfilled, (state, action) => {
+    builder.addCase(getAllReviews.fulfilled, (state, action: any) => {
       const [key, value]: any = Object.entries(action.payload)[0];
 
       if (state.reviews[key]) {
@@ -156,6 +168,16 @@ const reviewSlice = createSlice({
       if (!Object.values(action.payload as object)[0].length) {
         state.outOfReview = true;
       }
+    });
+
+    builder.addCase(createNewReview.rejected, (state, action: any) => {
+      state.error = action.payload.error;
+    });
+
+    builder.addMatcher(isReviewFulfilled, (state, action) => {
+      const [key, value]: any = Object.entries(action.payload)[0];
+
+      state.reviews[key] = value;
     });
   },
 });

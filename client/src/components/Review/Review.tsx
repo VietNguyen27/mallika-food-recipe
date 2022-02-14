@@ -16,6 +16,7 @@ import { deleteReview } from '@features/review-slice';
 import CollapseText from '@components/CollapseText/CollapseText';
 import { selectorUser } from '@features/user-slice';
 import { Link } from 'react-router-dom';
+import { FlashMessageTypes, showFlash } from '@features/flash-slice';
 
 interface ReviewUserType {
   _id: string;
@@ -43,6 +44,7 @@ interface ReviewProps {
   recipeId: string;
   _id: string;
   isOwner: boolean;
+  setIsUpdateReview: (value: boolean) => void;
   handleUpdateReview: (review: ReviewDataUpdateType) => void;
 }
 
@@ -65,6 +67,7 @@ export const Review: React.FC<ReviewProps> = ({
   recipeId,
   _id: reviewId,
   isOwner,
+  setIsUpdateReview,
   handleUpdateReview,
 }) => {
   const defaultClassName = 'px-layout py-3';
@@ -81,13 +84,26 @@ export const Review: React.FC<ReviewProps> = ({
 
     document.execCommand('copy');
     document.body.removeChild(tempText);
+    dispatch(
+      showFlash({
+        message: 'Copied successfully!',
+        type: FlashMessageTypes.SUCCESS,
+      })
+    );
   };
 
   const handleDelete = () => {
+    setIsUpdateReview(false);
     dispatch(
       deleteReview({
         recipeId,
         reviewId,
+      })
+    );
+    dispatch(
+      showFlash({
+        message: 'Comment deleted successfully!',
+        type: FlashMessageTypes.SUCCESS,
       })
     );
   };

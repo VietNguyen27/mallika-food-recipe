@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import LandingImage from '@img/splash-1.jfif';
 import { Link, useNavigate } from 'react-router-dom';
 import PasswordInput from '@components/Input/PasswordInput';
@@ -6,10 +7,9 @@ import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearError, registerUser } from '@features/auth-slice';
-import { getErrorFromJoiMessage } from '@helpers/helpers';
 import { RootState } from '@redux/reducers';
 import { Spinner } from '@components/Loading/Loading';
-import { useEffect } from 'react';
+import { FlashMessageTypes, showFlash } from '@features/flash-slice';
 
 export interface RegisterData {
   name: string;
@@ -19,22 +19,49 @@ export interface RegisterData {
 }
 
 function Register() {
-  const { register, handleSubmit, setValue } = useForm();
+  const [isValid, setIsValid] = useState<boolean>(false);
+  const { register, handleSubmit, setValue, getValues } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoggedIn, error } = useSelector(({ auth }: RootState) => auth);
   const loading = useSelector(({ loading }: RootState) => loading.authLoading);
-  const authError = getErrorFromJoiMessage(error);
 
   useEffect(() => {
+    if (Object.keys(error).length) {
+      const { message } = error as any;
+
+      dispatch(
+        showFlash({
+          message,
+          type: FlashMessageTypes.ERROR,
+        })
+      );
+    }
+
     if (isLoggedIn) {
       navigate('/home');
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, navigate, error]);
 
   const onSubmit = handleSubmit((data: RegisterData) => {
     dispatch(registerUser(data));
   });
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    const formValues = getValues();
+    const allValues = {
+      ...formValues,
+      [name]: value,
+    };
+
+    const isValid = Object.values(allValues).every(
+      (value: any) => value.trim().length
+    );
+
+    setIsValid(isValid);
+    dispatch(clearError());
+  };
 
   return (
     <>
@@ -55,9 +82,8 @@ function Register() {
                 <TextInput
                   type={InputTypes.TEXT}
                   placeholder='Name'
-                  error={authError['name']}
                   {...register('name', {
-                    onChange: () => dispatch(clearError('name')),
+                    onChange,
                     onBlur: (e) => setValue('name', e.target.value.trim()),
                   })}
                 />
@@ -66,9 +92,8 @@ function Register() {
                 <TextInput
                   type={InputTypes.TEXT}
                   placeholder='Email Address'
-                  error={authError['email']}
                   {...register('email', {
-                    onChange: () => dispatch(clearError('email')),
+                    onChange,
                     onBlur: (e) => setValue('email', e.target.value.trim()),
                   })}
                 />
@@ -76,9 +101,8 @@ function Register() {
               <div className='col-span-12'>
                 <PasswordInput
                   placeholder='Password'
-                  error={authError['password']}
                   {...register('password', {
-                    onChange: () => dispatch(clearError('password')),
+                    onChange,
                     onBlur: (e) => setValue('password', e.target.value.trim()),
                   })}
                 />
@@ -86,10 +110,8 @@ function Register() {
               <div className='col-span-12'>
                 <PasswordInput
                   placeholder='Confirm Password'
-                  error={authError['password_confirmation']}
                   {...register('password_confirmation', {
-                    onChange: () =>
-                      dispatch(clearError('password_confirmation')),
+                    onChange,
                     onBlur: (e) =>
                       setValue('password_confirmation', e.target.value.trim()),
                   })}
@@ -107,9 +129,12 @@ function Register() {
                   </Button>
                 ) : (
                   <Button
-                    type={ButtonTypes.SUBMIT}
+                    variant={
+                      isValid ? ButtonVariants.PRIMARY : ButtonVariants.DISABLED
+                    }
+                    type={isValid ? ButtonTypes.SUBMIT : ButtonTypes.BUTTON}
                     fluid={true}
-                    variant={ButtonVariants.PRIMARY}
+                    disabled={!isValid}
                   >
                     Sign up
                   </Button>

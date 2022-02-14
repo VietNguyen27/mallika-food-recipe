@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-const useToggle = () => {
-  const [isShowing, setIsShowing] = useState<boolean>(false);
+const useToggle = (defaultValue = false) => {
+  const [isShowing, setIsShowing] = useState<boolean>(defaultValue);
 
   const toggle = (): void => {
     setIsShowing(!isShowing);

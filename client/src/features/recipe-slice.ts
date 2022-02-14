@@ -31,6 +31,7 @@ export interface RecipeData {
 interface IRecipeState {
   success: boolean;
   outOfRecipe: boolean;
+  outOfOwnRecipe: boolean;
   intro: object;
   ingredients: IngredientState[];
   steps: StepState[];
@@ -38,13 +39,13 @@ interface IRecipeState {
   recipe: any;
   recipes: object[];
   featuredRecipes: object[];
-  myRecipes: object[] | null;
-  otherRecipes: any;
+  ownRecipes: any;
 }
 
 const initialState: IRecipeState = {
   success: false,
   outOfRecipe: false,
+  outOfOwnRecipe: false,
   intro: {},
   ingredients: [],
   steps: [],
@@ -52,18 +53,19 @@ const initialState: IRecipeState = {
   recipe: {},
   recipes: [],
   featuredRecipes: [],
-  myRecipes: null,
-  otherRecipes: {},
+  ownRecipes: {},
 };
 
 export const createRecipe = createAsyncThunk(
   'recipes/createNew',
-  async (body: RecipeData, { rejectWithValue }) => {
+  async (body: RecipeData, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
+      const state: any = getState();
+      const currentUser = state.user.user;
       const response = await recipeApi.create(body);
 
-      return response.data;
+      return { [currentUser]: response.data };
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -135,26 +137,16 @@ export const getFeaturedRecipes = createAsyncThunk(
   }
 );
 
-export const getMyRecipes = createAsyncThunk(
-  'recipes/getMine',
-  async (_, { rejectWithValue }) => {
-    try {
-      await slowLoading();
-      const response = await recipeApi.getMe();
-
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const getOtherUserRecipes = createAsyncThunk(
+export const getRecipesByUserId = createAsyncThunk(
   'recipes/getByUserId',
-  async (userId: any, { rejectWithValue }) => {
+  async (userId: any, { rejectWithValue, getState }) => {
     try {
       await slowLoading();
-      const response = await recipeApi.getByUserId(userId);
+      const state: any = getState();
+      const totalOwnRecipes = state.recipe.ownRecipes[userId]
+        ? state.recipe.ownRecipes[userId].recipes.length
+        : 0;
+      const response = await recipeApi.getByUserId(userId, totalOwnRecipes);
 
       return {
         [userId]: response.data,
@@ -272,14 +264,16 @@ const recipeSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(createRecipe.fulfilled, (state, action) => {
+      const [key, value]: any = Object.entries(action.payload)[0];
+
       state.success = true;
       state.ingredients = [];
       state.steps = [];
       state.error = [];
-      if (state.myRecipes) {
-        state.myRecipes = [action.payload, ...state.myRecipes];
+      if (state.ownRecipes[key]) {
+        state.ownRecipes[key] = [value, ...state.ownRecipes[key]];
       } else {
-        state.myRecipes = [action.payload];
+        state.ownRecipes[key] = [action.payload];
       }
     });
     builder.addCase(createRecipe.rejected, (state, action: any) => {
@@ -350,14 +344,24 @@ const recipeSlice = createSlice({
       state.featuredRecipes = action.payload;
     });
 
-    builder.addCase(getMyRecipes.fulfilled, (state, action) => {
-      state.myRecipes = action.payload;
-    });
-
-    builder.addCase(getOtherUserRecipes.fulfilled, (state, action) => {
+    builder.addCase(getRecipesByUserId.fulfilled, (state, action) => {
       const [key, value]: any = Object.entries(action.payload)[0];
 
-      state.otherRecipes[key] = value;
+      if (state.ownRecipes[key] && value.length === 0) {
+        state.ownRecipes[key].outOfRecipes = true;
+      }
+
+      if (!state.ownRecipes[key]) {
+        state.ownRecipes[key] = {
+          recipes: value,
+          outOfRecipes: false,
+        };
+      } else {
+        state.ownRecipes[key].recipes = [
+          ...state.ownRecipes[key].recipes,
+          ...value,
+        ];
+      }
     });
 
     builder.addCase(getAllRecipes.fulfilled, (state, action) => {
@@ -397,10 +401,8 @@ export const selectorRecipes = (state: { recipe: IRecipeState }) =>
   state.recipe.recipes;
 export const selectorFeaturedRecipes = (state: { recipe: IRecipeState }) =>
   state.recipe.featuredRecipes;
-export const selectorMyRecipes = (state: { recipe: IRecipeState }) =>
-  state.recipe.myRecipes;
-export const selectorOtherRecipes = (state: { recipe: IRecipeState }) =>
-  state.recipe.otherRecipes;
+export const selectorOwnRecipes = (state: { recipe: IRecipeState }) =>
+  state.recipe.ownRecipes;
 export const selectorRecipe = (state: { recipe: IRecipeState }) =>
   state.recipe.recipe;
 export default recipeSlice.reducer;

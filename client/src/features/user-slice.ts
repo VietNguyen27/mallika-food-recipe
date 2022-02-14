@@ -102,6 +102,9 @@ const userSlice = createSlice({
     finishSplash: (state) => {
       state.user.firstLogin = false;
     },
+    updateUserState: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getUser.fulfilled, (state, action) => {
@@ -133,6 +136,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { finishSplash } = userSlice.actions;
+export const { finishSplash, updateUserState } = userSlice.actions;
 export const selectorUser = (state: { user: IUserState }) => state.user.user;
 export default userSlice.reducer;

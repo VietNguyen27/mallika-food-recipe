@@ -4,7 +4,6 @@ import {
   deleteRecipe,
   getAllRecipes,
   getFeaturedRecipes,
-  getMyRecipes,
   getOtherUserRecipes,
   getRecipeById,
   likeRecipe,
@@ -24,7 +23,6 @@ const router = Router();
 
 router.route('/').post(auth, createRecipe);
 router.route('/featured').get(auth, getFeaturedRecipes);
-router.route('/me').get(auth, getMyRecipes);
 router.route('/all').get(auth, getAllRecipes);
 router.route('/user/:id').get(auth, getOtherUserRecipes);
 router.route('/:id/like').patch(auth, likeRecipe);

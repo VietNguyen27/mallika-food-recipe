@@ -20,11 +20,8 @@ export const recipeApi = {
   getFeatured() {
     return request.get(`${RECIPES_BASE_URL}/featured`);
   },
-  getMe() {
-    return request.get(`${RECIPES_BASE_URL}/me`);
-  },
-  getByUserId(id) {
-    return request.get(`${RECIPES_BASE_URL}/user/${id}`);
+  getByUserId(id, skip) {
+    return request.get(`${RECIPES_BASE_URL}/user/${id}?skip=${skip}`);
   },
   getAll(skip) {
     return request.get(`${RECIPES_BASE_URL}/all?skip=${skip}`);

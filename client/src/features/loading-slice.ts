@@ -9,8 +9,7 @@ import {
   createRecipe,
   getAllRecipes,
   getFeaturedRecipes,
-  getMyRecipes,
-  getOtherUserRecipes,
+  getRecipesByUserId,
   getRecipeById,
 } from './recipe-slice';
 import { getAllLikedRecipes } from './liked-slice';
@@ -65,18 +64,15 @@ const isFeaturedRecipesReject = isSomeAsyncActionsRejected([
 
 const isOwnRecipesPending = isSomeAsyncActionsPending([
   createRecipe,
-  getMyRecipes,
-  getOtherUserRecipes,
+  getRecipesByUserId,
 ]);
 const isOwnRecipesFulfilled = isSomeAsyncActionsFulfilled([
   createRecipe,
-  getMyRecipes,
-  getOtherUserRecipes,
+  getRecipesByUserId,
 ]);
 const isOwnRecipesReject = isSomeAsyncActionsRejected([
   createRecipe,
-  getMyRecipes,
-  getOtherUserRecipes,
+  getRecipesByUserId,
 ]);
 
 const isAllRecipesPending = isSomeAsyncActionsPending([getAllRecipes]);

@@ -55,34 +55,20 @@ export const registerValidation = (body: RegisterData) => {
       }),
   });
 
-  return schema.validate(body, { abortEarly: false });
+  return schema.validate(body);
 };
 
 export const loginValidation = (body: LoginData) => {
   const schema = Joi.object({
-    email: Joi.string()
-      .min(MIN_LENGTH_6)
-      .max(MAX_LENGTH_255)
-      .email()
-      .required()
-      .messages({
-        'string.email': 'Not a valid email address. Please check again!',
-        'string.min': `Email must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
-        'string.max': `Email must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
-        'string.empty': 'Email is not allowed to be empty',
-        'any.required': 'Email is required. Please enter a valid value!',
-      }),
-    password: Joi.string()
-      .min(MIN_LENGTH_6)
-      .max(MAX_LENGTH_255)
-      .required()
-      .messages({
-        'string.min': `Password must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
-        'string.max': `Password must be between ${MIN_LENGTH_6} and ${MAX_LENGTH_255} characters.`,
-        'string.empty': 'Password is not allowed to be empty',
-        'any.required': 'Password is required. Please enter a valid value!',
-      }),
+    email: Joi.string().email().required().messages({
+      'string.email': 'Not a valid email address. Please check again!',
+      'string.empty': 'Email is not allowed to be empty',
+    }),
+    password: Joi.string().required().messages({
+      'string.empty': 'Password is not allowed to be empty',
+      'any.required': 'Password is required. Please enter a valid value!',
+    }),
   });
 
-  return schema.validate(body, { abortEarly: false });
+  return schema.validate(body);
 };

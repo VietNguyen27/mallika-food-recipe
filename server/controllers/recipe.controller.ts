@@ -1,13 +1,17 @@
 import { Request, Response } from 'express';
 import RecipeModel from '../models/recipe.model';
+import UserModel from '../models/user.model';
 import { IGetUserAuthInfoRequest } from '../utils/interfaces';
 import { recipeValidation } from '../validations/recipe.validation';
+
+const MAX_RECIPES_PER_REQUEST = 6;
+const MAX_FEATURED_RECIPES = 4;
 
 // @desc    Create new recipe
 // @route   POST /api/recipes
 // @access  Private
 export const createRecipe = async (
-  req: Request,
+  req: IGetUserAuthInfoRequest,
   res: Response
 ): Promise<void> => {
   const { error } = recipeValidation(req.body);
@@ -18,10 +22,16 @@ export const createRecipe = async (
   }
 
   const newRecipe = new RecipeModel(req.body);
-
   try {
     let recipe = await newRecipe.save();
     recipe = await recipe.populate('user', 'name avatar');
+    await UserModel.findOneAndUpdate(
+      { _id: req.user._id },
+      {
+        $inc: { numRecipes: 1 },
+      },
+      { returnOriginal: false }
+    );
 
     if (!recipe) {
       res
@@ -52,36 +62,7 @@ export const getFeaturedRecipes = async (
     })
       .populate('user', 'name avatar')
       .sort({ _id: -1 })
-      .limit(4);
-
-    if (!recipes) {
-      res.status(400).json({
-        error: 'Something went wrong while getting featured recipes!',
-      });
-      return;
-    }
-
-    res.status(200).json(recipes);
-    return;
-  } catch (error) {
-    res.status(400).json({ error });
-    return;
-  }
-};
-
-// @desc    Get user recipes
-// @route   GET /api/recipes/me
-// @access  Private
-export const getMyRecipes = async (
-  req: IGetUserAuthInfoRequest,
-  res: Response
-): Promise<void> => {
-  try {
-    const recipes = await RecipeModel.find({
-      user: req.user._id,
-    })
-      .populate('user', 'name avatar')
-      .sort({ _id: -1 });
+      .limit(MAX_FEATURED_RECIPES);
 
     if (!recipes) {
       res.status(400).json({
@@ -106,11 +87,20 @@ export const getOtherUserRecipes = async (
   res: Response
 ): Promise<void> => {
   try {
-    const recipes = await RecipeModel.find({
-      user: req.params.id,
-    })
+    const skip = req.query.skip ? Number(req.query.skip) : 0;
+    const isAuth = req.user._id.toString() === req.params.id.toString();
+
+    const recipes = await RecipeModel.find(
+      {
+        user: req.params.id,
+        ...(!isAuth && { isPublished: true }),
+      },
+      undefined,
+      { skip }
+    )
       .populate('user', 'name avatar')
-      .sort({ _id: -1 });
+      .sort({ _id: -1 })
+      .limit(MAX_RECIPES_PER_REQUEST);
 
     if (!recipes) {
       res.status(400).json({
@@ -146,7 +136,7 @@ export const getAllRecipes = async (
     )
       .populate('user', 'name avatar')
       .sort({ _id: -1 })
-      .limit(6);
+      .limit(MAX_RECIPES_PER_REQUEST);
 
     if (!recipes) {
       res
