@@ -31,6 +31,8 @@ const FollowingDrawer: React.FC<IFollowingDrawerProps> = ({ userId }) => {
     const isBottom =
       e.target.scrollHeight - e.target.scrollTop - 1 <= e.target.clientHeight;
 
+    if (loading) return;
+
     if (isBottom && !loading && !following[userId].outOfFollowing) {
       dispatch(getFollowingById(userId));
     }

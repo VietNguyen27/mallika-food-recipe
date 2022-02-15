@@ -1,5 +1,8 @@
 import React, { ReactChild, ReactChildren } from 'react';
 import cx from 'clsx';
+import { useDispatch } from 'react-redux';
+import { uiActions } from '@features/ui-slice';
+import { clearAllRecipes, setFilter } from '@features/recipe-slice';
 
 interface CategoryListProps {
   className?: string;
@@ -9,6 +12,7 @@ interface CategoryListProps {
 interface CategoryProps {
   image: string;
   title: string;
+  category: number;
 }
 
 export const CategoryList: React.FC<CategoryListProps> = ({
@@ -21,9 +25,24 @@ export const CategoryList: React.FC<CategoryListProps> = ({
   return <div className={allClassNames}>{children}</div>;
 };
 
-export const Category: React.FC<CategoryProps> = ({ image, title }) => {
+export const Category: React.FC<CategoryProps> = ({
+  image,
+  title,
+  category,
+}) => {
+  const dispatch = useDispatch();
+
+  const handleFilterByCategory = () => {
+    dispatch(clearAllRecipes());
+    dispatch(setFilter({ category }));
+    dispatch(uiActions.setCommunityDrawerShowing(true));
+  };
+
   return (
-    <div className='flex flex-col items-center justify-center gap-3'>
+    <div
+      className='flex flex-col items-center justify-center gap-3 cursor-pointer'
+      onClick={handleFilterByCategory}
+    >
       <div className='relative w-full h-0 pb-[100%] rounded-xl overflow-hidden'>
         <img
           src={image}

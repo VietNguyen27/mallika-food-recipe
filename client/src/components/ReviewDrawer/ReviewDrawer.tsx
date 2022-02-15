@@ -125,6 +125,8 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
     const isBottom =
       e.target.scrollHeight - e.target.scrollTop - 1 <= e.target.clientHeight;
 
+    if (loading) return;
+
     if (isBottom && !loading && !outOfReview) {
       dispatch(getAllReviews(recipeId));
     }

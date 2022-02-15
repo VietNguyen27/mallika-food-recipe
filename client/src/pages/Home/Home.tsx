@@ -28,7 +28,7 @@ const Home = () => {
           <p className='text-sm text-gray-800'>What are you cooking today?</p>
         </div>
         <div className='flex items-center justify-center'>
-          <button type='button' className='hover:text-orange delay-100'>
+          <button type='button'>
             <Alert24Regular />
           </button>
         </div>

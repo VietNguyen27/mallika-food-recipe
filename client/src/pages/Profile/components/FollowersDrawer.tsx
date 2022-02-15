@@ -31,6 +31,8 @@ const FollowersDrawer: React.FC<IFollowersDrawerProps> = ({ userId }) => {
     const isBottom =
       e.target.scrollHeight - e.target.scrollTop - 1 <= e.target.clientHeight;
 
+    if (loading) return;
+
     if (isBottom && !loading && !followers[userId].outOfFollowers) {
       dispatch(getFollowersById(userId));
     }

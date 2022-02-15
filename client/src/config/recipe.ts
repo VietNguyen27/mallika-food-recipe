@@ -17,6 +17,7 @@ export const RECIPES_BY_TYPE = {
 };
 
 export const RECIPES_BY_CATEGORY = {
+  ALL: -1,
   BREAKFAST: 0,
   LUNCH: 1,
   DINNER: 2,
@@ -30,6 +31,7 @@ export const RECIPES_BY_CATEGORY = {
 };
 
 export const CATEGORY_NAME = {
+  [RECIPES_BY_CATEGORY.ALL]: 'All',
   [RECIPES_BY_CATEGORY.BREAKFAST]: 'Breakfast',
   [RECIPES_BY_CATEGORY.LUNCH]: 'Lunch',
   [RECIPES_BY_CATEGORY.DINNER]: 'Dinner',
@@ -46,14 +48,12 @@ export const RECIPES_BY_SORT = {
   RECENTLY: 0,
   POPULAR: 1,
   COMMENTED: 2,
-  PREPARATION_TIME: 3,
-  APPRECIATION: 4,
+  APPRECIATION: 3,
 };
 
 export const SORT_NAME = {
   [RECIPES_BY_SORT.RECENTLY]: 'Recently',
   [RECIPES_BY_SORT.POPULAR]: 'Popular',
   [RECIPES_BY_SORT.COMMENTED]: 'Commented',
-  [RECIPES_BY_SORT.PREPARATION_TIME]: 'Preparation Time',
   [RECIPES_BY_SORT.APPRECIATION]: 'Appreciation',
 };

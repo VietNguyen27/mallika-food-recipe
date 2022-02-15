@@ -38,6 +38,8 @@ const Profile = () => {
     const isBottom =
       e.target.scrollHeight - e.target.scrollTop - 1 <= e.target.clientHeight;
 
+    if (loading) return;
+
     if (isBottom && !loading && !outOfRecipes) {
       dispatch(getRecipesByUserId(user._id));
     }
