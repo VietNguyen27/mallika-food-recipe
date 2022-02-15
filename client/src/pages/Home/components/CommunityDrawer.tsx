@@ -3,7 +3,11 @@ import Drawer from '@components/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
-import { getAllRecipes } from '@features/recipe-slice';
+import {
+  clearAllRecipes,
+  getAllRecipes,
+  setFilter,
+} from '@features/recipe-slice';
 import { CardSmallSkeleton } from '@components/Skeleton/Skeleton';
 import { Options20Regular } from '@fluentui/react-icons';
 import useToggle from '@hooks/useToggle';
@@ -24,28 +28,24 @@ import { useLocation } from 'react-router-dom';
 
 const CommunityDrawer = () => {
   const location = useLocation();
-  const [category, setCategory] = useState<number>(-1);
-  const [sort, setSort] = useState<number>(RECIPES_BY_SORT.RECENTLY);
-  const [categorySelected, setCategorySelected] = useState<number>(-1);
-  const [sortSelected, setSortSelected] = useState<number>(
-    RECIPES_BY_SORT.RECENTLY
-  );
   const dispatch = useDispatch();
   const { isShowing, toggle } = useToggle();
   const active = useSelector(({ ui }: RootState) => ui.communityDrawerShowing);
   const loading = useSelector(
     ({ loading }: RootState) => loading.allRecipesLoading
   );
-  const { recipes, outOfRecipe } = useSelector(
+  const { recipes, outOfRecipe, filterApplied } = useSelector(
     ({ recipe }: RootState) => recipe
   );
+  const [category, setCategory] = useState<number>(filterApplied.category);
+  const [sort, setSort] = useState<number>(filterApplied.sort);
 
   useEffect(() => {
     if (active && !recipes.length) {
       dispatch(getAllRecipes());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, active]);
+  }, [dispatch, active, filterApplied.category, filterApplied.sort]);
 
   const handleScroll = (e) => {
     const isBottom =
@@ -59,14 +59,21 @@ const CommunityDrawer = () => {
   };
 
   const closeOptionDropdown = () => {
-    setCategory(categorySelected);
-    setSort(sortSelected);
+    setCategory(RECIPES_BY_CATEGORY.ALL);
+    setSort(RECIPES_BY_SORT.RECENTLY);
     toggle();
   };
 
   const handleFilter = () => {
-    setCategorySelected(category);
-    setSortSelected(sort);
+    if (category !== filterApplied.category || sort !== filterApplied.sort) {
+      dispatch(clearAllRecipes());
+      dispatch(
+        setFilter({
+          category,
+          sort,
+        })
+      );
+    }
     toggle();
   };
 
@@ -91,15 +98,13 @@ const CommunityDrawer = () => {
             <div className='flex flex-col pr-4'>
               <span className='text-2xs'>Category</span>
               <div className='text-orange -mt-0.5 text-sm'>
-                {categorySelected === -1
-                  ? 'All'
-                  : CATEGORY_NAME[categorySelected]}
+                {CATEGORY_NAME[filterApplied.category]}
               </div>
             </div>
             <div className='flex flex-col'>
               <span className='text-2xs'>Sort by</span>
               <div className='text-orange -mt-0.5 text-sm'>
-                {SORT_NAME[sortSelected]}
+                {SORT_NAME[filterApplied.sort]}
               </div>
             </div>
           </div>
@@ -137,9 +142,6 @@ const CommunityDrawer = () => {
         <h3 className='px-2 text-xl font-semibold'>Category</h3>
         <TagList className='px-2 pt-1.5 pb-4'>
           <>
-            <Tag isActive={-1 === category} onClick={() => setCategory(-1)}>
-              All
-            </Tag>
             {Object.values(RECIPES_BY_CATEGORY).map((categoryItem) => (
               <Tag
                 key={categoryItem}

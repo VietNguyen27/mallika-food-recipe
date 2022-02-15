@@ -1,5 +1,6 @@
 import { recipeApi } from '@api/recipe';
 import { DOWNWARDS, UPWARDS } from '@config/constants';
+import { RECIPES_BY_CATEGORY, RECIPES_BY_SORT } from '@config/recipe';
 import { slowLoading } from '@helpers/helpers';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -13,6 +14,11 @@ export interface StepState {
   _id?: string;
   title: string;
   isHeader: boolean;
+}
+
+export interface FilterState {
+  category: number;
+  sort: number;
 }
 
 export interface RecipeData {
@@ -31,7 +37,7 @@ export interface RecipeData {
 interface IRecipeState {
   success: boolean;
   outOfRecipe: boolean;
-  outOfOwnRecipe: boolean;
+  filterApplied: FilterState;
   intro: object;
   ingredients: IngredientState[];
   steps: StepState[];
@@ -45,7 +51,10 @@ interface IRecipeState {
 const initialState: IRecipeState = {
   success: false,
   outOfRecipe: false,
-  outOfOwnRecipe: false,
+  filterApplied: {
+    category: RECIPES_BY_CATEGORY.ALL,
+    sort: RECIPES_BY_SORT.RECENTLY,
+  },
   intro: {},
   ingredients: [],
   steps: [],
@@ -165,7 +174,8 @@ export const getAllRecipes = createAsyncThunk(
       const state: any = getState();
       const userId = state.user.user._id;
       const totalRecipes = state.recipe.recipes.length;
-      const response = await recipeApi.getAll(totalRecipes);
+      const filterApplied = state.recipe.filterApplied;
+      const response = await recipeApi.getAll(totalRecipes, filterApplied);
       const recipes = response.data.map((recipe) => {
         const isLiked = recipe.likes.includes(userId);
 
@@ -260,6 +270,16 @@ const recipeSlice = createSlice({
       const { recipeId, rating, numReviews } = action.payload;
       state.recipe[recipeId].rating = rating;
       state.recipe[recipeId].numReviews = numReviews;
+    },
+    clearAllRecipes: (state) => {
+      state.recipes = [];
+      state.outOfRecipe = false;
+    },
+    setFilter: (state, action) => {
+      state.filterApplied = {
+        ...state.filterApplied,
+        ...action.payload,
+      };
     },
   },
   extraReducers: (builder) => {
@@ -388,6 +408,8 @@ export const {
   clearRecipeWidgets,
   changeStatusSuccess,
   updateReviews,
+  clearAllRecipes,
+  setFilter,
 } = recipeSlice.actions;
 export const selectorRecipeIntro = (state: { recipe: IRecipeState }) =>
   state.recipe.intro;

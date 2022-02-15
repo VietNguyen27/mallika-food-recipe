@@ -7,8 +7,8 @@ const LastSeen = () => {
 
   if (lastSeenRecipes && lastSeenRecipes.length) {
     return (
-      <div className='py-4'>
-        <h1 className='text-xl font-medium py-4 px-layout'>Last Seen</h1>
+      <div className='pb-4'>
+        <h1 className='text-xl font-medium pb-4 px-layout'>Last Seen</h1>
         <RecipeList>
           {lastSeenRecipes.map((recipe) => (
             <Recipe key={recipe._id} {...recipe} />

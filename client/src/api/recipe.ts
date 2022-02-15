@@ -23,8 +23,11 @@ export const recipeApi = {
   getByUserId(id, skip) {
     return request.get(`${RECIPES_BASE_URL}/user/${id}?skip=${skip}`);
   },
-  getAll(skip) {
-    return request.get(`${RECIPES_BASE_URL}/all?skip=${skip}`);
+  getAll(skip, filter) {
+    const { category, sort } = filter;
+    return request.get(
+      `${RECIPES_BASE_URL}/all?skip=${skip}&category=${category}&sort=${sort}`
+    );
   },
   getById(id) {
     return request.get(`${RECIPES_BASE_URL}/${id}`);

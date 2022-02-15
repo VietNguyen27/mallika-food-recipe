@@ -1,6 +1,5 @@
 import { ChangeEvent, useEffect, useState, useRef } from 'react';
 import LastSeen from './components/LastSeen';
-import RecentSearch from './components/RecentSearch';
 import SearchInput from '@components/Input/SearchInput';
 import { ArrowLeft20Filled, Search24Regular } from '@fluentui/react-icons';
 import SearchResults from './components/SearchResults';
@@ -55,6 +54,8 @@ const Search = () => {
     const searchFn = searchTypes[searchLabel];
     const isBottom =
       e.target.scrollHeight - e.target.scrollTop - 1 <= e.target.clientHeight;
+
+    if (loading) return;
 
     if (isBottom && !loading && !outOfResults) {
       dispatch(
@@ -112,10 +113,7 @@ const Search = () => {
             handleScroll={handleScroll}
           />
         ) : (
-          <>
-            {/* <RecentSearch /> */}
-            <LastSeen />
-          </>
+          <LastSeen />
         )}
       </div>
     </div>
