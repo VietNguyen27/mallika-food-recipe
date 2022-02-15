@@ -125,17 +125,23 @@ export const getAllRecipes = async (
   res: Response
 ): Promise<void> => {
   try {
+    const { category, sort } = req.query;
     const skip = req.query.skip ? Number(req.query.skip) : 0;
-    const recipes = await RecipeModel.find(
-      {
-        user: { $nin: req.user._id },
-        isPublished: true,
-      },
-      undefined,
-      { skip }
-    )
+    const SORT_APPLIED = {
+      0: { _id: -1 },
+      1: { likedCount: -1 },
+      2: { numReviews: -1 },
+      3: { rating: -1 },
+    };
+
+    const recipes = await RecipeModel.find({
+      user: { $nin: req.user._id },
+      ...(Number(category) !== -1 && { category }),
+      isPublished: true,
+    })
       .populate('user', 'name avatar')
-      .sort({ _id: -1 })
+      .sort({ ...SORT_APPLIED[Number(sort)], _id: -1 })
+      .skip(skip)
       .limit(MAX_RECIPES_PER_REQUEST);
 
     if (!recipes) {
