@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import RoundedButton, {
-  RoundedButtonVariants,
-} from '@components/Button/RoundedButton';
-import { Add20Filled } from '@fluentui/react-icons';
-import useToggle from '@hooks/useToggle';
-import RecipeWidget from './RecipeWidget';
 import { useSelector } from 'react-redux';
+import { Add20Filled } from '@fluentui/react-icons';
+import { RoundedButton } from '@components/Button';
+import useToggle from '@hooks/useToggle';
 import { selectorRecipeSteps } from '@features/recipe-slice';
 import ListEmpty from '@img/list-empty.png';
+import RecipeWidget from './RecipeWidget';
 import ModalAddWidget from './ModalAddWidget';
 
 const StepTab = () => {
@@ -42,10 +40,7 @@ const StepTab = () => {
           </div>
         )}
         <div className='fixed bottom-4 right-4'>
-          <RoundedButton
-            variant={RoundedButtonVariants.PRIMARY}
-            onClick={toggle}
-          >
+          <RoundedButton variant='primary' onClick={toggle}>
             <Add20Filled />
           </RoundedButton>
         </div>

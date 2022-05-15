@@ -6,8 +6,8 @@ import {
   cloneElement,
 } from 'react';
 import cx from 'clsx';
-import Tooltip from '@components/Tooltip/Tooltip';
 import { Info20Filled } from '@fluentui/react-icons';
+import { Tooltip } from '@components/Tooltip';
 
 interface TabsProps {
   children: ReactChild | ReactChildren | ReactChild[] | ReactChildren[];

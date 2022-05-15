@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import LandingImage from '@img/splash-1.jfif';
-import { Link, useNavigate } from 'react-router-dom';
-import PasswordInput from '@components/Input/PasswordInput';
-import TextInput, { InputTypes } from '@components/Input/TextInput';
-import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
 import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearError, registerUser } from '@features/auth-slice';
+import { TextInput, PasswordInput } from '@components/Input';
+import { Button } from '@components/Button';
+import { Spinner } from '@components/Loading';
 import { RootState } from '@redux/reducers';
-import { Spinner } from '@components/Loading/Loading';
+import { clearError, registerUser } from '@features/auth-slice';
 import { FlashMessageTypes, showFlash } from '@features/flash-slice';
+import LandingImage from '@img/splash-1.jfif';
 
 export interface RegisterData {
   name: string;
@@ -80,7 +79,7 @@ function Register() {
             <div className='grid grid-cols-12 gap-4'>
               <div className='col-span-12'>
                 <TextInput
-                  type={InputTypes.TEXT}
+                  type='text'
                   placeholder='Name'
                   {...register('name', {
                     onChange,
@@ -90,7 +89,7 @@ function Register() {
               </div>
               <div className='col-span-12'>
                 <TextInput
-                  type={InputTypes.TEXT}
+                  type='text'
                   placeholder='Email Address'
                   {...register('email', {
                     onChange,
@@ -119,20 +118,13 @@ function Register() {
               </div>
               <div className='col-span-12 leading-none'>
                 {loading ? (
-                  <Button
-                    variant={ButtonVariants.PRIMARY}
-                    type={ButtonTypes.BUTTON}
-                    fluid={true}
-                    disabled
-                  >
+                  <Button variant='primary' type='button' fluid={true} disabled>
                     <Spinner />
                   </Button>
                 ) : (
                   <Button
-                    variant={
-                      isValid ? ButtonVariants.PRIMARY : ButtonVariants.DISABLED
-                    }
-                    type={isValid ? ButtonTypes.SUBMIT : ButtonTypes.BUTTON}
+                    variant={isValid ? 'primary' : 'disabled'}
+                    type={isValid ? 'submit' : 'button'}
                     fluid={true}
                     disabled={!isValid}
                   >

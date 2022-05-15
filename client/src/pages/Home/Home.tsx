@@ -1,12 +1,12 @@
-import { selectorUser } from '@features/user-slice';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Alert24Regular } from '@fluentui/react-icons';
+import { Loading } from '@components/Loading';
+import { selectorUser } from '@features/user-slice';
 import { generateBase64Image } from '@helpers/helpers';
 import Cookbooks from './components/Cookbooks';
 import FeaturedRecipes from './components/FeaturedRecipes';
 import Categories from './components/Categories';
-import { Alert24Regular } from '@fluentui/react-icons';
-import { Loading } from '@components/Loading/Loading';
-import { Link } from 'react-router-dom';
 
 const Home = () => {
   const user: any = useSelector(selectorUser);

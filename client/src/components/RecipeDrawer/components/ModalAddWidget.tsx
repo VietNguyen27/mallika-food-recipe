@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import TextInput from '@components/Input/TextInput';
-import Modal from '@components/Modal/Modal';
-import Switch, { SwitchSizes } from '@components/Switch/Switch';
-import Button, { ButtonSizes, ButtonTypes } from '@components/Button/Button';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { TextInput } from '@components/Input';
+import { Modal } from '@components/Modal';
+import { Switch } from '@components/Switch';
+import { Button } from '@components/Button';
 import { uuid } from '@helpers/helpers';
+import { RootState } from '@redux/reducers';
 import {
   createRecipeWidget,
   clearError,
   editRecipeWidget,
 } from '@features/recipe-slice';
-import { RootState } from '@redux/reducers';
 
 interface ModalAddWidgetProps {
   type: string;
@@ -112,7 +112,7 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
           <span className='text-sm text-gray-800'>Set it item?</span>
           <Switch
             active={inputValue.isHeader}
-            size={SwitchSizes.EXTRA_SMALL}
+            size='xs'
             toggle={() =>
               setInputValue({
                 ...inputValue,
@@ -121,11 +121,7 @@ const ModalAddWidget: React.FC<ModalAddWidgetProps> = ({
             }
           />
         </div>
-        <Button
-          type={ButtonTypes.SUBMIT}
-          size={ButtonSizes.EXTRA_SMALL}
-          fluid={true}
-        >
+        <Button type='submit' size='xs' fluid={true}>
           Add
         </Button>
       </form>

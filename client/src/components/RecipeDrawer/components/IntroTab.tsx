@@ -1,22 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
-import TextInput, { InputVariants } from '@components/Input/TextInput';
-import Textarea, { TextareaVariants } from '@components/Textarea/Textarea';
-import RoundedButton, {
-  RoundedButtonShape,
-  RoundedButtonVariants,
-} from '@components/Button/RoundedButton';
-import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
-import Switch from '@components/Switch/Switch';
-import { Option, Select } from '@components/Select/Select';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { Edit20Regular } from '@fluentui/react-icons';
+import { TextInput } from '@components/Input';
+import { Textarea } from '@components/Textarea';
+import { Button, RoundedButton } from '@components/Button';
+import { Switch } from '@components/Switch';
+import { Option, Select } from '@components/Select';
+import { Spinner } from '@components/Loading';
+import { TagList, Tag } from '@components/Tag';
 import {
   CATEGORY_NAME,
   RECIPES_BY_CATEGORY,
   RECIPES_BY_DIFFICULTY,
 } from '@config/recipe';
-import { Edit20Regular } from '@fluentui/react-icons';
 import NoImage from '@img/no-image.jfif';
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
+import { RootState } from '@redux/reducers';
 import {
   changeStatusSuccess,
   clearError,
@@ -24,15 +23,12 @@ import {
   selectorOwnRecipes,
 } from '@features/recipe-slice';
 import { selectorUser, updateUserState } from '@features/user-slice';
+import { FlashMessageTypes, showFlash } from '@features/flash-slice';
 import {
   convertBase64,
   getErrorFromJoiMessage,
   resizeImage,
 } from '@helpers/helpers';
-import { RootState } from '@redux/reducers';
-import { Spinner } from '@components/Loading/Loading';
-import { TagList, Tag } from '@components/Tag/Tag';
-import { FlashMessageTypes, showFlash } from '@features/flash-slice';
 
 const IntroTab = () => {
   const [thumbnail, setThumbnail] = useState<null | string>(null);
@@ -132,7 +128,7 @@ const IntroTab = () => {
     >
       <TextInput
         label='title'
-        variant={InputVariants.SECONDARY}
+        variant='secondary'
         placeholder='Recipe title'
         error={recipeError['title']}
         {...register('title', {
@@ -145,7 +141,7 @@ const IntroTab = () => {
         <div className='flex gap-4'>
           <TextInput
             label='hours'
-            variant={InputVariants.SECONDARY}
+            variant='secondary'
             placeholder='Recipe hours'
             defaultValue={0}
             onlyNumber={true}
@@ -159,7 +155,7 @@ const IntroTab = () => {
           />
           <TextInput
             label='minutes'
-            variant={InputVariants.SECONDARY}
+            variant='secondary'
             placeholder='Recipe minutes'
             defaultValue={30}
             onlyNumber={true}
@@ -187,8 +183,8 @@ const IntroTab = () => {
         />
         <RoundedButton
           className='absolute z-10 top-2 right-2 hover:bg-white'
-          variant={RoundedButtonVariants.SECONDARY}
-          rounded={RoundedButtonShape.MEDIUM}
+          variant='secondary'
+          rounded='md'
           onClick={() => onChangeThumbnail()}
         >
           <Edit20Regular />
@@ -201,7 +197,7 @@ const IntroTab = () => {
       </div>
       <Textarea
         label='description'
-        variant={TextareaVariants.SECONDARY}
+        variant='secondary'
         placeholder='Recipe description'
         rows={4}
         error={recipeError['description']}
@@ -241,7 +237,7 @@ const IntroTab = () => {
         <div className='flex-1'>
           <TextInput
             label='serve (people)'
-            variant={InputVariants.SECONDARY}
+            variant='secondary'
             defaultValue={1}
             onlyNumber={true}
             error={recipeError['serve']}
@@ -261,8 +257,8 @@ const IntroTab = () => {
         />
       </div>
       <Button
-        type={loading ? ButtonTypes.BUTTON : ButtonTypes.SUBMIT}
-        variant={ButtonVariants.PRIMARY}
+        type={loading ? 'button' : 'submit'}
+        variant='primary'
         className='mt-1'
         disabled={loading}
       >

@@ -1,4 +1,5 @@
 import React, { ReactChild, ReactChildren } from 'react';
+import cx from 'clsx';
 import { NOTIFICATION_TYPES, NOTIFICATION_NAMES } from '@config/notification';
 import { timeSince } from '@helpers/helpers';
 import {
@@ -8,7 +9,6 @@ import {
   PersonAvailable16Regular,
   ThumbLike16Regular,
 } from '@fluentui/react-icons';
-import cx from 'clsx';
 
 interface NotificationListProps {
   className?: string;

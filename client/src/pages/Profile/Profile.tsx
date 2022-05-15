@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { List20Filled } from '@fluentui/react-icons';
 import { selectorUser } from '@features/user-slice';
 import { convertNumber, generateBase64Image } from '@helpers/helpers';
-import { List20Filled } from '@fluentui/react-icons';
-import { Tab, Tabs } from '@components/Tabs/Tabs';
-import { CardSkeleton, ProfileSkeleton } from '@components/Skeleton/Skeleton';
-import { Card, CardList } from '@components/Card/Card';
+import { Tab, Tabs } from '@components/Tabs';
+import { CardSkeleton, ProfileSkeleton } from '@components/Skeleton';
+import { Card, CardList } from '@components/Card';
+import { Spinner } from '@components/Loading';
+import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
+import { getRecipesByUserId, selectorOwnRecipes } from '@features/recipe-slice';
+import BoxEmpty from '@img/box-empty.png';
 import AccountDrawer from './components/AccountDrawer';
 import LikedRecipeDrawer from './components/LikedRecipeDrawer';
 import NotificationDrawer from './components/NotificationDrawer';
 import EditProfileDrawer from './components/EditProfileDrawer';
 import FollowingDrawer from './components/FollowingDrawer';
 import FollowersDrawer from './components/FollowersDrawer';
-import { getRecipesByUserId, selectorOwnRecipes } from '@features/recipe-slice';
-import { RootState } from '@redux/reducers';
-import BoxEmpty from '@img/box-empty.png';
-import { Spinner } from '@components/Loading/Loading';
 
 const Profile = () => {
   const dispatch = useDispatch();

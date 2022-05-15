@@ -1,31 +1,26 @@
-import LandingImage from '@img/landing-page.jfif';
-import PopularRecipe from './components/PopularRecipe';
-import AllRecipe from './components/AllRecipe';
-import SearchInput from '@components/Input/SearchInput';
 import {
   ChevronLeft24Regular,
   Edit24Regular,
   Search24Regular,
 } from '@fluentui/react-icons';
-import RoundedButton, {
-  RoundedButtonSizes,
-  RoundedButtonVariants,
-} from '@components/Button/RoundedButton';
+import { SearchInput } from '@components/Input';
+import { RoundedButton } from '@components/Button';
+import LandingImage from '@img/landing-page.jfif';
+import PopularRecipe from './components/PopularRecipe';
+import AllRecipe from './components/AllRecipe';
 
 const DetailCookbook = () => {
   return (
     <div className='relative h-full overflow-auto scrollbar-none pb-4'>
       <RoundedButton
         className='absolute z-10 top-4 left-3 cursor-pointer'
-        variant={RoundedButtonVariants.SECONDARY}
-        size={RoundedButtonSizes.MEDIUM}
+        variant='secondary'
       >
         <ChevronLeft24Regular />
       </RoundedButton>
       <RoundedButton
         className='absolute z-10 right-3 top-4 cursor-pointer'
-        variant={RoundedButtonVariants.SECONDARY}
-        size={RoundedButtonSizes.MEDIUM}
+        variant='secondary'
       >
         <Edit24Regular />
       </RoundedButton>

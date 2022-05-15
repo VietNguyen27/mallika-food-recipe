@@ -1,7 +1,7 @@
 import React from 'react';
+import { Button } from '@components/Button';
 import LogoImage from '@img/logo.png';
 import LandingImage from '@img/landing-page.jpg';
-import Button, { ButtonAs, ButtonVariants } from '@components/Button/Button';
 
 const Landing = () => {
   return (
@@ -23,20 +23,10 @@ const Landing = () => {
           preparation.
         </p>
         <div className='flex flex-col gap-3 mt-auto'>
-          <Button
-            as={ButtonAs.LINK}
-            to='/login'
-            variant={ButtonVariants.PRIMARY}
-            fluid={true}
-          >
+          <Button as='link' to='/login' variant='primary' fluid={true}>
             Login
           </Button>
-          <Button
-            as={ButtonAs.LINK}
-            to='/register'
-            variant={ButtonVariants.SECONDARY}
-            fluid={true}
-          >
+          <Button as='link' to='/register' variant='secondary' fluid={true}>
             Register
           </Button>
         </div>

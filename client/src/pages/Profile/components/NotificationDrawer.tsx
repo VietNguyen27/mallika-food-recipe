@@ -1,15 +1,11 @@
 import React from 'react';
-import Drawer from '@components/Drawer/Drawer';
-import {
-  NotificationList,
-  Notification,
-} from '@components/Notification/Notification';
 import { useDispatch, useSelector } from 'react-redux';
+import { Drawer } from '@components/Drawer';
+import { Button } from '@components/Button';
+import { NotificationList, Notification } from '@components/Notification';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
 import { NOTIFICATION_TYPES } from '@config/notification';
-import Button from '@components/Button/Button';
-import { ButtonSizes } from '@components/Button/Button';
 
 const dumbNotifications = [
   {
@@ -75,7 +71,7 @@ const NotificationDrawer = () => {
         </NotificationList>
         <Button
           className='absolute left-1/2 bottom-1 -translate-x-1/2 rounded-full'
-          size={ButtonSizes.SMALL}
+          size='sm'
         >
           Mark all as Read
         </Button>

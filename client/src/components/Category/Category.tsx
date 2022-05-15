@@ -1,6 +1,6 @@
 import React, { ReactChild, ReactChildren } from 'react';
-import cx from 'clsx';
 import { useDispatch } from 'react-redux';
+import cx from 'clsx';
 import { uiActions } from '@features/ui-slice';
 import { clearAllRecipes, setFilter } from '@features/recipe-slice';
 

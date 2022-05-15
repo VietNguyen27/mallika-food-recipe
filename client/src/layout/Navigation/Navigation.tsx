@@ -1,3 +1,5 @@
+import { Link, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   Home24Regular,
   Search24Regular,
@@ -5,11 +7,7 @@ import {
   Person24Regular,
   Add20Filled,
 } from '@fluentui/react-icons';
-import RoundedButton, {
-  RoundedButtonSizes,
-} from '@components/Button/RoundedButton';
-import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { RoundedButton } from '@components/Button';
 import { uiActions } from '@features/ui-slice';
 
 const Navigation = () => {
@@ -34,7 +32,7 @@ const Navigation = () => {
       <div className='text-center relative flex items-center justify-center'>
         <RoundedButton
           className='absolute -translate-y-2 hover:opacity-100'
-          size={RoundedButtonSizes.LARGE}
+          size='lg'
           onClick={() => dispatch(uiActions.setCreateRecipeDrawerShowing(true))}
         >
           <Add20Filled />

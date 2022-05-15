@@ -1,5 +1,5 @@
-import { RecipeList, Recipe } from '@components/Recipe/Recipe';
 import { useSelector } from 'react-redux';
+import { RecipeList, Recipe } from '@components/Recipe';
 import { selectorLastSeen } from '@features/lastseen-slice';
 
 const LastSeen = () => {

@@ -1,6 +1,6 @@
 import { TextSortAscending20Regular } from '@fluentui/react-icons';
+import { RecipeList, Recipe } from '@components/Recipe';
 import { RECIPES_BY_DIFFICULTY, RECIPES_BY_TYPE } from '@config/recipe';
-import { RecipeList, Recipe } from '@components/Recipe/Recipe';
 
 import RecipeImage5 from '@img/recipe-5.png';
 import RecipeImage6 from '@img/recipe-6.png';

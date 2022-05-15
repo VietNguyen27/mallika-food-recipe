@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { CardSkeleton } from '@components/Skeleton/Skeleton';
-import { Card, CardList } from '@components/Card/Card';
+import { CardSkeleton } from '@components/Skeleton';
+import { Card, CardList } from '@components/Card';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getFeaturedRecipes,

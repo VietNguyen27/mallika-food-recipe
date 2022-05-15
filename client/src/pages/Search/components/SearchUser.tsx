@@ -1,6 +1,6 @@
 import React from 'react';
-import { UserCardList, UserCard } from '@components/UserCard/UserCard';
 import { useSelector } from 'react-redux';
+import { UserCardList, UserCard } from '@components/UserCard';
 import { RootState } from '@redux/reducers';
 
 const SearchUser = () => {

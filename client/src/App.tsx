@@ -1,16 +1,16 @@
 import { Suspense, useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import Phone from '@layout/Phone/Phone';
-import Main from '@layout/Main/Main';
-import Content from '@layout/Content/Content';
-import { Loading } from '@components/Loading/Loading';
+import { useDispatch, useSelector } from 'react-redux';
+import { Phone } from '@layout/Phone';
+import { Main } from '@layout/Main';
+import { Content } from '@layout/Content';
+import { Loading } from '@components/Loading';
 import { lazyImportWithDelay } from '@helpers/helpers';
 import { clearError } from '@features/auth-slice';
-import { useDispatch, useSelector } from 'react-redux';
+import { getUser, selectorUser } from '@features/user-slice';
 import { PrivateRoute } from '@routes/PrivateRoute';
 import { PublicRoute } from '@routes/PubliceRoute';
 import AuthVerify from '@common/AuthVerify';
-import { getUser, selectorUser } from '@features/user-slice';
 
 const LandingPage = lazyImportWithDelay(import('@pages/Landing/Landing'));
 const LoginPage = lazyImportWithDelay(import('@pages/Auth/Login'));

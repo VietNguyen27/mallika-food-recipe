@@ -1,7 +1,7 @@
 import React, { useState, ReactChild, ReactChildren } from 'react';
 import ReactDOM from 'react-dom';
-import { ChevronLeft24Regular } from '@fluentui/react-icons';
 import cx from 'clsx';
+import { ChevronLeft24Regular } from '@fluentui/react-icons';
 
 interface DrawerProps {
   open: boolean;

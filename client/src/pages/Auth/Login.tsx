@@ -1,17 +1,16 @@
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { TextInput, PasswordInput } from '@components/Input';
+import { Button } from '@components/Button';
+import { Spinner } from '@components/Loading';
+import { RootState } from '@redux/reducers';
+import { clearError, loginUser } from '@features/auth-slice';
+import { FlashMessageTypes, showFlash } from '@features/flash-slice';
 import LandingImage from '@img/landing-page.jfif';
 import GoogleLogo from '@img/google-logo.svg';
 import FacebookLogo from '@img/facebook-logo.svg';
-import PasswordInput from '@components/Input/PasswordInput';
-import TextInput, { InputTypes } from '@components/Input/TextInput';
-import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
-import { clearError, loginUser } from '@features/auth-slice';
-import { Spinner } from '@components/Loading/Loading';
-import { RootState } from '@redux/reducers';
-import { useEffect, useState } from 'react';
-import { FlashMessageTypes, showFlash } from '@features/flash-slice';
 
 export interface LoginData {
   email: string;
@@ -64,7 +63,7 @@ const Login = () => {
             <div className='grid grid-cols-12 gap-4'>
               <div className='col-span-12'>
                 <TextInput
-                  type={InputTypes.TEXT}
+                  type='text'
                   placeholder='Email Address'
                   {...register('email', {
                     onChange: (e) => {
@@ -103,20 +102,13 @@ const Login = () => {
               </div>
               <div className='col-span-12 leading-none'>
                 {loading ? (
-                  <Button
-                    variant={ButtonVariants.PRIMARY}
-                    type={ButtonTypes.BUTTON}
-                    fluid={true}
-                    disabled
-                  >
+                  <Button variant='primary' type='button' fluid={true} disabled>
                     <Spinner />
                   </Button>
                 ) : (
                   <Button
-                    variant={
-                      isValid ? ButtonVariants.PRIMARY : ButtonVariants.DISABLED
-                    }
-                    type={isValid ? ButtonTypes.SUBMIT : ButtonTypes.BUTTON}
+                    variant={isValid ? 'primary' : 'disabled'}
+                    type={isValid ? 'submit' : 'button'}
                     fluid={true}
                     disabled={!isValid}
                   >
@@ -136,7 +128,7 @@ const Login = () => {
           <div className='grid grid-cols-12 gap-4'>
             <div className='col-span-6'>
               <Button
-                variant={ButtonVariants.SECONDARY}
+                variant='secondary'
                 children='Facebook'
                 fluid={true}
                 prefix={
@@ -151,7 +143,7 @@ const Login = () => {
             </div>
             <div className='col-span-6'>
               <Button
-                variant={ButtonVariants.SECONDARY}
+                variant='secondary'
                 children='Google'
                 fluid={true}
                 prefix={

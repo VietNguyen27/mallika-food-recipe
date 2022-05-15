@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import Drawer from '@components/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
+import { Drawer } from '@components/Drawer';
+import { UserCardList, UserCard } from '@components/UserCard';
+import { UserCardSkeleton } from '@components/Skeleton';
+import { Spinner } from '@components/Loading';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
 import { getFollowersById, selectorFollowers } from '@features/follow-slice';
-import { UserCardList, UserCard } from '@components/UserCard/UserCard';
-import { UserCardSkeleton } from '@components/Skeleton/Skeleton';
-import { Spinner } from '@components/Loading/Loading';
 import ListEmpty from '@img/list-empty.png';
 
 interface IFollowersDrawerProps {

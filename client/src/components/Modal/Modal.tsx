@@ -1,7 +1,7 @@
 import React, { ReactChild, ReactChildren, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import useOnClickOutside from '@hooks/useOnClickOutside';
 import cx from 'clsx';
+import useOnClickOutside from '@hooks/useOnClickOutside';
 
 interface ModalProps {
   isShowing: boolean;

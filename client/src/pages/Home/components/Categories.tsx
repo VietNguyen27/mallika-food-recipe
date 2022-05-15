@@ -1,4 +1,4 @@
-import { CategoryList, Category } from '@components/Category/Category';
+import { CategoryList, Category } from '@components/Category';
 import { RECIPES_BY_CATEGORY } from '@config/recipe';
 import CategoryBreakfast from '@img/landing-page.jfif';
 import CategoryLunch from '@img/recipe-8.png';

@@ -1,8 +1,8 @@
 import React, { ReactChild, ReactChildren } from 'react';
-import cx from 'clsx';
-import { generateBase64Image } from '@helpers/helpers';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import cx from 'clsx';
+import { generateBase64Image } from '@helpers/helpers';
 import { selectorUser } from '@features/user-slice';
 
 interface UserCardListProps {

@@ -1,10 +1,10 @@
 import { ChangeEvent, useEffect, useState, useRef } from 'react';
-import LastSeen from './components/LastSeen';
-import SearchInput from '@components/Input/SearchInput';
-import { ArrowLeft20Filled, Search24Regular } from '@fluentui/react-icons';
-import SearchResults from './components/SearchResults';
-import useDebounce from '@hooks/useDebounce';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { ArrowLeft20Filled, Search24Regular } from '@fluentui/react-icons';
+import { SearchInput } from '@components/Input';
+import useDebounce from '@hooks/useDebounce';
+import { RootState } from '@redux/reducers';
 import {
   findRecipesByTitle,
   findRecipesByIngredient,
@@ -12,8 +12,8 @@ import {
   searchCookbooksByName,
   clearSearchResults,
 } from '@features/search-slice';
-import { RootState } from '@redux/reducers';
-import axios from 'axios';
+import LastSeen from './components/LastSeen';
+import SearchResults from './components/SearchResults';
 
 const Search = () => {
   const initialLabel = 'recipe';

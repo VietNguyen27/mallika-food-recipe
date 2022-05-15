@@ -1,18 +1,18 @@
 import React from 'react';
-import Drawer from '@components/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@redux/reducers';
-import { uiActions } from '@features/ui-slice';
-import { logout } from '@features/auth-slice';
-import { selectorUser } from '@features/user-slice';
-import { generateBase64Image } from '@helpers/helpers';
+import { useNavigate } from 'react-router-dom';
 import {
   Heart24Regular,
   Alert24Regular,
   Edit24Regular,
   ChevronRight20Regular,
 } from '@fluentui/react-icons';
-import { useNavigate } from 'react-router-dom';
+import { Drawer } from '@components/Drawer';
+import { RootState } from '@redux/reducers';
+import { uiActions } from '@features/ui-slice';
+import { logout } from '@features/auth-slice';
+import { selectorUser } from '@features/user-slice';
+import { generateBase64Image } from '@helpers/helpers';
 
 const AccountDrawer = () => {
   const navigate = useNavigate();

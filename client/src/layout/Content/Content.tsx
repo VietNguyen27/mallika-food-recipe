@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import FlashMessage from '@components/FlashMessage/FlashMessage';
+import { FlashMessage } from '@components/FlashMessage';
 
 const Content = () => {
   return (
