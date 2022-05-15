@@ -3,38 +3,15 @@ import { Link } from 'react-router-dom';
 import type { LinkProps } from 'react-router-dom';
 import cx from 'clsx';
 
-export enum RoundedButtonTypes {
-  BUTTON = 'button',
-  SUBMIT = 'submit',
-  RESET = 'reset',
-}
+type RoundedButtonTypes = 'button' | 'submit' | 'reset';
 
-export enum RoundedButtonAs {
-  BUTTON = 'button',
-  LINK = 'link',
-}
+type RoundedButtonAs = 'button' | 'link';
 
-export enum RoundedButtonVariants {
-  PRIMARY = 'text-white bg-orange cursor-pointer hover:opacity-80',
-  SECONDARY = 'bg-white cursor-pointer hover:bg-gray-100',
-  DISABLED = 'bg-gray-300 text-black cursor-not-allowed hover:bg-gray-200',
-}
+type RoundedButtonVariants = 'primary' | 'secondary' | 'disabled';
 
-export enum RoundedButtonSizes {
-  EXTRA_LARGE = 'p-4.5',
-  LARGE = 'p-3.5',
-  MEDIUM = 'p-2.5',
-  SMALL = 'p-2',
-  EXTRA_SMALL = 'p-1.5',
-}
+type RoundedButtonSizes = 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 
-export enum RoundedButtonShape {
-  FULL = 'rounded-full',
-  EXTRA_LARGE = 'rounded-xl',
-  LARGE = 'rounded-lg',
-  MEDIUM = 'rounded-md',
-  SMALL = 'rounded-sm',
-}
+type RoundedButtonShape = 'full' | 'xl' | 'lg' | 'md' | 'sm';
 
 type BaseProps = {
   children: ReactChild | ReactChildren;
@@ -47,29 +24,57 @@ type BaseProps = {
 
 type ButtonAsButton = BaseProps &
   Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseProps> & {
-    as?: RoundedButtonAs.BUTTON;
+    as?: 'button';
   };
 
 type ButtonAsLink = BaseProps &
   Omit<LinkProps, keyof BaseProps> & {
-    as: RoundedButtonAs.LINK;
+    as: 'link';
   };
 
 type ButtonProps = ButtonAsButton | ButtonAsLink;
 
+const buttonVariantStyles = {
+  primary: 'text-white bg-orange cursor-pointer hover:opacity-80',
+  secondary: 'bg-white cursor-pointer hover:bg-gray-100',
+  disabled: 'bg-gray-300 text-black cursor-not-allowed hover:bg-gray-200',
+};
+
+const buttonSizeStyles = {
+  xl: 'p-4.5',
+  lg: 'p-3.5',
+  md: 'p-2.5',
+  sm: 'p-2',
+  xs: 'p-1.5',
+};
+
+const buttonRoundedStyles = {
+  full: 'rounded-full',
+  xl: 'rounded-xl',
+  lg: 'rounded-lg',
+  md: 'rounded-md',
+  sm: 'rounded-sm',
+};
+
 const RoundedButton: React.FC<ButtonProps> = ({
   children,
   className,
-  variant = RoundedButtonVariants.PRIMARY,
-  type = RoundedButtonTypes.BUTTON,
-  size = RoundedButtonSizes.MEDIUM,
-  rounded = RoundedButtonShape.FULL,
+  variant = 'primary',
+  type = 'button',
+  size = 'md',
+  rounded = 'full',
   ...otherProps
 }) => {
   const defaultClassName = 'flex items-center justify-center transition-all';
-  const allClassNames = cx(defaultClassName, className, rounded, size, variant);
+  const allClassNames = cx(
+    defaultClassName,
+    className,
+    buttonRoundedStyles[rounded],
+    buttonSizeStyles[size],
+    buttonVariantStyles[variant]
+  );
 
-  if (otherProps.as === RoundedButtonAs.LINK) {
+  if (otherProps.as === 'link') {
     return (
       <Link className={allClassNames} {...otherProps}>
         {children}

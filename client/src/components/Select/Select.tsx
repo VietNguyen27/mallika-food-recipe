@@ -8,13 +8,10 @@ import React, {
   useEffect,
 } from 'react';
 import cx from 'clsx';
-import useOnClickOutside from '@hooks/useOnClickOutside';
 import { Checkmark16Filled, ChevronDown20Regular } from '@fluentui/react-icons';
+import useOnClickOutside from '@hooks/useOnClickOutside';
 
-export enum SelectVariants {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-}
+type SelectVariants = 'primary' | 'secondary';
 
 interface SelectProps {
   variant?: SelectVariants;
@@ -35,7 +32,7 @@ interface OptionProps {
 }
 
 export const Select: React.FC<SelectProps> = ({
-  variant = SelectVariants.SECONDARY,
+  variant = 'secondary',
   name,
   label,
   defaultValue,
@@ -49,8 +46,8 @@ export const Select: React.FC<SelectProps> = ({
   const selectContainerRef = useRef(null);
   const selectClassNames = cx(
     'block w-full outline-0 border-gray-300 text-sm placeholder-gray-600',
-    variant === SelectVariants.PRIMARY && 'p-2 mb-1 border rounded-md',
-    variant === SelectVariants.SECONDARY && 'pb-1 pt-1 border-b'
+    variant === 'primary' && 'p-2 mb-1 border rounded-md',
+    variant === 'secondary' && 'pb-1 pt-1 border-b'
   );
 
   useEffect(() => {

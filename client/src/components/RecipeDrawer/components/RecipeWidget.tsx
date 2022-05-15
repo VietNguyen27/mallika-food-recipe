@@ -1,7 +1,6 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import cx from 'clsx';
-import { Dropdown, DropdownItem } from '@components/Dropdown/Dropdown';
-import useToggle from '@hooks/useToggle';
 import {
   List20Regular,
   MoreVertical24Filled,
@@ -11,7 +10,8 @@ import {
   Flag20Regular,
   Delete20Regular,
 } from '@fluentui/react-icons';
-import { useDispatch } from 'react-redux';
+import { Dropdown, DropdownItem } from '@components/Dropdown';
+import useToggle from '@hooks/useToggle';
 import {
   changePositionRecipeWidget,
   editRecipeWidget,

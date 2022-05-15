@@ -1,23 +1,20 @@
 import React, { useRef, useState } from 'react';
-import Drawer from '@components/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { Camera28Regular } from '@fluentui/react-icons';
+import { Drawer } from '@components/Drawer';
+import { TextInput } from '@components/Input';
+import { Button } from '@components/Button';
+import { Spinner } from '@components/Loading';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
 import { selectorUser, updateUser } from '@features/user-slice';
-import TextInput, {
-  InputTypes,
-  InputVariants,
-} from '@components/Input/TextInput';
-import { useForm } from 'react-hook-form';
-import Button, { ButtonTypes, ButtonVariants } from '@components/Button/Button';
+import { FlashMessageTypes, showFlash } from '@features/flash-slice';
 import {
   convertBase64,
   generateBase64Image,
   resizeImage,
 } from '@helpers/helpers';
-import { Camera28Regular } from '@fluentui/react-icons';
-import { Spinner } from '@components/Loading/Loading';
-import { FlashMessageTypes, showFlash } from '@features/flash-slice';
 
 export interface UpdateUserData {
   name: string;
@@ -124,8 +121,8 @@ const EditProfileDrawer = () => {
           </button>
         </div>
         <TextInput
-          type={InputTypes.TEXT}
-          variant={InputVariants.SECONDARY}
+          type='text'
+          variant='secondary'
           name='email'
           defaultValue={user.email}
           placeholder='Enter your email address'
@@ -134,8 +131,8 @@ const EditProfileDrawer = () => {
           readOnly={true}
         />
         <TextInput
-          type={InputTypes.TEXT}
-          variant={InputVariants.SECONDARY}
+          type='text'
+          variant='secondary'
           defaultValue={user.name}
           placeholder='Enter profile name'
           label='profile name'
@@ -148,8 +145,8 @@ const EditProfileDrawer = () => {
           })}
         />
         <TextInput
-          type={InputTypes.TEXT}
-          variant={InputVariants.SECONDARY}
+          type='text'
+          variant='secondary'
           defaultValue={user.bio}
           placeholder='Enter your bio'
           label='bio'
@@ -160,20 +157,13 @@ const EditProfileDrawer = () => {
           })}
         />
         {loading ? (
-          <Button
-            type={ButtonTypes.BUTTON}
-            variant={ButtonVariants.PRIMARY}
-            className='mt-auto'
-            disabled
-          >
+          <Button type='button' variant='primary' className='mt-auto' disabled>
             <Spinner />
           </Button>
         ) : (
           <Button
-            type={ButtonTypes.SUBMIT}
-            variant={
-              isEdited ? ButtonVariants.PRIMARY : ButtonVariants.DISABLED
-            }
+            type='submit'
+            variant={isEdited ? 'primary' : 'disabled'}
             className='mt-auto'
             disabled={!isEdited}
           >

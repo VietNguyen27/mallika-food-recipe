@@ -1,13 +1,10 @@
 import { forwardRef } from 'react';
-import Tooltip from '@components/Tooltip/Tooltip';
-import { EditOff16Regular } from '@fluentui/react-icons';
 import { ChangeHandler } from 'react-hook-form';
 import cx from 'clsx';
+import { EditOff16Regular } from '@fluentui/react-icons';
+import { Tooltip } from '@components/Tooltip';
 
-export enum TextareaVariants {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-}
+type TextareaVariants = 'primary' | 'secondary';
 
 interface TextareaProps {
   variant?: TextareaVariants;
@@ -27,7 +24,7 @@ interface TextareaProps {
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
-      variant = TextareaVariants.PRIMARY,
+      variant = 'primary',
       label,
       name,
       placeholder,
@@ -44,8 +41,8 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const formGroupClassNames = cx('relative', className);
     const textareaClassNames = cx(
       'block w-full outline-0 border-gray-300 text-sm placeholder-gray-600 resize-none',
-      variant === TextareaVariants.PRIMARY && 'p-2 mb-1 border rounded-md',
-      variant === TextareaVariants.SECONDARY && 'pb-1 pt-1 border-b'
+      variant === 'primary' && 'p-2 mb-1 border rounded-md',
+      variant === 'secondary' && 'pb-1 pt-1 border-b'
     );
 
     return (

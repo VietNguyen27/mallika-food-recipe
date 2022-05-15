@@ -1,12 +1,12 @@
 import React from 'react';
-import Modal from '@components/Modal/Modal';
-import Button, { ButtonSizes } from '@components/Button/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { Modal } from '@components/Modal';
+import { Button } from '@components/Button';
+import { RootState } from '@redux/reducers';
+import { clearFlash, FlashMessageTypes } from '@features/flash-slice';
 import FlashSuccess from '@img/flash-success.png';
 import FlashWarning from '@img/flash-warning.png';
 import FlashError from '@img/flash-error.png';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@redux/reducers';
-import { clearFlash, FlashMessageTypes } from '@features/flash-slice';
 
 const FlashIcon = {
   [FlashMessageTypes.SUCCESS]: FlashSuccess,
@@ -39,12 +39,7 @@ const FlashMessage = () => {
         <h3 className='text-xl font-semibold'>{FlashTitle[type]}</h3>
         <div className='text-sm'>{message}</div>
       </div>
-      <Button
-        className='mt-4'
-        size={ButtonSizes.SMALL}
-        fluid={true}
-        onClick={onClose}
-      >
+      <Button className='mt-4' size='sm' fluid={true} onClick={onClose}>
         Close
       </Button>
     </Modal>

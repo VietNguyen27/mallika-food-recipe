@@ -1,6 +1,6 @@
 import React from 'react';
-import { RecipeList, Recipe } from '@components/Recipe/Recipe';
 import { useSelector } from 'react-redux';
+import { RecipeList, Recipe } from '@components/Recipe';
 import { RootState } from '@redux/reducers';
 
 const SearchRecipe = () => {

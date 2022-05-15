@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@components/Button';
+import { finishSplash, selectorUser, updateUser } from '@features/user-slice';
 import SplashImage1 from '@img/splash-1.jfif';
 import SplashImage2 from '@img/splash-2.jfif';
 import SplashImage3 from '@img/splash-3.jfif';
 import UnionImage from '@img/union.png';
-import { useNavigate } from 'react-router-dom';
-import Button, {
-  ButtonAs,
-  ButtonSizes,
-  ButtonVariants,
-} from '@components/Button/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { finishSplash, selectorUser, updateUser } from '@features/user-slice';
 
 interface SplashItemTypes {
   title: string;
@@ -114,20 +110,20 @@ const Splash = () => {
         >
           {currentStep > 0 && (
             <Button
-              variant={ButtonVariants.SECONDARY}
-              size={ButtonSizes.SMALL}
+              variant='secondary'
+              size='sm'
               onClick={() => setCurrentStep((prevState) => prevState - 1)}
             >
               Previous
             </Button>
           )}
           {currentStep + 1 === steps.length ? (
-            <Button size={ButtonSizes.SMALL} onClick={() => setSkipped(true)}>
+            <Button size='sm' onClick={() => setSkipped(true)}>
               Explore now
             </Button>
           ) : (
             <Button
-              size={ButtonSizes.SMALL}
+              size='sm'
               onClick={() => setCurrentStep((prevState) => prevState + 1)}
             >
               Next

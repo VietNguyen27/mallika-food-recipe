@@ -1,18 +1,18 @@
 import React from 'react';
-import Drawer from '@components/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
+import { Drawer } from '@components/Drawer';
+import { Tab, Tabs } from '@components/Tabs';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
-import { Tab, Tabs } from '@components/Tabs/Tabs';
-import IntroTab from './components/IntroTab';
-import IngredientTab from './components/IngredientTab';
-import StepTab from './components/StepTab';
 import {
   clearErrors,
   clearRecipeWidgets,
   selectorRecipeError,
 } from '@features/recipe-slice';
 import { getErrorFromJoiMessage } from '@helpers/helpers';
+import IntroTab from './components/IntroTab';
+import IngredientTab from './components/IngredientTab';
+import StepTab from './components/StepTab';
 
 const tabs = [
   {

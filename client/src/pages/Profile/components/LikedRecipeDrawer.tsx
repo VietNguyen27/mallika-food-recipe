@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import Drawer from '@components/Drawer/Drawer';
-import { RecipeList, Recipe } from '@components/Recipe/Recipe';
 import { useDispatch, useSelector } from 'react-redux';
+import { Drawer } from '@components/Drawer';
+import { RecipeList, Recipe } from '@components/Recipe';
+import { RecipeSkeleton } from '@components/Skeleton';
+import { Spinner } from '@components/Loading';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
 import { getAllLikedRecipes } from '@features/liked-slice';
-import { RecipeSkeleton } from '@components/Skeleton/Skeleton';
-import { Spinner } from '@components/Loading/Loading';
 import BoxEmpty from '@img/box-empty.png';
 
 const LikedRecipeDrawer = () => {

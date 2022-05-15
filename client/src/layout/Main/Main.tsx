@@ -1,7 +1,7 @@
-import Navigation from '@layout/Navigation/Navigation';
+import { Navigation } from '@layout/Navigation';
 import { Outlet } from 'react-router-dom';
-import FlashMessage from '@components/FlashMessage/FlashMessage';
-import CreateRecipeDrawer from '@components/RecipeDrawer/CreateRecipeDrawer';
+import { FlashMessage } from '@components/FlashMessage';
+import { CreateRecipeDrawer } from '@components/RecipeDrawer';
 
 const Main = () => {
   return (

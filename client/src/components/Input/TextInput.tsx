@@ -1,20 +1,13 @@
 import { forwardRef, ReactNode } from 'react';
-import Tooltip from '@components/Tooltip/Tooltip';
-import { EditOff16Regular } from '@fluentui/react-icons';
-import { isNumberValid } from '@helpers/helpers';
 import { ChangeHandler } from 'react-hook-form';
 import cx from 'clsx';
+import { Tooltip } from '@components/Tooltip';
+import { EditOff16Regular } from '@fluentui/react-icons';
+import { isNumberValid } from '@helpers/helpers';
 
-export enum InputTypes {
-  TEXT = 'text',
-  EMAIL = 'email',
-}
+type InputTypes = 'text' | 'email';
 
-export enum InputVariants {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-  TERTIARY = 'tertiary',
-}
+type InputVariants = 'primary' | 'secondary' | 'tertiary';
 
 interface TextInputProps {
   type?: InputTypes;
@@ -36,11 +29,17 @@ interface TextInputProps {
   onBlur?: ChangeHandler;
 }
 
+const inputVariantStyles = {
+  primary: 'p-2 mb-1 border rounded-md',
+  secondary: 'pb-1 pt-1 border-b',
+  tertiary: 'px-4 py-2 bg-gray-100 rounded-3xl',
+};
+
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   (
     {
-      type = InputTypes.TEXT,
-      variant = InputVariants.PRIMARY,
+      type = 'text',
+      variant = 'primary',
       label,
       name,
       placeholder,
@@ -62,9 +61,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const inputClassNames = cx(
       'block w-full outline-0 border-gray-300 text-sm placeholder-gray-600',
       inputClassName,
-      variant === InputVariants.PRIMARY && 'p-2 mb-1 border rounded-md',
-      variant === InputVariants.SECONDARY && 'pb-1 pt-1 border-b',
-      variant === InputVariants.TERTIARY && 'px-4 py-2 bg-gray-100 rounded-3xl'
+      inputVariantStyles[variant]
     );
 
     const onKeyPress = (e) => {
@@ -108,7 +105,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           <span
             className={cx(
               'absolute top-full left-0 text-xs text-red-500',
-              variant === InputVariants.TERTIARY && 'pl-3'
+              variant === 'tertiary' && 'pl-3'
             )}
           >
             {error}

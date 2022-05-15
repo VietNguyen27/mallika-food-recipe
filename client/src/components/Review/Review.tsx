@@ -1,4 +1,7 @@
 import React, { ReactChild, ReactChildren } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import cx from 'clsx';
 import {
   CommentError20Regular,
   Copy20Regular,
@@ -7,15 +10,12 @@ import {
   MoreVertical24Filled,
   Star12Filled,
 } from '@fluentui/react-icons';
-import cx from 'clsx';
+import { Dropdown, DropdownItem } from '@components/Dropdown';
+import { CollapseText } from '@components/CollapseText';
 import { generateBase64Image, getFullDateTime } from '@helpers/helpers';
-import { Dropdown, DropdownItem } from '@components/Dropdown/Dropdown';
 import useToggle from '@hooks/useToggle';
-import { useDispatch, useSelector } from 'react-redux';
 import { deleteReview } from '@features/review-slice';
-import CollapseText from '@components/CollapseText/CollapseText';
 import { selectorUser } from '@features/user-slice';
-import { Link } from 'react-router-dom';
 import { FlashMessageTypes, showFlash } from '@features/flash-slice';
 
 interface ReviewUserType {

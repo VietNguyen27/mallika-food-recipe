@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import cx from 'clsx';
+import { RootState } from '@redux/reducers';
+import { clearSearchResults } from '@features/search-slice';
 import Recipe from './SearchRecipe';
 import User from './SearchUser';
 import Cookbook from './SearchCookbook';
-import cx from 'clsx';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '@redux/reducers';
-import { clearSearchResults } from '@features/search-slice';
 
 interface SearchResultsProps {
   searchTerm: string;

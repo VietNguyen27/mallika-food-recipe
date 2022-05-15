@@ -5,12 +5,12 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { getTime } from '@helpers/helpers';
+import { useRect } from '@hooks/useRect';
+import { Wrapper } from '@layout/Wrapper';
 import Signal from '@img/signal.svg';
 import Wifi from '@img/wifi.svg';
 import Battery from '@img/battery.svg';
-import { getTime } from '@helpers/helpers';
-import { useRect } from '@hooks/useRect';
-import Wrapper from '@layout/Wrapper/Wrapper';
 import CommunityDrawer from '@pages/Home/components/CommunityDrawer';
 
 interface PhoneProps {

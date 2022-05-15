@@ -2,21 +2,6 @@ import React, { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  decreaseLikedCount,
-  getRecipeById,
-  increaseLikedCount,
-} from '@features/recipe-slice';
-import { setLikedRecipe, deleteLikedRecipe } from '@features/liked-slice';
-import { selectorUser } from '@features/user-slice';
-import { RootState } from '@redux/reducers';
-import { RecipeDetailSkeleton } from '@components/Skeleton/Skeleton';
-import ReviewDrawer from '@components/ReviewDrawer/ReviewDrawer';
-import {
-  generateBase64Image,
-  getFullDate,
-  getFullDateTime,
-} from '@helpers/helpers';
-import {
   Add16Filled,
   ChevronLeft24Regular,
   Clock24Regular,
@@ -32,15 +17,27 @@ import {
   Heart24Filled,
   Star12Filled,
 } from '@fluentui/react-icons';
-import RoundedButton, {
-  RoundedButtonTypes,
-  RoundedButtonVariants,
-} from '@components/Button/RoundedButton';
-import { DIFFICULTY_NAME, RECIPES_BY_TYPE } from '@config/recipe';
-import { Tab, Tabs } from '@components/Tabs/Tabs';
+import { RecipeDetailSkeleton } from '@components/Skeleton';
+import { ReviewDrawer } from '@components/ReviewDrawer';
+import { RoundedButton } from '@components/Button';
+import { Tab, Tabs } from '@components/Tabs';
+import { RootState } from '@redux/reducers';
+import {
+  decreaseLikedCount,
+  getRecipeById,
+  increaseLikedCount,
+} from '@features/recipe-slice';
+import { setLikedRecipe, deleteLikedRecipe } from '@features/liked-slice';
+import { selectorUser } from '@features/user-slice';
 import { uiActions } from '@features/ui-slice';
 import { getAllReviews } from '@features/review-slice';
 import { addLastSeenRecipe } from '@features/lastseen-slice';
+import {
+  generateBase64Image,
+  getFullDate,
+  getFullDateTime,
+} from '@helpers/helpers';
+import { DIFFICULTY_NAME, RECIPES_BY_TYPE } from '@config/recipe';
 
 const RecipeDetail = () => {
   const { id: recipeId } = useParams();
@@ -128,27 +125,27 @@ const RecipeDetail = () => {
             alt={title}
           />
           <RoundedButton
-            type={RoundedButtonTypes.BUTTON}
+            type='button'
             className='absolute top-4 left-4 w-11 h-11'
-            variant={RoundedButtonVariants.SECONDARY}
+            variant='secondary'
             onClick={() => navigate(-1)}
           >
             <ChevronLeft24Regular />
           </RoundedButton>
           {isLiked ? (
             <RoundedButton
-              type={RoundedButtonTypes.BUTTON}
+              type='button'
               className='absolute top-4 right-4 w-11 h-11 text-orange'
-              variant={RoundedButtonVariants.SECONDARY}
+              variant='secondary'
               onClick={() => handleUnlikeRecipe()}
             >
               <Heart24Filled />
             </RoundedButton>
           ) : (
             <RoundedButton
-              type={RoundedButtonTypes.BUTTON}
+              type='button'
               className='absolute top-4 right-4 w-11 h-11 text-orange'
-              variant={RoundedButtonVariants.SECONDARY}
+              variant='secondary'
               onClick={() => handleLikeRecipe()}
             >
               <Heart24Regular />

@@ -1,6 +1,6 @@
 import { useState, forwardRef } from 'react';
-import { EyeHide20Regular, EyeShow20Regular } from '@fluentui/react-icons';
 import { ChangeHandler } from 'react-hook-form';
+import { EyeHide20Regular, EyeShow20Regular } from '@fluentui/react-icons';
 
 type PasswordInputProps = {
   name: string;

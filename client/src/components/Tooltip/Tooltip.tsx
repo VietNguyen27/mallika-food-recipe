@@ -4,26 +4,21 @@ import { getTextWidth } from '@helpers/helpers';
 import { useRect } from '@hooks/useRect';
 import { PhoneRectContext } from '@layout/Phone/Phone';
 
-export enum TooltipDirection {
-  TOP_LEFT = 'TOP_LEFT',
-  BOTTOM_LEFT = 'BOTTOM_LEFT',
-  TOP_RIGHT = 'TOP_RIGHT',
-  BOTTOM_RIGHT = 'BOTTOM_RIGHT',
-}
+type TooltipDirection = 'tl' | 'bl' | 'tr' | 'br';
 
-export enum ArrowDirection {
-  TOP_LEFT = 'after:left-1/2 after:bottom-full after:-translate-x-1/2 after:border-t-black',
-  BOTTOM_LEFT = 'after:left-1/2 after:top-full after:-translate-x-1/2 after:border-b-black',
-  TOP_RIGHT = 'after:left-1/2 after:bottom-full after:-translate-x-1/2 after:border-t-black',
-  BOTTOM_RIGHT = 'after:left-1/2 after:top-full after:-translate-x-1/2 after:border-b-black',
-}
+const arrowDirectionStyles = {
+  tl: 'after:left-1/2 after:bottom-full after:-translate-x-1/2 after:border-t-black',
+  bl: 'after:left-1/2 after:top-full after:-translate-x-1/2 after:border-b-black',
+  tr: 'after:left-1/2 after:bottom-full after:-translate-x-1/2 after:border-t-black',
+  br: 'after:left-1/2 after:top-full after:-translate-x-1/2 after:border-b-black',
+};
 
-export enum TooltipMessageDirection {
-  TOP_LEFT = 'bottom-full left-0 mb-2',
-  BOTTOM_LEFT = 'top-full left-0 mt-2',
-  TOP_RIGHT = 'bottom-full right-0 mb-2',
-  BOTTOM_RIGHT = 'top-full right-0 mt-2',
-}
+const tooltipMessageDirectionStyles = {
+  tl: 'bottom-full left-0 mb-2',
+  bl: 'top-full left-0 mt-2',
+  tr: 'bottom-full right-0 mb-2',
+  br: 'top-full right-0 mt-2',
+};
 
 interface TooltipProps {
   direction?: TooltipDirection;
@@ -35,7 +30,7 @@ interface TooltipProps {
 const Tooltip: React.FC<TooltipProps> = ({
   className,
   message,
-  direction = TooltipDirection.TOP_RIGHT,
+  direction = 'tr',
   children,
 }) => {
   const [rect, ref] = useRect();
@@ -46,12 +41,12 @@ const Tooltip: React.FC<TooltipProps> = ({
   const allClassNames = cx(
     defaultClassName,
     className,
-    ArrowDirection[direction],
+    arrowDirectionStyles[direction],
     !isAbsolute && 'relative'
   );
   const tooltipClassName = cx(
     'absolute bg-black text-xs text-white text-left p-2 rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible',
-    TooltipMessageDirection[direction],
+    tooltipMessageDirectionStyles[direction],
     getTextWidth(message) > 150 ? 'w-[150px]' : 'w-auto whitespace-nowrap'
   );
 

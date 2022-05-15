@@ -1,28 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Drawer from '@components/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@redux/reducers';
-import { uiActions } from '@features/ui-slice';
-import TextInput, { InputVariants } from '@components/Input/TextInput';
-import { Review, ReviewList } from '@components/Review/Review';
 import { useForm } from 'react-hook-form';
 import {
   Send24Filled,
   Star20Filled,
   Star20Regular,
 } from '@fluentui/react-icons';
-import useOnClickOutside from '@hooks/useOnClickOutside';
-import NoFound from '@img/no-found.png';
 import cx from 'clsx';
-import { ReviewSkeleton } from '@components/Skeleton/Skeleton';
+import { Drawer } from '@components/Drawer';
+import { TextInput } from '@components/Input';
+import { Review, ReviewList } from '@components/Review';
+import { ReviewSkeleton } from '@components/Skeleton';
+import { Spinner } from '@components/Loading';
+import { RootState } from '@redux/reducers';
+import { uiActions } from '@features/ui-slice';
 import {
   createNewReview,
   updateReview,
   clearError,
   getAllReviews,
 } from '@features/review-slice';
-import { Spinner } from '@components/Loading/Loading';
 import { FlashMessageTypes, showFlash } from '@features/flash-slice';
+import useOnClickOutside from '@hooks/useOnClickOutside';
+import NoFound from '@img/no-found.png';
 
 interface ReviewDrawerProps {
   recipeId: string;
@@ -201,7 +201,7 @@ const ReviewDrawer: React.FC<ReviewDrawerProps> = ({ recipeId }) => {
         <div className='relative z-10 flex items-end px-3 gap-3 pb-5 -mb-3 bg-white'>
           <TextInput
             className='w-full'
-            variant={InputVariants.TERTIARY}
+            variant='tertiary'
             placeholder='Your review'
             onFocus={() => setShowRating(true)}
             {...register('comment', {

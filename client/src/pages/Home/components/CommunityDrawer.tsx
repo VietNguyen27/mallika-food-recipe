@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Drawer from '@components/Drawer/Drawer';
+import { Drawer } from '@components/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/reducers';
 import { uiActions } from '@features/ui-slice';
@@ -8,20 +8,20 @@ import {
   getAllRecipes,
   setFilter,
 } from '@features/recipe-slice';
-import { CardSmallSkeleton } from '@components/Skeleton/Skeleton';
+import { CardSmallSkeleton } from '@components/Skeleton';
 import { Options20Regular } from '@fluentui/react-icons';
 import useToggle from '@hooks/useToggle';
-import { Dropdown } from '@components/Dropdown/Dropdown';
-import { TagList, Tag } from '@components/Tag/Tag';
-import { CardList, CardSmall } from '@components/Card/Card';
-import Button from '@components/Button/Button';
+import { Dropdown } from '@components/Dropdown';
+import { TagList, Tag } from '@components/Tag';
+import { CardList, CardSmall } from '@components/Card';
+import { Button } from '@components/Button';
 import {
   CATEGORY_NAME,
   RECIPES_BY_CATEGORY,
   RECIPES_BY_SORT,
   SORT_NAME,
 } from '@config/recipe';
-import { Spinner } from '@components/Loading/Loading';
+import { Spinner } from '@components/Loading';
 import NoFound from '@img/no-found.png';
 import cx from 'clsx';
 import { useLocation } from 'react-router-dom';

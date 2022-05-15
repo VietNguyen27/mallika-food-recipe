@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import { convertNumber, generateBase64Image } from '@helpers/helpers';
 import {
   ChevronLeft24Regular,
   HeartBroken16Regular,
 } from '@fluentui/react-icons';
-import { Tab, Tabs } from '@components/Tabs/Tabs';
-import { CardSkeleton, ProfileSkeleton } from '@components/Skeleton/Skeleton';
-import { Card, CardList } from '@components/Card/Card';
-import { getRecipesByUserId, selectorOwnRecipes } from '@features/recipe-slice';
+import { Tab, Tabs } from '@components/Tabs';
+import { CardSkeleton, ProfileSkeleton } from '@components/Skeleton';
+import { Card, CardList } from '@components/Card';
+import { Button } from '@components/Button';
+import { Spinner } from '@components/Loading';
 import { RootState } from '@redux/reducers';
-import BoxEmpty from '@img/box-empty.png';
-import { useNavigate, useParams } from 'react-router-dom';
+import { getRecipesByUserId, selectorOwnRecipes } from '@features/recipe-slice';
 import { getUserById, followUser, unfollowUser } from '@features/user-slice';
-import Button, { ButtonSizes, ButtonVariants } from '@components/Button/Button';
+import { uiActions } from '@features/ui-slice';
+import BoxEmpty from '@img/box-empty.png';
 import FollowingDrawer from './components/FollowingDrawer';
 import FollowersDrawer from './components/FollowersDrawer';
-import { uiActions } from '@features/ui-slice';
-import { Spinner } from '@components/Loading/Loading';
 
 const OtherProfile = () => {
   const { id: userId } = useParams();
@@ -115,8 +115,8 @@ const OtherProfile = () => {
               </div>
               {isFollowing ? (
                 <Button
-                  variant={ButtonVariants.SECONDARY}
-                  size={ButtonSizes.EXTRA_SMALL}
+                  variant='secondary'
+                  size='xs'
                   className='mt-2 gap-1'
                   onClick={() => dispatch(unfollowUser(userId))}
                 >
@@ -127,8 +127,8 @@ const OtherProfile = () => {
                 </Button>
               ) : (
                 <Button
-                  variant={ButtonVariants.PRIMARY}
-                  size={ButtonSizes.EXTRA_SMALL}
+                  variant='primary'
+                  size='xs'
                   className='mt-2'
                   onClick={() => dispatch(followUser(userId))}
                 >
